@@ -1,9 +1,15 @@
 ﻿namespace Kingdom.Antlr.Regressions.Case.Tests
 {
     using Xunit;
+    using Xunit.Abstractions;
 
     public class GroupDescriptorTests : GroupDescriptorTestFixtureBase
     {
+        public GroupDescriptorTests(ITestOutputHelper outputHelper)
+            : base(outputHelper)
+        {
+        }
+
         protected void VerifyGroupDescriptor(string expectedName, bool exceptionExpected = false)
         {
             ExpectedGroup = new GroupDescriptor {Name = expectedName};
@@ -11,9 +17,9 @@
         }
 
         [Fact]
-        public void ValidNameWorks() => VerifyGroupDescriptor("ValidName123");
+        public void ValidNameWorks() => VerifyGroupDescriptor("Valid123_Name456");
 
         [Fact]
-        public void InvalidNameDoesNotWork() => VerifyGroupDescriptor("invalidName123", true);
+        public void InvalidNameDoesNotWork() => VerifyGroupDescriptor("invalidName", true);
     }
 }

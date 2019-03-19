@@ -1,9 +1,15 @@
 ﻿namespace Kingdom.Antlr.Regressions.Case.Tests
 {
     using Xunit;
+    using Xunit.Abstractions;
 
     public abstract class GroupDescriptorTestFixtureBase : TestFixtureBase
     {
+        protected GroupDescriptorTestFixtureBase(ITestOutputHelper outputHelper)
+            : base(outputHelper)
+        {
+        }
+
         /// <summary>
         /// In my production code there is so much more going on, but the rule that has broken
         /// is the Group Name rule.

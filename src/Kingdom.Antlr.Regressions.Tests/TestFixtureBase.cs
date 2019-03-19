@@ -1,15 +1,24 @@
 ﻿using System;
 using System.IO;
+using Kingdom.Antlr.Regression;
 
 namespace Kingdom.Antlr.Regressions.Case.Tests
 {
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;
     using Xunit;
+    using Xunit.Abstractions;
     using static String;
 
     public abstract class TestFixtureBase : IDisposable
     {
+        protected ITestOutputHelper OutputHelper { get; }
+
+        protected TestFixtureBase(ITestOutputHelper outputHelper)
+        {
+            OutputHelper = outputHelper;
+        }
+
         protected delegate string ParseStringCallback();
 
         /// <summary>
@@ -29,11 +38,13 @@ namespace Kingdom.Antlr.Regressions.Case.Tests
         /// <param name="source"></param>
         /// <param name="parsedGroup"></param>
         /// <returns></returns>
-        private static bool TryVerifyParse(ParseStringCallback source, out GroupDescriptor parsedGroup)
+        private bool TryVerifyParse(ParseStringCallback source, out GroupDescriptor parsedGroup)
         {
             parsedGroup = null;
 
             var s = (source() ?? Empty).Trim();
+
+            OutputHelper.WriteLine($"Given: {s}");
 
             /* I've taken the time to isolate a more helpful scaffold than the brute force
              * creation up of assets, but this will work for verification purposes for now... */
@@ -70,7 +81,13 @@ namespace Kingdom.Antlr.Regressions.Case.Tests
             {
                 Assert.Throws<InvalidOperationException>(
                     () => TryVerifyParse(() => ExpectedGroup?.RenderString(), out _)
-                );
+                ).VerifyException(exception =>
+                {
+                    const int zed = 0;
+                    Assert.True(zed < (int) exception.Data["line"]);
+                    Assert.True(zed < (int) exception.Data["charPositionInLine"]);
+                    OutputHelper.WriteLine($"Message: {exception.Data["msg"]}");
+                });
             }
             else
             {
