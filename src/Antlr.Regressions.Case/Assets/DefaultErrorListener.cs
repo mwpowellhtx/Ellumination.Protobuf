@@ -13,9 +13,16 @@ namespace Kingdom.Antlr.Regressions.Case
         /// <inheritdoc />
         public override void SyntaxError(IRecognizer recognizer, IToken offendingSymbol
             , int line, int charPositionInLine, string msg, RecognitionException ex)
-            => throw new InvalidOperationException(
+        {
+            var exception = new InvalidOperationException(
                 $"line {offendingSymbol.Line}, column {offendingSymbol.Column}"
                 + $", symbol '{offendingSymbol.Text}': {msg}"
             );
+            exception.Data[nameof(line)] = line;
+            exception.Data[nameof(charPositionInLine)] = charPositionInLine;
+            exception.Data[nameof(msg)] = msg;
+            exception.Data["symbol"] = offendingSymbol.Text;
+            throw exception;
+        }
     }
 }
