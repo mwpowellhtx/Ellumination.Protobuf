@@ -1,0 +1,26 @@
+﻿grammar CaseRegression;
+
+WS: [ \r\n\t]+ -> channel(HIDDEN);
+
+NEWLINE: '\r'? '\n';
+
+// Fragments
+fragment CAP_LET: [A-Z];
+fragment DIG: [0-9];
+fragment LET: [a-zA-Z];
+fragment UNDERSCORE: '_';
+
+// Lexer rules
+EOS: ';';
+EQU: '=';
+GROUP: 'group';
+
+GROUP_NAME: CAP_LET ( LET | DIG | UNDERSCORE )*;
+
+// Grammar rules
+groupName: GROUP_NAME;
+
+groupDecl: GROUP EQU groupName EOS;
+
+start: groupDecl;
+
