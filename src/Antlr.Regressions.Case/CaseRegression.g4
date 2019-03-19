@@ -17,6 +17,9 @@ GROUP: 'group';
 
 GROUP_NAME: CAP_LET ( LET | DIG | UNDERSCORE )*;
 
+// Required in order to not silently drop unexpected characters.
+ERROR_CHAR: .;
+
 // Grammar rules
 groupName: GROUP_NAME;
 
