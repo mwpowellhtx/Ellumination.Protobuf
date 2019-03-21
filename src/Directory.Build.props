@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Michael W. Powell</Authors>
+    <Company>Kingdom Software</Company>
+    <Product>Kingdom.Protobuf</Product>
+    <Copyright>Copyright © 2019</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Protobuf</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Protobuf/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Kingdom.Protobuf</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NuGetGlobalPackagesDirectory>G:\Dev\NuGet\global\packages\</NuGetGlobalPackagesDirectory>
+  </PropertyGroup>
+
+</Project>
