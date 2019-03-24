@@ -7,10 +7,18 @@
 // https://stackoverflow.com/questions/47752764/there-was-a-mismatch-between-the-processor-architecture-of-the-project-being-bui
 // https://stackoverflow.com/questions/10113532/how-do-i-fix-the-visual-studio-compile-error-mismatch-between-processor-archit
 
+// This grammar supports a subset of the Protocol Buffers Version 2. We support up to but
+// not including the Service declaration, RPC, or Streams. This is the extent of the support
+// we require for what we are trying to accomplish with this project. If additional elements,
+// code generation, etc, are required, we will gladly consider Pull Requests for said
+// functionalityaligned with our licensing model.
+
 grammar Proto;
- 
+
+// TODO: TBD: for now, re-routing White Space and Comments to the HIDDEN channel. 
+// TODO: TBD: eventually, I could see potentially re-routing Comments to another Channel.
 // Support for Single Line and Multi Line Comments.
-SINGLELINE: '//' ~[\r\n]* NEWLINE -> channel(HIDDEN);
+SINGLELINE: '//' ~[\r\n]* NEWLINE? -> channel(HIDDEN);
 
 // We do not care about NEWLINE for MULTILINE, in fact, we would not expect that.
 MULTILINE: '/*' .+? '*/' -> channel(HIDDEN);
@@ -21,7 +29,6 @@ WS: [ \r\n\t]+ -> channel(HIDDEN);
 NEWLINE: '\r'? '\n';
 
 // capitalLetter =  "A" … "Z"
-//// TODO: TBD: 3/18/2019 regular expression pattern matching was working a week ago prior to the latest dotnet updates...
 fragment CAP_LET: [A-Z];
 // decimalDigit = "0" … "9"
 fragment DIG: [0-9];
