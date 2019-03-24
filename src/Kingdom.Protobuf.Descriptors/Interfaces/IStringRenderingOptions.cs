@@ -8,6 +8,7 @@ namespace Kingdom.Protobuf
     public interface IStringRenderingOptions
         : IIntegerRenderingOptions
             , IFloatingPointRenderingOptions
+            , IWhiteSpaceAndCommentRenderingOptions
     {
     }
 }
