@@ -31,7 +31,7 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        /// <see cref="Protov2Parser.proto"/>
+        /// <see cref="ProtoParser.proto"/>
         protected override EvaluateCallbackDelegate EvaluateCallback { get; } = parser => parser.proto();
 
         protected IStringRenderingOptions RenderingOptions { get; set; } = new StringRenderingOptions();
