@@ -11,6 +11,7 @@ namespace Kingdom.Protobuf
     using static Identification;
     using static Randomizer;
     using static FieldNumbers;
+    using static WhiteSpaceAndCommentOption;
 
     internal static class Domain
     {
@@ -342,6 +343,44 @@ namespace Kingdom.Protobuf
                 var optionName = (OptionIdentifierPath) current[0];
                 var optionValue = (IConstant) current[1];
                 yield return new TOption {Name = optionName, Value = optionValue};
+            }
+        }
+
+        private static IEnumerable<object> _whiteSpaceAndCommentOption;
+
+        internal static IEnumerable<object> AllWhiteSpaceAndCommentOptions
+        {
+            get
+            {
+                IEnumerable<object> GetAll()
+                {
+                    yield return NoWhiteSpaceOrCommentOption;
+
+                    var inputs = GetRange<object>(CommentBefore, CommentAfter, CommentSameLine)
+                        .Combine(
+                            GetRange<object>(MultiLineComment, SingleLineComment)
+                            , GetRange<object>(NoWhiteSpaceOrCommentOption, EmbeddedComments)
+                            , GetRange<object>(WithLineSeparatorCarriageReturnNewLine, WithLineSeparatorNewLine)
+                        );
+
+                    inputs.SilentOverflow = true;
+
+                    // ReSharper disable once IdentifierTypo
+                    WhiteSpaceAndCommentOption Convert(IReadOnlyList<object> objs, ref int index)
+                        => (WhiteSpaceAndCommentOption) objs[++index];
+
+                    for (var i = 0; i < inputs.Count; i++, ++inputs)
+                    {
+                        var index = -1;
+                        var current = inputs.CurrentCombination.ToArray();
+                        yield return Convert(current, ref index)
+                                     | Convert(current, ref index)
+                                     | Convert(current, ref index) | Convert(current, ref index);
+                    }
+                }
+
+                return _whiteSpaceAndCommentOption
+                       ?? (_whiteSpaceAndCommentOption = GetAll().ToArray());
             }
         }
     }
