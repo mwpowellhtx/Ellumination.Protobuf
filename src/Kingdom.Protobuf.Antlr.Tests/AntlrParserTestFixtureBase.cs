@@ -57,9 +57,14 @@ namespace Kingdom.Protobuf
 
         protected void VerifyParse(RenderTargetCallback render)
         {
-            if (ExpectedTarget == null)
-            {
-            }
+            // TODO: TBD: verify Expected Target Not Null?
+            // TODO: TBD: or what? return>
+            Assert.NotNull(ExpectedTarget);
+
+            //if (ExpectedTarget == null)
+            //{
+            //    return;
+            //}
 
             RenderedTarget = render(ExpectedTarget);
 
