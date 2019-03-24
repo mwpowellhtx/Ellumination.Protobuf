@@ -20,7 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A42396
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Protobuf.Antlr.Tests", "Kingdom.Protobuf.Antlr.Tests\Kingdom.Protobuf.Antlr.Tests.csproj", "{13F69B83-294E-4E17-878E-40D0DDBC9963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Protobuf.Antlr.Tests", "Kingdom.Protobuf.Antlr.Tests\Kingdom.Protobuf.Antlr.Tests.csproj", "{13F69B83-294E-4E17-878E-40D0DDBC9963}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{00135CCA-E2D3-4189-92A8-F3A199712982}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
