@@ -18,5 +18,14 @@ namespace Kingdom.Protobuf
             // We do not need to do anything, but we do need to ensure it has an instance backing.
             Assert.NotNull(ExpectedProto);
         }
+
+        [Theory, ClassData(typeof(SyntaxStatementWhiteSpaceAndCommentTestCases))]
+        public void VerifyStatementWithComments(WhiteSpaceAndCommentOption renderingOptions)
+        {
+            // Same as the Default Test, we need to evaluate Expected Proto.
+            Assert.NotNull(ExpectedProto);
+
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = renderingOptions};
+        }
     }
 }
