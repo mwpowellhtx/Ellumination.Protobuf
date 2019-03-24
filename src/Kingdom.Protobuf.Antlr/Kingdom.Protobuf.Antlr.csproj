@@ -8,7 +8,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Kingdom.Protobuf</RootNamespace>
     <Version>1.0.0.27630</Version>
     <AssemblyVersion>1.0.0.27630</AssemblyVersion>
     <FileVersion>1.0.0.27630</FileVersion>
@@ -20,7 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Directory.Build.props" />
     <None Remove="Kingdom.Protobuf.Antlr.csproj.DotSettings" />
   </ItemGroup>
 
@@ -58,10 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Antlr4 Update="Proto.g4">
-      <DefaultCustomToolNamespace>$([MSBuild]::ValueOrDefault('$(RootNamespace).%(DefaultCustomToolNamespace)', '').TrimEnd('.'))</DefaultCustomToolNamespace>
-      <CustomToolNamespace>$([MSBuild]::ValueOrDefault(%(CustomToolNamespace), %(DefaultCustomToolNamespace)))</CustomToolNamespace>
-    </Antlr4>
+    <Antlr4 Update="Proto.g4"/>
   </ItemGroup>
 
   <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
