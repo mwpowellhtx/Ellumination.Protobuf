@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
     using TOption = WhiteSpaceAndCommentOption;
+    using static Characters;
     using static Guid;
     using static WhiteSpaceAndCommentOption;
 
@@ -15,16 +17,6 @@ namespace Kingdom.Protobuf
     internal static class Comments
     {
         private static Guid SampleGuid => NewGuid();
-
-        /// <summary>
-        /// '\n'
-        /// </summary>
-        private const char NewLine = '\n';
-
-        /// <summary>
-        /// '\r'
-        /// </summary>
-        private const char CarriageReturn = '\r';
 
         public static string RenderLineSeparator(this TOption options)
             => options.Intersects(WithLineSeparatorNewLine)
@@ -72,5 +64,15 @@ namespace Kingdom.Protobuf
                 ? $"{options.RenderMultiLineComment()} {options.RenderSingleLineComment()}"
                 : "";
         }
+
+        /// <summary>
+        /// Renders Comments based on the <paramref name="option"/> and <paramref name="masks"/>.
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="masks"></param>
+        /// <returns></returns>
+        public static string RenderMaskedComments(this TOption option
+            , params TOption[] masks)
+            => string.Join($"{Space}", masks.Select(x => option.RenderComments(x)));
     }
 }
