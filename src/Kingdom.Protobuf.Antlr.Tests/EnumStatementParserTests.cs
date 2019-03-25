@@ -28,6 +28,13 @@ namespace Kingdom.Protobuf
             ExpectedTopLevel = new EnumStatement {Name = enumName};
         }
 
+        [Theory, ClassData(typeof(BasicEnumStatementWithWhiteSpaceTestCases))]
+        public void VerifyEmptyBodyWithWhiteSpace(string enumName, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyEmptyBody(enumName);
+        }
+
         /// <summary>
         /// Does not really matter what we call <see cref="optionNames"/> or
         /// <see cref="optionConsts"/> since we are not here to verify that. This should already
@@ -39,7 +46,7 @@ namespace Kingdom.Protobuf
         /// <param name="optionNames"></param>
         /// <param name="optionConsts"></param>
         [Theory, ClassData(typeof(EnumWithOptionStatementTestCases))]
-        public void VerifyWithWithOptionStatement(string enumName, OptionIdentifierPath[] optionNames
+        public void VerifyWithOptionStatement(string enumName, OptionIdentifierPath[] optionNames
             // ReSharper disable once IdentifierTypo
             , IConstant[] optionConsts)
         {
@@ -64,6 +71,15 @@ namespace Kingdom.Protobuf
             ExpectedTopLevel = new EnumStatement {Name = enumName, Items = GetEnumBodyItems().ToList()};
         }
 
+        [Theory, ClassData(typeof(EnumWithOptionStatementWithWhiteSpaceTestCases))]
+        public void VerifyWithOptionStatementWithWhiteSpace(string enumName, OptionIdentifierPath[] optionNames
+            // ReSharper disable once IdentifierTypo
+            , IConstant[] optionConsts, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyWithOptionStatement(enumName, optionNames, optionConsts);
+        }
+
         /// <summary>
         /// An <see cref="EnumStatement"/> with At Least One <see cref="EnumFieldDescriptor"/>
         /// should parse correctly. As with other Enum Statement test cases, we are not here to
@@ -83,6 +99,14 @@ namespace Kingdom.Protobuf
             ExpectedTopLevel = new EnumStatement {Name = enumName, Items = GetEnumFields().ToList()};
         }
 
+        [Theory, ClassData(typeof(EnumWithEnumFieldsWithWhiteSpaceTestCases))]
+        public void VerifyEnumFieldsWithWhiteSpace(string enumName, string[] fieldNames
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyEnumFields(enumName, fieldNames);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -90,7 +114,8 @@ namespace Kingdom.Protobuf
         /// <param name="fieldNames"></param>
         /// <param name="optionNames"></param>
         [Theory, ClassData(typeof(EnumFieldsWithOptionsTestCases))]
-        public void VerifyEnumFieldsWithOptions(string enumName, string[] fieldNames, OptionIdentifierPath[] optionNames)
+        public void VerifyEnumFieldsWithOptions(string enumName, string[] fieldNames
+            , OptionIdentifierPath[] optionNames)
         {
             var optionConst = Constant.Create(true);
 
@@ -103,6 +128,14 @@ namespace Kingdom.Protobuf
             );
 
             ExpectedTopLevel = new EnumStatement {Name = enumName, Items = GetEnumFields().ToList()};
+        }
+
+        [Theory, ClassData(typeof(EnumFieldsWithOptionsWithWhiteSpaceTestCases))]
+        public void VerifyEnumFieldsWithOptionsWithWhiteSpace(string enumName, string[] fieldNames
+            , OptionIdentifierPath[] optionNames, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyEnumFieldsWithOptions(enumName, fieldNames, optionNames);
         }
     }
 }
