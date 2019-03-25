@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -58,11 +60,39 @@ namespace Kingdom.Protobuf
             }
         }
 
-        // TODO: TBD: MessageTypeName would go better as a proper ElementType, including instructions re: Leading Dot.
         /// <inheritdoc />
         /// <see cref="!:http://developers.google.com/protocol-buffers/docs/reference/proto2-spec#extend"/>
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => $"extend {MessageType.ToDescriptorString(options)}"
-               + $" {{ {Join(Empty, Items.Select(x => $"{x.ToDescriptorString(options)} "))}}}";
+        {
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
+            string RenderItems()
+                => Join(lineSeparator
+                    , Items.Select(item
+                        => $"{GetComments(MultiLineComment)}"
+                           + $" {item.ToDescriptorString(options)} "
+                           + $"{GetComments(MultiLineComment, SingleLineComment)} "
+                    )
+                );
+
+            const string extend = nameof(extend);
+
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {extend}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {MessageType.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {OpenCurlyBrace}{GetComments(SingleLineComment)}{lineSeparator}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {RenderItems()}{GetComments(SingleLineComment)}{lineSeparator}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {CloseCurlyBrace}"
+                   + $" {GetComments(MultiLineComment, SingleLineComment)}"
+                ;
+        }
     }
 }

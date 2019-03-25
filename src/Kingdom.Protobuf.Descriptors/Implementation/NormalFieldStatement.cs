@@ -5,7 +5,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static LabelKind;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -57,7 +59,26 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => $"{Label.ToDescriptorString(options)} {FieldType.ToDescriptorString(options)}"
-               + $" {Name.ToDescriptorString(options)} = {Number}{Options.RenderOptions(options)};";
+        {
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {Label.ToDescriptorString(options)}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {FieldType.ToDescriptorString(options)}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {EqualSign}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {Number}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {Options.RenderOptions(options)}"
+                   + $"{GetComments(MultiLineComment)}"
+                   + $" {SemiColon}"
+                   + $"{GetComments(MultiLineComment, SingleLineComment)}"
+                ;
+        }
     }
 }
