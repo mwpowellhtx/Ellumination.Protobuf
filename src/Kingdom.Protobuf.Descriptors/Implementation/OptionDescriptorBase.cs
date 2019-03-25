@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
+
     /// <summary>
     /// Serves as the Base Class for <see cref="OptionStatement"/>, <see cref="FieldOption"/>,
     /// and <see cref="EnumValueOption"/>.
@@ -39,6 +42,20 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => $"{Name.ToDescriptorString(options)} = {Value.ToDescriptorString(options)}";
+        {
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
+            return $" {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {EqualSign}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {Value.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+                ;
+        }
     }
 }

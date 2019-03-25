@@ -5,7 +5,9 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// Provides a set of helpful <see cref="IOption"/> extension methods.
@@ -34,9 +36,20 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         public static string RenderOptions<T>(this IEnumerable<T> values, IStringRenderingOptions options)
             where T : IOption // TODO: TBD: perhaps IOption? or ICanRenderString
-            => values.Any()
-                // ReSharper disable once PossibleMultipleEnumeration
-                ? $"[{Join(", ", values.Select(x => x.ToDescriptorString(options)))}]"
+        {
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            return values.Any()
+                ? $"{GetComments(MultiLineComment)}"
+                  + $"{OpenSquareBracket}"
+                  + $"{GetComments(MultiLineComment)}"
+                  // ReSharper disable once PossibleMultipleEnumeration
+                  + $"{Join($"{Comma} ", values.Select(x => x.ToDescriptorString(options)))}"
+                  + $"{GetComments(MultiLineComment)}"
+                  + $"{CloseSquareBracket}"
+                  + $"{GetComments(MultiLineComment)}"
                 : Empty;
+        }
     }
 }
