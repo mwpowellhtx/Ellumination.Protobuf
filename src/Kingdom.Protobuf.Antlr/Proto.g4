@@ -18,7 +18,7 @@ grammar Proto;
 // TODO: TBD: for now, re-routing White Space and Comments to the HIDDEN channel. 
 // TODO: TBD: eventually, I could see potentially re-routing Comments to another Channel.
 // Support for Single Line and Multi Line Comments.
-SINGLELINE: '//' ~[\r\n]* NEWLINE? -> channel(HIDDEN);
+SINGLELINE: '//' ~[\r\n]* -> channel(HIDDEN);
 
 // We do not care about NEWLINE for MULTILINE, in fact, we would not expect that.
 MULTILINE: '/*' .+? '*/' -> channel(HIDDEN);
