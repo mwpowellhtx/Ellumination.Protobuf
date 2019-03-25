@@ -4,7 +4,6 @@ namespace Kingdom.Protobuf
     using Xunit;
     using Xunit.Abstractions;
     using static Domain;
-    using static ImportModifierKind;
 
     public class ImportStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
     {
@@ -18,15 +17,22 @@ namespace Kingdom.Protobuf
         /// the overall statement parses as expected.
         /// </summary>
         /// <param name="modifier"></param>
-        [Theory
-         , InlineData(null)
-         , InlineData(Weak)
-         , InlineData(Public)]
+        [Theory, ClassData(typeof(ImportStatementTestCases))]
         public void VerifyWithOrWithoutModifier(ImportModifierKind? modifier)
         {
             ExpectedProto.Items.Add(
                 new ImportStatement {ImportPath = NewIdentityString, Modifier = modifier}
             );
+        }
+
+        [Theory, ClassData(typeof(ImportStatementWithWhiteSpaceTestCases))]
+        public void VerifyWhiteSpaceAndComments(ImportModifierKind? modifier, WhiteSpaceAndCommentOption option)
+        {
+            ExpectedProto.Items.Add(
+                new ImportStatement {ImportPath = NewIdentityString, Modifier = modifier}
+            );
+
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = option};
         }
     }
 }
