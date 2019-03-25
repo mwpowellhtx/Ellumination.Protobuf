@@ -34,7 +34,7 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         protected static string RenderMaskedComments(WhiteSpaceAndCommentOption option
             , params WhiteSpaceAndCommentOption[] masks)
-            => Join(Empty, masks.Select(x => option.RenderComments(x)));
+            => Join(" ", masks.Select(x => option.RenderComments(x)));
 
         // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
         private static IStringRenderingOptions DefaultStringRenderingOptions => new StringRenderingOptions { };

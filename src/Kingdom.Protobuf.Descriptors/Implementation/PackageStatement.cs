@@ -31,12 +31,12 @@ namespace Kingdom.Protobuf
                 => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
 
             return $"{GetComments(MultiLineComment)}"
-                   + $"{package} "
-                   + $"{GetComments(MultiLineComment)}"
+                   + $" {package}"
+                   + $" {GetComments(MultiLineComment)}"
                    + $" {PackagePath.ToDescriptorString(options)}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $"{SemiColon}"
-                   + $"{GetComments(MultiLineComment)} {GetComments(SingleLineComment)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {SemiColon}"
+                   + $" {GetComments(MultiLineComment, SingleLineComment)}"
                 ;
         }
     }

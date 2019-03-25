@@ -26,14 +26,14 @@ namespace Kingdom.Protobuf
                 => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
 
             return $"{GetComments(MultiLineComment)}"
-                   + $" {syntax} "
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {EqualSign} "
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" '{nameof(Proto2).ToLower()}' "
-                   + $"{GetComments(MultiLineComment)}"
+                   + $" {syntax}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {EqualSign}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {OpenTick}{nameof(Proto2).ToLower()}{CloseTick}"
+                   + $" {GetComments(MultiLineComment)}"
                    + $" {SemiColon}"
-                   + $"{GetComments(MultiLineComment)} {GetComments(SingleLineComment)}"
+                   + $" {GetComments(MultiLineComment, SingleLineComment)}"
                 ;
         }
     }
