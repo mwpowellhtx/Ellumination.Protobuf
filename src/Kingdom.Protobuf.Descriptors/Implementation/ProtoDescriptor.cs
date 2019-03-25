@@ -7,6 +7,7 @@ namespace Kingdom.Protobuf
 {
     using Collections;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     // TODO: TBD: remember also Dependencies...
     /// <summary>
@@ -49,8 +50,18 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => Join(Empty, GetRange<ICanRenderString>(Syntax)
-                .Concat(Items.ToArray<ICanRenderString>())
-                .Select(x => x.ToDescriptorString(options)));
+        {
+            var itemSeparatorOption
+                = (options.WhiteSpaceAndCommentRendering & WithLineSeparatorMask)
+                  | WithLineSeparatorCarriageReturnNewLine;
+
+            var itemSeparator = itemSeparatorOption.RenderLineSeparator();
+
+            return Join(itemSeparator
+                , GetRange<ICanRenderString>(Syntax)
+                    .Concat(Items.ToArray<ICanRenderString>())
+                    .Select(x => x.ToDescriptorString(options))
+            );
+        }
     }
 }
