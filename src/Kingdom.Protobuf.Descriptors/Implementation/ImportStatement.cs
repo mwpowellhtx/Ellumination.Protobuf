@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
+
     /// <summary>
     /// 
     /// </summary>
@@ -33,14 +36,34 @@ namespace Kingdom.Protobuf
         {
             const string import = nameof(import);
 
+            // TODO: TBD: borderline, introduce GetRenderedModifier() local here...
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+
             // TODO: TBD: escape delimit the string...
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (Modifier)
             {
                 case null:
-                    return $"{import} \"{ImportPath}\";";
+                    return $"{GetComments(MultiLineComment)}"
+                           + $" {import}"
+                           + $" {GetComments(MultiLineComment)}"
+                           + $" {OpenQuote}{ImportPath}{CloseQuote}"
+                           + $" {GetComments(MultiLineComment)}"
+                           + $" {SemiColon}"
+                           + $" {GetComments(MultiLineComment, SingleLineComment)}"
+                        ;
                 default:
-                    return $"{import} {$"{Modifier.Value}".ToLower()} \"{ImportPath}\";";
+                    return $"{GetComments(MultiLineComment)}"
+                           + $" {import}"
+                           + $" {GetComments(MultiLineComment)}"
+                           + $" {$"{Modifier.Value}".ToLower()}"
+                           + $" {GetComments(MultiLineComment)}"
+                           + $" {OpenQuote}{ImportPath}{CloseQuote}"
+                           + $" {GetComments(MultiLineComment)}"
+                           + $" {SemiColon}"
+                           + $" {GetComments(MultiLineComment, SingleLineComment)}"
+                        ;
             }
         }
     }
