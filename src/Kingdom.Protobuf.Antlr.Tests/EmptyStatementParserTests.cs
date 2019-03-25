@@ -32,6 +32,13 @@ namespace Kingdom.Protobuf
             ExpectedTopLevel = new EnumStatement {Name = enumName, Items = {NewEmptyStatement}};
         }
 
+        [Theory, ClassData(typeof(EmptyEnumStatementWithWhiteSpaceTestCases))]
+        public void VerifyEnumStatementWithEmptyStatementAndWhiteSpace(string enumName, WhiteSpaceAndCommentOption option)
+        {
+            ExpectedTopLevel = new EnumStatement {Name = enumName, Items = {NewEmptyStatement}};
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = option};
+        }
+
         /// <summary>
         /// 
         /// </summary>
