@@ -34,11 +34,11 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            const string import = nameof(import);
-
             // TODO: TBD: borderline, introduce GetRenderedModifier() local here...
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
-                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            const string import = nameof(import);
 
             // TODO: TBD: escape delimit the string...
             // ReSharper disable once SwitchStatementMissingSomeCases

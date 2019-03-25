@@ -28,7 +28,7 @@ namespace Kingdom.Protobuf
             const string package = nameof(package);
 
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
-                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
             return $"{GetComments(MultiLineComment)}"
                    + $" {package}"

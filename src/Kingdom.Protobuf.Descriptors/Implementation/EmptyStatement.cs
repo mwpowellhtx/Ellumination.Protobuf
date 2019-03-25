@@ -55,7 +55,7 @@ namespace Kingdom.Protobuf
             var itemSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
 
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
-                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
             return $"{GetComments(MultiLineComment)}"
                    + $" {SemiColon}"

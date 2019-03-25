@@ -23,7 +23,7 @@ namespace Kingdom.Protobuf
             const string syntax = nameof(syntax);
 
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
-                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
             return $"{GetComments(MultiLineComment)}"
                    + $" {syntax}"
