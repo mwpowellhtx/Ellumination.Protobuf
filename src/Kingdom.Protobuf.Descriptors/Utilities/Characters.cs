@@ -4,6 +4,36 @@ namespace Kingdom.Protobuf
     internal static class Characters
     {
         /// <summary>
+        /// &apos;
+        /// </summary>
+        private const char Tick = '\'';
+
+        /// <summary>
+        /// <see cref="Tick"/>
+        /// </summary>
+        public static char OpenTick => Tick;
+
+        /// <summary>
+        /// <see cref="Tick"/>
+        /// </summary>
+        public static char CloseTick => Tick;
+
+        /// <summary>
+        /// &quot;
+        /// </summary>
+        private const char Quote = '"';
+
+        /// <summary>
+        /// <see cref="Quote"/>
+        /// </summary>
+        public static char OpenQuote => Quote;
+
+        /// <summary>
+        /// <see cref="Quote"/>
+        /// </summary>
+        public static char CloseQuote => Quote;
+
+        /// <summary>
         /// ;
         /// </summary>
         public const char SemiColon = ';';
