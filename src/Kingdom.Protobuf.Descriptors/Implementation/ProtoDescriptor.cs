@@ -51,11 +51,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            var itemSeparatorOption
-                = (options.WhiteSpaceAndCommentRendering & WithLineSeparatorMask)
-                  | WithLineSeparatorCarriageReturnNewLine;
-
-            var itemSeparator = itemSeparatorOption.RenderLineSeparator();
+            var itemSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
 
             return Join(itemSeparator
                 , GetRange<ICanRenderString>(Syntax)
