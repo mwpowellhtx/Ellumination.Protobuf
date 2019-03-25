@@ -6,10 +6,10 @@ namespace Kingdom.Protobuf
 {
     using Xunit;
     using Xunit.Abstractions;
+    using static Collections;
     using static Domain;
 
-    public class ExtendStatementParserTests
-        : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
+    public class ExtendStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
     {
         public ExtendStatementParserTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
@@ -28,6 +28,14 @@ namespace Kingdom.Protobuf
             ExpectedTopLevel = new ExtendStatement {MessageType = messageType};
         }
 
+        [Theory, ClassData(typeof(BasicExtendStatementWithWhiteSpaceTestCases))]
+        public void VerifyEmptyBodyWithWhiteSpace(ElementTypeIdentifierPath messageType
+            , WhiteSpaceAndCommentOption option)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = option};
+            VerifyEmptyBody(messageType);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -42,10 +50,9 @@ namespace Kingdom.Protobuf
             IVariant fieldType = Variant.Create(ProtoType.Double);
             IConstant optionConst = Constant.Create(true);
 
-            IEnumerable<FieldOption> GetFieldOptions()
-            {
-                yield return new FieldOption {Name = optionName, Value = optionConst};
-            }
+            IEnumerable<FieldOption> GetFieldOptions() => GetRange(
+                new FieldOption {Name = optionName, Value = optionConst}
+            );
 
             IEnumerable<NormalFieldStatement> GetNormalFields()
             {
@@ -66,12 +73,21 @@ namespace Kingdom.Protobuf
                 MessageType = messageType,
                 Items = GetNormalFields().ToList<IExtendBodyItem>()
             };
+        }
 
-            //bool Testing() => optionName.IsPrefixGrouped
-            //                  && optionName.Count > 3
-            //                  && optionName.SuffixStartIndex < optionName.Count - 1;
-
-            //var testing = Testing();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="optionName"></param>
+        /// <param name="whiteSpaceOption"></param>
+        [Theory, ClassData(typeof(ExtendSingleFieldFieldsWithSingleOptionWithWhiteSpaceTestCases))]
+        public void VerifySingleFieldFieldsWithSingleOptionWithWhiteSpace(ElementTypeIdentifierPath messageType
+            , string fieldName, OptionIdentifierPath optionName, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifySingleFieldFieldsWithSingleOption(messageType, fieldName, optionName);
         }
 
         /// <summary>
@@ -119,6 +135,14 @@ namespace Kingdom.Protobuf
             };
         }
 
+        [Theory, ClassData(typeof(ExtendFromZeroFieldsWithOrWithoutOptionsWithWhiteSpaceTestCases))]
+        public void VerifyFromZeroFieldsWithOrWithoutOptionsWithWhiteSpace(ElementTypeIdentifierPath messageType
+            , string[] fieldNames, OptionIdentifierPath[] optionNames, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            VerifyFromZeroFieldsWithOrWithoutOptions(messageType, fieldNames, optionNames);
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+        }
+
         /// <summary>
         /// As with similar Test Cases, we are not here to verify the
         /// <see cref="IMessageBodyItem"/> aspects of each <see cref="GroupFieldStatement"/>.
@@ -130,14 +154,22 @@ namespace Kingdom.Protobuf
         /// <param name="groupNames"></param>
         /// <param name="fieldNumber"></param>
         [Theory, ClassData(typeof(ExtendFromZeroGroupsTestCases))]
-        public void VerifyFromZeroGroups(ElementTypeIdentifierPath messageType, LabelKind label, string[] groupNames
-            , long fieldNumber)
+        public void VerifyFromZeroGroups(ElementTypeIdentifierPath messageType, LabelKind label
+            , string[] groupNames, long fieldNumber)
         {
             IEnumerable<IExtendBodyItem> GetStatementItems() => groupNames.Select<string, IExtendBodyItem>(
                 x => new GroupFieldStatement {Name = x, Label = label, Number = fieldNumber}
             );
 
             ExpectedTopLevel = new ExtendStatement {MessageType = messageType, Items = GetStatementItems().ToList()};
+        }
+
+        [Theory, ClassData(typeof(ExtendFromZeroGroupsWithWhiteSpaceTestCases))]
+        public void VerifyFromZeroGroupsWithWhiteSpace(ElementTypeIdentifierPath messageType, LabelKind label
+            , string[] groupNames, long fieldNumber, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyFromZeroGroups(messageType, label, groupNames, fieldNumber);
         }
     }
 }
