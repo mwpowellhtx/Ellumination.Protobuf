@@ -6,8 +6,7 @@ namespace Kingdom.Protobuf
     using Xunit;
     using Xunit.Abstractions;
 
-    public class PackageStatementParserTests
-        : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
+    public class PackageStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
     {
         public PackageStatementParserTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
@@ -41,6 +40,13 @@ namespace Kingdom.Protobuf
                 , (InvalidOperationException actualException)
                     => Assert.Equal(expectedMessage, actualException.VerifyNotNull().Message)
             );
+        }
+
+        [Theory, ClassData(typeof(PackageStatementWhiteSpaceAndCommentTestCases))]
+        public void VerifyStatementWithComments(IdentifierPath packagePath, WhiteSpaceAndCommentOption options)
+        {
+            ExpectedProto.Items.Add(new PackageStatement {PackagePath = packagePath});
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = options};
         }
     }
 }
