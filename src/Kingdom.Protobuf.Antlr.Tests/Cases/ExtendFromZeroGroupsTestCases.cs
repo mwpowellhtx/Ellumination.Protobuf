@@ -23,21 +23,10 @@ namespace Kingdom.Protobuf
                 {
                     var fieldNumber = FieldNumber;
 
-                    IEnumerable<string[]> GetAllGroupNames(IEnumerable<int> lengths,
-                        params CalculateExpectedLengthCallback[] callbacks)
-                    {
-                        var groupNames = GetGroupNames(lengths).ToArray();
-                        foreach (var callback in callbacks)
-                        {
-                            var length = callback(groupNames.Length);
-                            yield return groupNames.Take(length).ToArray();
-                        }
-                    }
-
                     var inputs = ElementTypes.ToArray<object>() // MessageType
                         .Combine(
                             LabelKinds.Select(x => (object) x).ToArray() // Label
-                            , GetAllGroupNames(GetRange(1, 3), _ => 0, x => x / 2, x => x).ToArray<object>() // GroupNames
+                            , GetGroupNames(GetRange(1, 3)).Stagger(_ => 0, x => x / 2, x => x).ToArray<object>() // GroupNames
                         );
 
                     inputs.SilentOverflow = true;
