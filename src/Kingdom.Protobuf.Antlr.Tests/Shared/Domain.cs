@@ -191,6 +191,13 @@ namespace Kingdom.Protobuf
             }
         }
 
+        /// <summary>
+        /// Returns the Identifier corresponding with the <paramref name="length"/>.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        internal static string GetFieldName(int length) => GetIdent(length);
+
         // ReSharper disable once InconsistentNaming
         /// <summary>
         /// Returns the Identifiers corresponding with the <paramref name="lengths"/> for
@@ -203,8 +210,19 @@ namespace Kingdom.Protobuf
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var length in lengths)
             {
-                yield return GetIdent(length);
+                yield return GetFieldName(length);
             }
+        }
+
+        internal static OptionIdentifierPath GetOptionIdentifierPath(int prefixLength, int prefixParts
+            , int suffixLength, int suffixParts, bool prefixGrouped)
+        {
+            var prefix = GetFullIdent(prefixLength, prefixParts);
+            return new OptionIdentifierPath(prefix.Concat(GetFullIdent(suffixLength, suffixParts)))
+            {
+                SuffixStartIndex = prefix.Count,
+                IsPrefixGrouped = prefixGrouped
+            };
         }
 
         // ReSharper disable once InconsistentNaming
@@ -233,15 +251,8 @@ namespace Kingdom.Protobuf
             for (var i = 0; i < inputs.Count; i++, ++inputs)
             {
                 var current = inputs.CurrentCombination.ToArray();
-                // TODO: TBD: include Prefix Grouping options...
-                var prefix = GetFullIdent((int) current[0], (int) current[1]);
-                var suffix = GetFullIdent((int) current[2], (int) current[3]);
-                var prefixGrouped = (bool) current[4];
-                yield return new OptionIdentifierPath(prefix.Concat(suffix))
-                {
-                    SuffixStartIndex = prefix.Count,
-                    IsPrefixGrouped = prefixGrouped
-                };
+                yield return GetOptionIdentifierPath((int) current[0], (int) current[1]
+                    , (int) current[2], (int) current[3], (bool) current[4]);
             }
         }
 
