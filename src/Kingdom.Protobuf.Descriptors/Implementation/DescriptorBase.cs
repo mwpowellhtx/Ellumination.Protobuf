@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
-    using static String;
-
     /// <inheritdoc />
     public abstract class DescriptorBase : IDescriptor
     {
@@ -25,16 +22,6 @@ namespace Kingdom.Protobuf
                 yield return x;
             }
         }
-
-        /// <summary>
-        /// Renders Comments based on the <paramref name="option"/> and <paramref name="masks"/>.
-        /// </summary>
-        /// <param name="option"></param>
-        /// <param name="masks"></param>
-        /// <returns></returns>
-        protected static string RenderMaskedComments(WhiteSpaceAndCommentOption option
-            , params WhiteSpaceAndCommentOption[] masks)
-            => Join(" ", masks.Select(x => option.RenderComments(x)));
 
         // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
         private static IStringRenderingOptions DefaultStringRenderingOptions => new StringRenderingOptions { };
