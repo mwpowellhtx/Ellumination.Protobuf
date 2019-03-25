@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -59,18 +61,38 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
+            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            // TODO: TBD: this one has been refactored, has it not?
             string RenderOptions()
             {
                 // This one makes sense to leverage String Join.
                 return Options.Any()
-                    ? $" [{Join(", ", Options.Select(x => x.ToDescriptorString(options)))}]"
+                    ? $" {GetComments(MultiLineComment)}"
+                      + $" {OpenSquareBracket}{GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+                      + $" {Join($"{GetComments(MultiLineComment)} {Comma} {GetComments(MultiLineComment)}", Options.Select(x => x.ToDescriptorString(options)))}"
+                      + $" {GetComments(MultiLineComment)}"
+                      + $" {CloseSquareBracket}{GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
                     : Empty;
             }
 
             /* Do not jump through any String Join hoops unless we absolutely have to.
              * And, plus, we can leverage Integer Literal Rendering just the same. */
 
-            return $"{Name.ToDescriptorString(options)} = {Ordinal.RenderLong(options.IntegerRendering)}{RenderOptions()};";
+            return $" {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {EqualSign} {GetComments(MultiLineComment)}"
+                   + $" {Ordinal.RenderLong(options.IntegerRendering)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {RenderOptions()}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+                ;
         }
     }
 }

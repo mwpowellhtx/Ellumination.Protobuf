@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -59,13 +61,30 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
+            const string @enum = nameof(@enum);
+
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
             string RenderItems()
                 => Items.Any()
-                    ? $"{Join(Empty, Items.Select(x => x.ToDescriptorString(options)))}"
+                    ? $"{Join($"{lineSeparator}", Items.Select(x => x.ToDescriptorString(options)))}"
                     : Empty;
 
-            const string @enum = nameof(@enum);
-            return $"{@enum} {Name.ToDescriptorString(options)} {{ {RenderItems()}}}";
+            return $" {GetComments(MultiLineComment)}"
+                   + $" {@enum}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {OpenCurlyBrace} {GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {RenderItems()}"
+                   + $" {GetComments(MultiLineComment)}{lineSeparator}"
+                   + $" {CloseCurlyBrace}{GetComments(MultiLineComment, SingleLineComment)}"
+                ;
         }
     }
 }

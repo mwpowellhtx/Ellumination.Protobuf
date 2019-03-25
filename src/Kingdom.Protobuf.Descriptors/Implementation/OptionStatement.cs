@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
+
     /// <inheritdoc cref="DescriptorBase"/>
     public class OptionStatement
         : OptionDescriptorBase
@@ -31,7 +34,16 @@ namespace Kingdom.Protobuf
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
             const string option = nameof(option);
-            return $"{option} {base.ToDescriptorString(options)};";
+
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            return
+                $" {GetComments(MultiLineComment)}"
+                + $" {option}"
+                + $" {base.ToDescriptorString(options)}"
+                + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+                ;
         }
     }
 }
