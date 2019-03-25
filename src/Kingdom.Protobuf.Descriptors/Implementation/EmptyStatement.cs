@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
+
     /// <summary>
     /// 
     /// </summary>
@@ -47,6 +50,17 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override string ToDescriptorString(IStringRenderingOptions options) => ";";
+        public override string ToDescriptorString(IStringRenderingOptions options)
+        {
+            var itemSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => RenderMaskedComments(options.WhiteSpaceAndCommentRendering, masks);
+
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {SemiColon}"
+                   + $"{GetComments(MultiLineComment, SingleLineComment)}{itemSeparator}"
+                ;
+        }
     }
 }
