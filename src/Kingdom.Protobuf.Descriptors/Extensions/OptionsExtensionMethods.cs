@@ -23,7 +23,10 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         public static string RenderOptions<T>(this IEnumerable<T> values)
             where T : IOption
-            => values.RenderOptions(new StringRenderingOptions { });
+            => values.RenderOptions(
+                // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
+                new StringRenderingOptions { }
+            );
 
         // ReSharper disable once PossibleMultipleEnumeration
         /// <summary>
