@@ -19,12 +19,12 @@ namespace Kingdom.Protobuf
             {
                 IEnumerable<object[]> GetAll()
                 {
-                    var inputs = GetIdents(GetRange(1, 3)).ToArray<object>() // enumName
+                    var inputs = GetIdents(GetRange(1, 3)).ToArray<object>() // EnumName
                         .Combine(
                             GetOptionIdentifierPaths(
                                     GetRange(1, 3), GetRange(1, 3)
                                     , GetRange(1, 3), GetRange(0, 1, 3))
-                                .StaggerObject(_ => 1, x => x / 2, x => x).ToArray() // optionNames
+                                .StaggerObject(_ => 1, x => x / 2, x => x).ToArray() // OptionNames
                         );
 
                     var optionValues = BuildOptionValues(true, false).ToArray();
