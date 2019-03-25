@@ -4,6 +4,26 @@ namespace Kingdom.Protobuf
     internal static class Characters
     {
         /// <summary>
+        /// '\n'
+        /// </summary>
+        public const char NewLine = '\n';
+
+        /// <summary>
+        /// '\r'
+        /// </summary>
+        public const char CarriageReturn = '\r';
+
+        /// <summary>
+        /// ,
+        /// </summary>
+        public const char Comma = ',';
+
+        /// <summary>
+        /// &apos; &apos;
+        /// </summary>
+        public const char Space = ' ';
+
+        /// <summary>
         /// &apos;
         /// </summary>
         private const char Tick = '\'';
@@ -46,13 +66,13 @@ namespace Kingdom.Protobuf
         private const string CurlyBraces = "{}";
 
         /// <summary>
-        /// Gets the Open Curly Brace.
+        /// Gets the Open Curly Brace, &apos;{&apos;.
         /// </summary>
         /// <see cref="CurlyBraces"/>
         public static char OpenCurlyBrace => CurlyBraces[0];
 
         /// <summary>
-        /// Gets the Close Curly Brace.
+        /// Gets the Close Curly Brace, &apos;}&apos;.
         /// </summary>
         /// <see cref="CurlyBraces"/>
         public static char CloseCurlyBrace => CurlyBraces[1];
