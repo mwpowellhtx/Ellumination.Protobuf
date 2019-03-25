@@ -4,8 +4,7 @@ namespace Kingdom.Protobuf
     using Xunit;
     using Xunit.Abstractions;
 
-    public class SyntaxStatementParserTests
-        : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
+    public class SyntaxStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
     {
         public SyntaxStatementParserTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
