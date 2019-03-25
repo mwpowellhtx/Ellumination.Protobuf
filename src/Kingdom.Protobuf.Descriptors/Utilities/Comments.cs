@@ -29,7 +29,7 @@ namespace Kingdom.Protobuf
         public static string RenderLineSeparator(this TOption options)
             => options.Intersects(WithLineSeparatorNewLine)
                 ? $"{NewLine}"
-                : options.Intersects(WithLineSeparatorNewLine)
+                : options.Intersects(WithLineSeparatorCarriageReturnNewLine)
                     ? $"{CarriageReturn}{NewLine}"
                     : "";
 
