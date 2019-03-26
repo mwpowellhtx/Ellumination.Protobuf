@@ -5,6 +5,7 @@ namespace Kingdom.Protobuf
 {
     using static FieldNumbers;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -66,7 +67,14 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            string RenderMinimum() => $"{Minimum.RenderLong(options.IntegerRendering)}";
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            string RenderMinimum() =>
+                $"{GetComments(MultiLineComment)}"
+                + $"{Minimum.RenderLong(options.IntegerRendering)}"
+            ;
 
             string RenderMaximum()
             {
@@ -74,12 +82,24 @@ namespace Kingdom.Protobuf
                 {
                     const string to = nameof(to);
 
-                    string RenderMaximumValue() => $" {to} {value.RenderLong(options.IntegerRendering)}";
+                    string RenderMaximumValue() =>
+                        $" {GetComments(MultiLineComment)}"
+                        + $" {to}"
+                        + $" {GetComments(MultiLineComment)}"
+                        + $" {value.RenderLong(options.IntegerRendering)}"
+                        + $" {GetComments(MultiLineComment)}"
+                    ;
 
                     string RenderMaxMaximum()
                     {
                         const string max = nameof(max);
-                        return $" {to} {max}";
+
+                        return $" {GetComments(MultiLineComment)}"
+                               + $" {to}"
+                               + $" {GetComments(MultiLineComment)}"
+                               + $" {max}"
+                               + $" {GetComments(MultiLineComment)}"
+                            ;
                     }
 
                     return value >= MaximumFieldNumber ? RenderMaxMaximum() : RenderMaximumValue();

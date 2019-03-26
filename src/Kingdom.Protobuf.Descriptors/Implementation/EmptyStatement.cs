@@ -52,14 +52,12 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            var itemSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
-
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
                 => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
             return $"{GetComments(MultiLineComment)}"
                    + $" {SemiColon}"
-                   + $"{GetComments(MultiLineComment, SingleLineComment)}{itemSeparator}"
+                   + $"{GetComments(MultiLineComment, SingleLineComment)}"
                 ;
         }
     }

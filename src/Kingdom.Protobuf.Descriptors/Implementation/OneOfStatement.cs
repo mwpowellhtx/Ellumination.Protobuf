@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <inheritdoc cref="DescriptorBase{T}" />
     public class OneOfStatement
@@ -50,10 +52,29 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            string RenderItems() => Join(" ", Items.Select(x => x.ToDescriptorString(options)));
             // ReSharper disable once IdentifierTypo
             const string oneof = nameof(oneof);
-            return $"{oneof} {Name.ToDescriptorString(options)} {{ {RenderItems()}}}";
+
+            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
+
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            string GetRenderedItems() => Join(
+                $"{GetComments(MultiLineComment, SingleLineComment)}{lineSeparator} "
+                , Items.Select(x => x.ToDescriptorString(options))
+            );
+
+            return $" {GetComments(MultiLineComment)}"
+                   + $" {oneof}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {OpenCurlyBrace}{GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+                   + $" {GetRenderedItems()}{GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+                   + $" {CloseCurlyBrace}"
+                ;
         }
     }
 }

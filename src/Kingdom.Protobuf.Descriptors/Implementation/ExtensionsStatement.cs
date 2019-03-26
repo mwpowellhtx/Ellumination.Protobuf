@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <inheritdoc cref="DescriptorBase" />
     public class ExtensionsStatement
@@ -47,19 +49,30 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
+            const string extensions = nameof(extensions);
+
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
             bool TryRenderRanges(out string rendered)
             {
                 const string defaultRendered = null;
                 return !IsNullOrEmpty(
                     rendered = Items.Any()
-                        ? Join(", ", Items.Select(x => x.ToDescriptorString(options)))
+                        ? Join($"{Comma} ", Items.Select(x => x.ToDescriptorString(options)))
                         : defaultRendered
                 );
             }
 
             return TryRenderRanges(out var s)
-                ? $"extensions {s};"
-                : throw new InvalidOperationException($"Failed to render for empty {nameof(Items)}.");
+                    ? $"{GetComments(MultiLineComment)}"
+                      + $" {extensions}"
+                      + $" {GetComments(MultiLineComment)}"
+                      + $" {s}{GetComments(MultiLineComment)}"
+                      + $" {SemiColon}"
+                    : throw new InvalidOperationException($"Failed to render for empty {nameof(Items)}.")
+                ;
         }
     }
 }

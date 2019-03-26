@@ -6,7 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
     using static String;
+    using static WhiteSpaceAndCommentOption;
 
     /// <summary>
     /// 
@@ -60,9 +62,21 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            string RenderItems() => Join(", ", Items.Select(x => RenderItem(x, options)));
             const string reserved = nameof(reserved);
-            return $"{reserved} {RenderItems()};";
+
+            // ReSharper disable once ImplicitlyCapturedClosure
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            string GetRenderedItems() => Join($"{Comma} ", Items.Select(x => RenderItem(x, options)));
+
+            return $" {GetComments(MultiLineComment)}"
+                   + $" {reserved}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {GetRenderedItems()}"
+                   + $" {GetComments(MultiLineComment)}"
+                   + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+                ;
         }
     }
 }
