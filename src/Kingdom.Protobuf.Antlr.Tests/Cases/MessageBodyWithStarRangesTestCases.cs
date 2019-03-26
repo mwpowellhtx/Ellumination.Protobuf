@@ -23,7 +23,7 @@ namespace Kingdom.Protobuf
                 {
                     IEnumerable<Tuple<long, long?>> GetRangeTuples()
                     {
-                        var minimum = MinimumFieldNumber;
+                        const long minimum = MinimumFieldNumber;
                         var maximum = MaximumFieldNumber;
 
                         const int depth = 2, count = 2;

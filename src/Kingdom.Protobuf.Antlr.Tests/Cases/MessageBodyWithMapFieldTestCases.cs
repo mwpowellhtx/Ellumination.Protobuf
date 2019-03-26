@@ -20,15 +20,15 @@ namespace Kingdom.Protobuf
                 IEnumerable<object[]> GetAll()
                 {
                     var fieldNumber = FieldNumber;
-                    var optionValues = BuildOptionValues(true, false).ToArray();
+                    var optionValues = BuildOptionValues(true).ToArray();
 
                     var inputs = KeyTypes.Select(x => (object) x).ToArray() // Key
                         .Combine(
                             Types.ToArray<object>() // Type
                             , GetIdents(GetRange(1, 3)).ToArray<object>() // MapName
                             , GetOptionIdentifierPaths(
-                                    GetRange(1, 3), GetRange(1, 3)
-                                    , GetRange(1, 3), GetRange(0, 1, 3))
+                                    GetRange(3), GetRange(3)
+                                    , GetRange(3), GetRange(0, 1, 3))
                                 .StaggerObject(_ => 0, _ => 1, x => x / 2, x => x).ToArray() // OptionNames
                         );
 

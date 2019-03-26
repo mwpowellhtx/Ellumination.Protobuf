@@ -85,6 +85,14 @@ namespace Kingdom.Protobuf
             });
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithNormalFieldWithWhiteSpaceTestCases))]
+        public virtual void VerifyMessageBodyWithNormalFieldWithWhiteSpace(LabelKind label, IVariant fieldType
+            , string fieldName, long fieldNumber, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithNormalField(label, fieldType, fieldName, fieldNumber);
+        }
+
         /// <summary>
         /// We only need to verify the simplest of <see cref="NormalFieldStatement"/> test cases
         /// here. We especially do not need to exhaust ones involving Options and so forth as
@@ -107,6 +115,14 @@ namespace Kingdom.Protobuf
         public void VerifyMessageBodyWithEmptyMessage(string innerMessageName)
         {
             ExpectedBody.Add(new MessageStatement {Name = innerMessageName});
+        }
+
+        [Theory, ClassData(typeof(MessageBodyWithEmptyInnerMessageWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithEmptyMessageWithWhiteSpace(string innerMessageName
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithEmptyMessage(innerMessageName);
         }
 
         /// <summary>
@@ -136,6 +152,14 @@ namespace Kingdom.Protobuf
             ExpectedBody.Add(new ExtensionsStatement {Items = ranges.ToRangeDescriptors().ToList()});
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithStarRangesWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithExtensionsWithWhiteSpace(Tuple<long, long?>[] ranges
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithExtensions(ranges);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -144,6 +168,14 @@ namespace Kingdom.Protobuf
         public void VerifyMessageBodyWithRangesReserved(Tuple<long, long?>[] ranges)
         {
             ExpectedBody.Add(new RangesReservedStatement {Items = ranges.ToRangeDescriptors().ToList()});
+        }
+
+        [Theory, ClassData(typeof(MessageBodyWithStarRangesWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithRangesReservedWithWhiteSpace(Tuple<long, long?>[] ranges
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithRangesReserved(ranges);
         }
 
         /// <summary>
@@ -159,6 +191,14 @@ namespace Kingdom.Protobuf
             ExpectedBody.Add(new FieldNamesReservedStatement {Items = fieldNames.ToList()});
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithFieldNamesReservedWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithFieldNamesReservedWithWhiteSpace(Identifier[] fieldNames
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithFieldNamesReserved(fieldNames);
+        }
+
         /// <summary>
         /// Verify that a <see cref="OneOfStatement"/> having <see cref="EmptyStatement"/> in the
         /// <see cref="OneOfStatement.Items"/>.
@@ -172,6 +212,14 @@ namespace Kingdom.Protobuf
                 Name = oneOfName,
                 Items = GetRange<IOneOfBodyItem>(NewEmptyStatement).ToList()
             });
+        }
+
+        [Theory, ClassData(typeof(MessageBodyWithEmptyOneOfWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithEmptyOneOfWithWhiteSpace(string oneOfName
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithEmptyOneOf(oneOfName);
         }
 
         /// <summary>
@@ -206,6 +254,14 @@ namespace Kingdom.Protobuf
             ExpectedBody.Add(new OneOfStatement {Name = oneOfName, Items = GetOneOfBodyItems().ToList()});
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithOneOfWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithOneOfWithWhiteSpace(string oneOfName, FieldTupleType[] fieldTuples
+            , OptionIdentifierPath[] optionNames, IConstant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithOneOf(oneOfName, fieldTuples, optionNames, optionValues);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -229,6 +285,15 @@ namespace Kingdom.Protobuf
             });
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithMapFieldWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithMapFieldWithWhiteSpace(KeyType keyType, IVariant valueType
+            , string mapName, long fieldNumber, OptionIdentifierPath[] optionNames, IConstant[] optionValues
+            , WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithMapField(keyType, valueType, mapName, fieldNumber, optionNames, optionValues);
+        }
+
         /// <summary>
         /// As with other Test Cases, this is not supposed to be an exhaustive verification of
         /// either <see cref="IConstant"/> or <see cref="OptionStatement"/>, but rather to verify
@@ -244,6 +309,14 @@ namespace Kingdom.Protobuf
             );
         }
 
+        [Theory, ClassData(typeof(MessageBodyWithOptionWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithOptionWithWhiteSpace(OptionIdentifierPath[] optionNames
+            , IConstant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithOption(optionNames, optionValues);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -253,7 +326,17 @@ namespace Kingdom.Protobuf
         [Theory, ClassData(typeof(MessageBodyWithEmptyGroupFieldTestCases))]
         public void VerifyMessageBodyWithEmptyGroupField(LabelKind label, string groupName, long fieldNumber)
         {
-            ExpectedBody.Add(new GroupFieldStatement {Label = label, Name = groupName, Number = fieldNumber});
+            ExpectedBody.Add(
+                new GroupFieldStatement {Label = label, Name = groupName, Number = fieldNumber}
+            );
+        }
+
+        [Theory, ClassData(typeof(MessageBodyWithEmptyGroupFieldWithWhiteSpaceTestCases))]
+        public void VerifyMessageBodyWithEmptyGroupFieldWithWhiteSpace(LabelKind label, string groupName
+            , long fieldNumber, WhiteSpaceAndCommentOption whiteSpaceOption)
+        {
+            RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
+            VerifyMessageBodyWithEmptyGroupField(label, groupName, fieldNumber);
         }
     }
 }

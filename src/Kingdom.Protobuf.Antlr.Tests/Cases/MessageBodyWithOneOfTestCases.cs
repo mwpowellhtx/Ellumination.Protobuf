@@ -15,38 +15,41 @@ namespace Kingdom.Protobuf
     {
         private static IEnumerable<object[]> _privateTestCases;
 
+        protected static IEnumerable<FieldTupleType> ProtectedFieldTuples
+        {
+            get
+            {
+                var fieldNumber = FieldNumber;
+
+                var tupleInputs = ProtoTypes.Select(x => (object) x).ToArray() // ProtoType
+                    .Combine(
+                        GetIdents(GetRange(1, 3, 5)).ToArray<object>() // FieldName
+                    );
+
+                for (; !tupleInputs.Exhausted; ++tupleInputs)
+                {
+                    var current = tupleInputs.CurrentCombination.ToArray();
+                    var protoType = (ProtoType) current[0];
+                    var fieldName = (string) current[1];
+                    yield return Tuple.Create(protoType, fieldName, fieldNumber);
+                }
+            }
+        }
+
         private static IEnumerable<object[]> PrivateTestCases
         {
             get
             {
                 IEnumerable<object[]> GetAll()
                 {
-                    IEnumerable<FieldTupleType> GetFieldTuples()
-                    {
-                        var fieldNumber = FieldNumber;
-
-                        var tupleInputs = ProtoTypes.Select(x => (object) x).ToArray() // ProtoType
-                            .Combine(
-                                GetIdents(GetRange(1, 3, 5)).ToArray<object>() // fieldName
-                            );
-
-                        for (; !tupleInputs.Exhausted; ++tupleInputs)
-                        {
-                            var current = tupleInputs.CurrentCombination.ToArray();
-                            var protoType = (ProtoType) current[0];
-                            var fieldName = (string) current[1];
-                            yield return Tuple.Create(protoType, fieldName, fieldNumber);
-                        }
-                    }
-
-                    var inputs = GetIdents(GetRange(1, 3)).ToArray<object>() // oneOfName
+                    var inputs = GetIdents(GetRange(1, 3)).ToArray<object>() // OneOfName
                         .Combine(
-                            GetFieldTuples()
-                                .Stagger(_ => 1, x => x / 2, x => x).ToArray<object>() // oneOfField Tuples
+                            ProtectedFieldTuples
+                                .Stagger(_ => 1, x => x / 2, x => x).ToArray<object>() // OneOfField Tuples
                             , GetOptionIdentifierPaths(
                                     GetRange(1, 3), GetRange(1, 3)
                                     , GetRange(1, 3), GetRange(0, 1, 3))
-                                .StaggerObject(_ => 0, _ => 1, x => x / 2, x => x).ToArray() // optionNames
+                                .StaggerObject(_ => 0, _ => 1, x => x / 2, x => x).ToArray() // OptionNames
                         );
 
                     inputs.SilentOverflow = true;
