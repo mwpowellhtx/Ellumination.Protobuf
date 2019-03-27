@@ -4,12 +4,17 @@ namespace Kingdom.Protobuf
     internal static class Characters
     {
         /// <summary>
-        /// '\n'
+        /// &apos;.&apos;
+        /// </summary>
+        public const char Dot = '.';
+
+        /// <summary>
+        /// &apos;\n&apos;
         /// </summary>
         public const char NewLine = '\n';
 
         /// <summary>
-        /// '\r'
+        /// &apos;\r&apos;
         /// </summary>
         public const char CarriageReturn = '\r';
 
@@ -24,7 +29,7 @@ namespace Kingdom.Protobuf
         public const char Space = ' ';
 
         /// <summary>
-        /// &apos;
+        /// &apos;\&apos;&apos;
         /// </summary>
         private const char Tick = '\'';
 
@@ -90,5 +95,19 @@ namespace Kingdom.Protobuf
         /// </summary>
         /// <see cref="SquareBrackets"/>
         public static char CloseSquareBracket => SquareBrackets[1];
+
+        private const string AngleBrackets = "<>";
+
+        /// <summary>
+        /// Gets the Open Angle Bracket.
+        /// </summary>
+        /// <see cref="AngleBrackets"/>
+        public static char OpenAngleBracket => AngleBrackets[0];
+
+        /// <summary>
+        /// Gets the Close Angle Bracket.
+        /// </summary>
+        /// <see cref="AngleBrackets"/>
+        public static char CloseAngleBracket => AngleBrackets[1];
     }
 }
