@@ -85,8 +85,8 @@ namespace Kingdom.Protobuf
         protected delegate void ParseExceptionThrownCallback<in TException>(TException exception)
             where TException : Exception;
 
-        protected void VerifyParse<TThrownException>(RenderTargetCallback render,
-            ParseExceptionThrownCallback<TThrownException> callback = null)
+        protected void VerifyParse<TThrownException>(RenderTargetCallback render
+            , ParseExceptionThrownCallback<TThrownException> callback = null)
             where TThrownException : Exception
         {
             try
