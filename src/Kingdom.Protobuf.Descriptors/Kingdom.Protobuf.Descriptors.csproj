@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.27630</Version>
-    <AssemblyVersion>1.0.0.27630</AssemblyVersion>
-    <FileVersion>1.0.0.27630</FileVersion>
-    <PackageVersion>1.0.0.27630</PackageVersion>
+    <Version>1.0.1.19252</Version>
+    <AssemblyVersion>1.0.1.19252</AssemblyVersion>
+    <FileVersion>1.0.1.19252</FileVersion>
+    <PackageVersion>1.0.1.19252</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +32,7 @@
     <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
+  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
     <BumpVersionSpec Include="Version" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
     <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
     <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
