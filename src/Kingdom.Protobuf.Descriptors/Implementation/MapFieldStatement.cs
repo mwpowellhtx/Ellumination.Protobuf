@@ -5,6 +5,8 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
 
     /// <inheritdoc cref="FieldStatementBase{T}" />
     public class MapFieldStatement
@@ -47,9 +49,21 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
         {
-            return $"map<{KeyType.ToDescriptorString(options)}, {ValueType.ToDescriptorString(options)}> "
-                   + $"{Name.ToDescriptorString(options)} = {Number.RenderLong(options.IntegerRendering)}"
-                   + $"{Options.RenderOptions(options)};"
+            const string map = nameof(map);
+
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {map}{OpenAngleBracket} {GetComments(MultiLineComment)}"
+                   + $" {KeyType.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {Comma} {GetComments(MultiLineComment)}"
+                   + $" {ValueType.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {CloseAngleBracket} {GetComments(MultiLineComment)} "
+                   + $" {Name.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {EqualSign} {GetComments(MultiLineComment)}"
+                   + $" {Number.RenderLong(options.IntegerRendering)} {GetComments(MultiLineComment)}"
+                   + $" {Options.RenderOptions(options)} {GetComments(MultiLineComment)} {SemiColon}"
                 ;
         }
     }

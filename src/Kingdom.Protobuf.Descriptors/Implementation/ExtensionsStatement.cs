@@ -67,10 +67,8 @@ namespace Kingdom.Protobuf
 
             return TryRenderRanges(out var s)
                     ? $"{GetComments(MultiLineComment)}"
-                      + $" {extensions}"
-                      + $" {GetComments(MultiLineComment)}"
-                      + $" {s}{GetComments(MultiLineComment)}"
-                      + $" {SemiColon}"
+                      + $" {extensions} {GetComments(MultiLineComment)}"
+                      + $" {s} {GetComments(MultiLineComment)} {SemiColon}"
                     : throw new InvalidOperationException($"Failed to render for empty {nameof(Items)}.")
                 ;
         }

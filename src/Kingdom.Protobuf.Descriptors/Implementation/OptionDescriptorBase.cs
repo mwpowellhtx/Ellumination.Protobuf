@@ -46,15 +46,10 @@ namespace Kingdom.Protobuf
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
                 => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
-            var lineSeparator = WithLineSeparatorCarriageReturnNewLine.RenderLineSeparator();
-
-            return $" {GetComments(MultiLineComment)}"
-                   + $" {Name.ToDescriptorString(options)}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {EqualSign}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {Value.ToDescriptorString(options)}"
-                   + $" {GetComments(MultiLineComment, SingleLineComment)}{lineSeparator}"
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {EqualSign} {GetComments(MultiLineComment)}"
+                   + $" {Value.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
                 ;
         }
     }

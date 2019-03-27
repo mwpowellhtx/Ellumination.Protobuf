@@ -38,11 +38,9 @@ namespace Kingdom.Protobuf
             string GetComments(params WhiteSpaceAndCommentOption[] masks)
                 => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
-            return
-                $" {GetComments(MultiLineComment)}"
-                + $" {option}"
-                + $" {base.ToDescriptorString(options)}"
-                + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {option} {GetComments(MultiLineComment)}"
+                   + $" {base.ToDescriptorString(options)} {GetComments(MultiLineComment)} {SemiColon}"
                 ;
         }
     }

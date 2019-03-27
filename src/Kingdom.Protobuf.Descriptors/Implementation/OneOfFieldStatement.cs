@@ -5,6 +5,8 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using static Characters;
+    using static WhiteSpaceAndCommentOption;
 
     /// <inheritdoc cref="FieldStatementBase" />
     public class OneOfFieldStatement
@@ -43,7 +45,16 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => $"{FieldType.ToDescriptorString(options)} {Name.ToDescriptorString(options)}"
-               + $" = {Number.RenderLong(options.IntegerRendering)}{Options.RenderOptions(options)};";
+        {
+            string GetComments(params WhiteSpaceAndCommentOption[] masks)
+                => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
+
+            return $"{FieldType.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {EqualSign} {GetComments(MultiLineComment)}"
+                   + $" {Number.RenderLong(options.IntegerRendering)} {GetComments(MultiLineComment)}"
+                   + $" {Options.RenderOptions(options)} {GetComments(MultiLineComment)} {SemiColon}"
+                ;
+        }
     }
 }

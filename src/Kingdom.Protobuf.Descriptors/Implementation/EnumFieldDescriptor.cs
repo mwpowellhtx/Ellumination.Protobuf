@@ -84,14 +84,10 @@ namespace Kingdom.Protobuf
              * And, plus, we can leverage Integer Literal Rendering just the same. */
 
             return $" {GetComments(MultiLineComment)}"
-                   + $" {Name.ToDescriptorString(options)}"
-                   + $" {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
                    + $" {EqualSign} {GetComments(MultiLineComment)}"
-                   + $" {Ordinal.RenderLong(options.IntegerRendering)}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {RenderOptions()}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+                   + $" {Ordinal.RenderLong(options.IntegerRendering)} {GetComments(MultiLineComment)}"
+                   + $" {RenderOptions()} {GetComments(MultiLineComment)} {SemiColon}"
                 ;
         }
     }

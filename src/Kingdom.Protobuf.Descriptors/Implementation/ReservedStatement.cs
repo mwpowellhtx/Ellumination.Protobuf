@@ -70,12 +70,9 @@ namespace Kingdom.Protobuf
 
             string GetRenderedItems() => Join($"{Comma} ", Items.Select(x => RenderItem(x, options)));
 
-            return $" {GetComments(MultiLineComment)}"
-                   + $" {reserved}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {GetRenderedItems()}"
-                   + $" {GetComments(MultiLineComment)}"
-                   + $" {SemiColon}{GetComments(MultiLineComment, SingleLineComment)}"
+            return $"{GetComments(MultiLineComment)}"
+                   + $" {reserved} {GetComments(MultiLineComment)}"
+                   + $" {GetRenderedItems()} {GetComments(MultiLineComment)} {SemiColon}"
                 ;
         }
     }

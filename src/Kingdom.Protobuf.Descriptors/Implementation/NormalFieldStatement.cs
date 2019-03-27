@@ -64,20 +64,12 @@ namespace Kingdom.Protobuf
                 => options.WhiteSpaceAndCommentRendering.RenderMaskedComments(masks);
 
             return $"{GetComments(MultiLineComment)}"
-                   + $" {Label.ToDescriptorString(options)}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {FieldType.ToDescriptorString(options)}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {Name.ToDescriptorString(options)}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {EqualSign}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {Number}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {Options.RenderOptions(options)}"
-                   + $"{GetComments(MultiLineComment)}"
-                   + $" {SemiColon}"
-                   + $"{GetComments(MultiLineComment, SingleLineComment)}"
+                   + $" {Label.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {FieldType.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {Name.ToDescriptorString(options)} {GetComments(MultiLineComment)}"
+                   + $" {EqualSign} {GetComments(MultiLineComment)}"
+                   + $" {Number} {GetComments(MultiLineComment)}"
+                   + $" {Options.RenderOptions(options)} {GetComments(MultiLineComment)} {SemiColon}"
                 ;
         }
     }

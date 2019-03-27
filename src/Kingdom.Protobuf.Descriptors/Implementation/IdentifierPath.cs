@@ -6,6 +6,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
     using static String;
 
     // TODO: TBD: possibly a migration path to use in lieu of ElementTypePath ...
@@ -107,7 +108,7 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public override string ToDescriptorString(IStringRenderingOptions options)
-            => Join(".", this.Select(x => x.ToDescriptorString(options)));
+            => Join($"{Dot}", this.Select(x => x.ToDescriptorString(options)));
 
         /// <summary>
         /// Returns a new <see cref="IdentifierPath"/> instance appending <paramref name="s"/>

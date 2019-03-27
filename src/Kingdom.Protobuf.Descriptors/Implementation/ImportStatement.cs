@@ -46,23 +46,14 @@ namespace Kingdom.Protobuf
             {
                 case null:
                     return $"{GetComments(MultiLineComment)}"
-                           + $" {import}"
-                           + $" {GetComments(MultiLineComment)}"
-                           + $" {OpenQuote}{ImportPath}{CloseQuote}"
-                           + $" {GetComments(MultiLineComment)}"
-                           + $" {SemiColon}"
-                           + $" {GetComments(MultiLineComment, SingleLineComment)}"
+                           + $" {import} {GetComments(MultiLineComment)}"
+                           + $" {OpenQuote}{ImportPath}{CloseQuote} {GetComments(MultiLineComment)} {SemiColon}"
                         ;
                 default:
                     return $"{GetComments(MultiLineComment)}"
-                           + $" {import}"
-                           + $" {GetComments(MultiLineComment)}"
-                           + $" {$"{Modifier.Value}".ToLower()}"
-                           + $" {GetComments(MultiLineComment)}"
-                           + $" {OpenQuote}{ImportPath}{CloseQuote}"
-                           + $" {GetComments(MultiLineComment)}"
-                           + $" {SemiColon}"
-                           + $" {GetComments(MultiLineComment, SingleLineComment)}"
+                           + $" {import} {GetComments(MultiLineComment)}"
+                           + $" {$"{Modifier.Value}".ToLower()} {GetComments(MultiLineComment)}"
+                           + $" {OpenQuote}{ImportPath}{CloseQuote} {GetComments(MultiLineComment)} {SemiColon}"
                         ;
             }
         }
