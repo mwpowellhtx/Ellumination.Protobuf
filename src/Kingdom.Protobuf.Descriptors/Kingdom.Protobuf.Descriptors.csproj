@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.2.15109</Version>
-    <AssemblyVersion>1.0.2.15109</AssemblyVersion>
-    <FileVersion>1.0.2.15109</FileVersion>
-    <PackageVersion>1.0.2.15109</PackageVersion>
+    <Version>1.0.2.15110</Version>
+    <AssemblyVersion>1.0.2.15110</AssemblyVersion>
+    <FileVersion>1.0.2.15110</FileVersion>
+    <PackageVersion>1.0.2.15110</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,23 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
-  </ItemGroup>
-
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-
-    <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

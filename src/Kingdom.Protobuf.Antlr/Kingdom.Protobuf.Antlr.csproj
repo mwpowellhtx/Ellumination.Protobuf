@@ -8,10 +8,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.2.15110</Version>
-    <AssemblyVersion>1.0.2.15110</AssemblyVersion>
-    <FileVersion>1.0.2.15110</FileVersion>
-    <PackageVersion>1.0.2.15110</PackageVersion>
+    <Version>1.0.2.15111</Version>
+    <AssemblyVersion>1.0.2.15111</AssemblyVersion>
+    <FileVersion>1.0.2.15111</FileVersion>
+    <PackageVersion>1.0.2.15111</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -32,10 +32,6 @@
     <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
     <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
     <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="1.2.7.29189" />
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -57,18 +53,6 @@
 
   <ItemGroup>
     <Antlr4 Update="Proto.g4" />
-  </ItemGroup>
-
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Debug'" />
-
-    <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
   </ItemGroup>
 
 </Project>
