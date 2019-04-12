@@ -10,12 +10,6 @@ namespace Kingdom.Protobuf
             , IFieldStatement
             , IHasNumber
     {
-        // TODO: TBD: possible refactor to DescriptorBase...
-        /// <summary>
-        /// Gets or Sets the Parent.
-        /// </summary>
-        protected IParentItem Parent { get; set; }
-
         /// <inheritdoc />
         public long Number { get; set; }
     }
@@ -37,12 +31,6 @@ namespace Kingdom.Protobuf
             : base(new T { })
         {
         }
-
-        // TODO: TBD: possible refactor to DescriptorBase...
-        /// <summary>
-        /// Gets or Sets the Parent.
-        /// </summary>
-        protected IParentItem Parent { get; set; }
 
         /// <inheritdoc />
         public long Number { get; set; }

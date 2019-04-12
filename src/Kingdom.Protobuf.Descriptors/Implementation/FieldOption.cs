@@ -14,24 +14,22 @@ namespace Kingdom.Protobuf
             , IMapFieldOption
             , IEquatable<FieldOption>
     {
-        private IParentItem _parent;
-
         INormalFieldStatement IHasParent<INormalFieldStatement>.Parent
         {
-            get => _parent as INormalFieldStatement;
-            set => _parent = value;
+            get => Parent as INormalFieldStatement;
+            set => Parent = value;
         }
 
         IOneOfFieldStatement IHasParent<IOneOfFieldStatement>.Parent
         {
-            get => _parent as IOneOfFieldStatement;
-            set => _parent = value;
+            get => Parent as IOneOfFieldStatement;
+            set => Parent = value;
         }
 
         IMapFieldStatement IHasParent<IMapFieldStatement>.Parent
         {
-            get => _parent as IMapFieldStatement;
-            set => _parent = value;
+            get => Parent as IMapFieldStatement;
+            set => Parent = value;
         }
 
         /// <inheritdoc />

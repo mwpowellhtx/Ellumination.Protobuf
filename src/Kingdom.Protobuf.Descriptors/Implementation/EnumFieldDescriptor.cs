@@ -25,13 +25,10 @@ namespace Kingdom.Protobuf
         {
         }
 
-        // TODO: TBD: may refactor to base classes...
-        private IParentItem _parent;
-
         IEnumStatement IHasParent<IEnumStatement>.Parent
         {
-            get => _parent as IEnumStatement;
-            set => _parent = value;
+            get => Parent as IEnumStatement;
+            set => Parent = value;
         }
 
         /// <summary>

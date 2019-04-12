@@ -10,12 +10,10 @@ namespace Kingdom.Protobuf
             , IPackageStatement
             , IProtoBodyItem
     {
-        private IParentItem _parent;
-
         IProto IHasParent<IProto>.Parent
         {
-            get => _parent as IProto;
-            set => _parent = value;
+            get => Parent as IProto;
+            set => Parent = value;
         }
 
         // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer

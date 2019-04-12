@@ -16,14 +16,11 @@ namespace Kingdom.Protobuf
             , IExtensionsStatement
             , IMessageBodyItem
     {
-        // TODO: TBD: may refactor to base classes...
-        private IParentItem _parent;
-
         /// <inheritdoc />
         IMessageBodyParent IHasParent<IMessageBodyParent>.Parent
         {
-            get => _parent as IMessageBodyParent;
-            set => _parent = value;
+            get => Parent as IMessageBodyParent;
+            set => Parent = value;
         }
 
         private IList<RangeDescriptor> _items;

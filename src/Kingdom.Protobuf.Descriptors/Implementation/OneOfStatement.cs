@@ -16,12 +16,10 @@ namespace Kingdom.Protobuf
             , IOneOfStatement
             , IMessageBodyItem
     {
-        private IParentItem _parent;
-
         IMessageBodyParent IHasParent<IMessageBodyParent>.Parent
         {
-            get => _parent as IMessageBodyParent;
-            set => _parent = value;
+            get => Parent as IMessageBodyParent;
+            set => Parent = value;
         }
 
         /// <inheritdoc />

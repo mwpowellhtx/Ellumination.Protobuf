@@ -10,13 +10,10 @@ namespace Kingdom.Protobuf
         : DescriptorBase<string>
             , IIdentifier
     {
-        // TODO: TBD: ditto Parent refactoring...
-        private IParentItem _parent;
-
         IReservedStatement IHasParent<IReservedStatement>.Parent
         {
-            get =>_parent as IReservedStatement;
-            set => _parent = value;
+            get => Parent as IReservedStatement;
+            set => Parent = value;
         }
 
         /// <inheritdoc />

@@ -12,13 +12,10 @@ namespace Kingdom.Protobuf
         : DescriptorBase
             , IProtoBodyItem
     {
-        // TODO: TBD: may refactor to base classes...
-        private IParentItem _parent;
-
         IProto IHasParent<IProto>.Parent
         {
-            get => _parent as IProto;
-            set => _parent = value;
+            get => Parent as IProto;
+            set => Parent = value;
         }
 
         /// <summary>

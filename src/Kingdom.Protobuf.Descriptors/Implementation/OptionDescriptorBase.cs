@@ -13,12 +13,6 @@ namespace Kingdom.Protobuf
         : DescriptorBase<OptionIdentifierPath>
             , IOption
     {
-        // TODO: TBD: may refactor to base classes...
-        /// <summary>
-        /// Gets or Sets the Parent.
-        /// </summary>
-        protected IParentItem Parent { get; set; }
-
         /// <inheritdoc />
         protected OptionDescriptorBase()
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer

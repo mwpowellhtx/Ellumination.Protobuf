@@ -16,19 +16,16 @@ namespace Kingdom.Protobuf
             , IRangeDescriptor
             , IEquatable<RangeDescriptor>
     {
-        // TODO: TBD: may refactor to base classes...
-        private IParentItem _parent;
-
         IExtensionsStatement IHasParent<IExtensionsStatement>.Parent
         {
-            get => _parent as IExtensionsStatement;
-            set => _parent = value;
+            get => Parent as IExtensionsStatement;
+            set => Parent = value;
         }
 
         IReservedStatement IHasParent<IReservedStatement>.Parent
         {
-            get => _parent as IReservedStatement;
-            set => _parent = value;
+            get => Parent as IReservedStatement;
+            set => Parent = value;
         }
 
         /// <inheritdoc />

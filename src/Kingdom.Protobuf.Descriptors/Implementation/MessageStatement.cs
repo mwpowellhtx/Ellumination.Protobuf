@@ -20,19 +20,16 @@ namespace Kingdom.Protobuf
             , ITopLevelDefinition
             , IMessageBodyItem
     {
-        // TODO: TBD: may refactor to base classes...
-        private IParentItem _parent;
-
         IProto IHasParent<IProto>.Parent
         {
-            get => _parent as IProto;
-            set => _parent = value;
+            get => Parent as IProto;
+            set => Parent = value;
         }
 
         IMessageBodyParent IHasParent<IMessageBodyParent>.Parent
         {
-            get => _parent as IMessageBodyParent;
-            set => _parent = value;
+            get => Parent as IMessageBodyParent;
+            set => Parent = value;
         }
 
         /// <inheritdoc />

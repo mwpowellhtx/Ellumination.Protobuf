@@ -7,6 +7,11 @@ namespace Kingdom.Protobuf
     /// <inheritdoc />
     public abstract class DescriptorBase : IDescriptor
     {
+        /// <summary>
+        /// Gets or Sets the Parent.
+        /// </summary>
+        public IParentItem Parent { get; set; }
+
         // ReSharper disable once InconsistentNaming
         /// <summary>
         /// Returns the Range corresponding to <paramref name="values"/>.
