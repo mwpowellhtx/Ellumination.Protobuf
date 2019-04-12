@@ -163,7 +163,7 @@ if "%should_pause%" == "" (
 set xcopy_exe=xcopy.exe
 rem Have to re-set the options for whatever reason.
 set xcopy_opts=
-set xcopy_opts=%xcopy_opts% /Y
+set xcopy_opts=%xcopy_opts% /Y /F
 set xcopy_destination_dir=G:\Dev\NuGet\local\packages
 
 rem Expecting NuGet to be found in the System Path.
