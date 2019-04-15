@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kingdom.Protobuf.Collections;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
@@ -9,14 +10,14 @@ namespace Kingdom.Protobuf
     using DescriptorTuple = Tuple<Type, object>;
 
     /// <summary>
-    /// <see cref="ProtoDescriptorListenerBase.Descriptors"/> Stack Context.
+    /// <see cref="ProtoDescriptorListenerBase.Stack"/> Stack Context.
     /// </summary>
     /// <inheritdoc />
     public abstract class DescriptorStackContext : IDisposable
     {
         /// <summary>
         /// Callback provides in order to Try
-        /// <see cref="ProtoDescriptorListenerBase.Descriptors"/> Reduction.
+        /// <see cref="ProtoDescriptorListenerBase.Stack"/> Reduction.
         /// </summary>
         /// <returns></returns>
         public delegate bool TryReduceDescriptorStackCallback();
@@ -26,18 +27,18 @@ namespace Kingdom.Protobuf
         /// </summary>
         protected IEnumerable<TryReduceDescriptorStackCallback> TryCallbacks { get; set; }
 
-        private IList<Tuple<Type, object>> PrivateDescriptors { get; }
+        private AbstractSyntaxTreeStack<ProtoDescriptor> PrivateStack { get; }
 
         private int StartCount { get; }
 
         /// <summary>
         /// Protected Constructor.
         /// </summary>
-        /// <param name="descriptors"></param>
-        protected DescriptorStackContext(IList<Tuple<Type, object>> descriptors)
+        /// <param name="stack"></param>
+        protected DescriptorStackContext(AbstractSyntaxTreeStack<ProtoDescriptor> stack)
         {
-            PrivateDescriptors = descriptors;
-            StartCount = descriptors.Count;
+            PrivateStack = stack;
+            StartCount = stack.Count;
         }
 
         /// <summary>
@@ -45,13 +46,13 @@ namespace Kingdom.Protobuf
         /// </summary>
         /// <typeparam name="TContext"></typeparam>
         /// <param name="context"></param>
-        /// <param name="descriptors"></param>
+        /// <param name="stack"></param>
         /// <param name="callbacks"></param>
         /// <returns></returns>
         public static DescriptorStackContext<TContext> CreateContext<TContext>(TContext context
-            , IList<Tuple<Type, object>> descriptors, params TryReduceDescriptorStackCallback[] callbacks)
+            , AbstractSyntaxTreeStack<ProtoDescriptor> stack, params TryReduceDescriptorStackCallback[] callbacks)
             where TContext : RuleContext
-            => new DescriptorStackContext<TContext>(context, descriptors, callbacks);
+            => new DescriptorStackContext<TContext>(context, stack, callbacks);
 
         /// <summary>
         /// Disposes the Object.
@@ -71,10 +72,10 @@ namespace Kingdom.Protobuf
                 );
             }
 
-            if (PrivateDescriptors.Count == StartCount)
+            if (PrivateStack.Count == StartCount)
             {
                 throw new InvalidOperationException(
-                    $"Did not Reduce an item from the Descriptors stack: Count = {PrivateDescriptors.Count}"
+                    $"Did not Reduce an item from the Descriptors stack: Count = {PrivateStack.Count}"
                 );
             }
         }
@@ -94,9 +95,9 @@ namespace Kingdom.Protobuf
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         private TContext Context { get; }
 
-        internal DescriptorStackContext(TContext context, IList<DescriptorTuple> descriptors
+        internal DescriptorStackContext(TContext context, AbstractSyntaxTreeStack<ProtoDescriptor> stack
             , params TryReduceDescriptorStackCallback[] tryCallbacks)
-            : base(descriptors)
+            : base(stack)
         {
             Context = context;
             TryCallbacks = tryCallbacks;

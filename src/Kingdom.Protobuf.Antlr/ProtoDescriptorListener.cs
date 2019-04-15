@@ -65,7 +65,7 @@ namespace Kingdom.Protobuf
             }
 
             // TODO: TBD: we may be able to leverage IHasName<string> here...
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumFieldDescriptor x, Identifier y) => HydrateIdentifier(x, y)
                     )
@@ -132,7 +132,7 @@ namespace Kingdom.Protobuf
             }
 
             // TODO: TBD: I expect this would be informed by more than just Package ...
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref PackageStatement x, IdentifierPath y) => x.PackagePath = y
                     )
@@ -163,7 +163,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitGroupedOptionNamePrefix(ProtoParser.GroupedOptionNamePrefixContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref OptionIdentifierPath x, OptionIdentifierPath y) =>
@@ -190,7 +190,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitSingleOptionNamePrefix(ProtoParser.SingleOptionNamePrefixContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref OptionIdentifierPath x, OptionIdentifierPath y) =>
@@ -219,7 +219,7 @@ namespace Kingdom.Protobuf
         public override void ExitOptionNamePrefix(ProtoParser.OptionNamePrefixContext context)
         {
             // Which should work whether this was Fully Qualified or a single Identifier.
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref OptionIdentifierPath x, OptionIdentifierPath y) => x = y)
@@ -239,7 +239,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitOptionNameSuffix(ProtoParser.OptionNameSuffixContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // The Suffix Start Index shall have already been set by virtue of the Prefix having been relayed.
                         (ref OptionIdentifierPath x, IdentifierPath y) =>
@@ -266,7 +266,7 @@ namespace Kingdom.Protobuf
         public override void ExitOptionName(ProtoParser.OptionNameContext context)
         {
             // Relay the instance itself on account there may be secondary properties indicated.
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumValueOption x, OptionIdentifierPath y) => x.Name = y
                     )
@@ -291,7 +291,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitBooleanFalse(ProtoParser.BooleanFalseContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref bool x, bool y) => x = y
@@ -311,7 +311,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitBooleanTrue(ProtoParser.BooleanTrueContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref bool x, bool y) => x = y
@@ -331,7 +331,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitBooleanLit(ProtoParser.BooleanLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IConstant x, bool y) => x = Constant.Create(y)
@@ -351,7 +351,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitHexLit(ProtoParser.HexLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref long x, string _) =>
@@ -375,7 +375,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitOctLit(ProtoParser.OctLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref long x, string _) =>
@@ -404,7 +404,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitDecLit(ProtoParser.DecLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref long x, string _) => x = context.GetText().ParseLong()
@@ -424,7 +424,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitIntLit(ProtoParser.IntLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute((ref Constant<long> x, long y) => x.Value = y)
                     // ReSharper disable once RedundantAssignment
                     , () => TryOnExitResolveSynthesizedAttribute((ref long x, long y) => x = y)
@@ -445,17 +445,17 @@ namespace Kingdom.Protobuf
         {
             string RenderRange(long min, long max) => CreateRange(min, max).ToRangeNotation();
 
-            ValidateCurrentDescriptorItem(context, (long x) => x.IsValidFieldNumber()
+            ValidateCurrentDescriptorItem((long x) => x.IsValidFieldNumber()
                 , x => $"Field number '{x}' invalid expected to"
                        + $" fall within range {RenderRange(MinimumFieldNumber, MaximumFieldNumber)}."
             );
 
-            ValidateCurrentDescriptorItem(context, (long x) => !x.IsReservedByGoogleProtocolBuffers()
+            ValidateCurrentDescriptorItem((long x) => !x.IsReservedByGoogleProtocolBuffers()
                 , x => "Field number must not be within the Google Reserved"
                        + $" range {RenderRange(MinimumReservedFieldNumber, MaximumReservedFieldNumber)}."
             );
 
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute((ref NormalFieldStatement x, long y) => x.Number = y)
                     , () => TryOnExitResolveSynthesizedAttribute((ref OneOfFieldStatement x, long y) => x.Number = y)
                     , () => TryOnExitResolveSynthesizedAttribute((ref MapFieldStatement x, long y) => x.Number = y)
@@ -475,7 +475,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitConstIntLit(ProtoParser.ConstIntLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IConstant x, Constant<long> y) =>
@@ -499,7 +499,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitInfinity(ProtoParser.InfinityContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref double x, double y) => x = y
@@ -519,7 +519,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitNan(ProtoParser.NanContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref double x, double y) => x = y
@@ -539,7 +539,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFloatingPointValue(ProtoParser.FloatingPointValueContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref double x, double y) => x = context.GetText().ParseDouble()
@@ -559,7 +559,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFloatLit(ProtoParser.FloatLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute((ref Constant<double> x, double y) => x.Value = y)
                 )
             )
@@ -578,7 +578,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitConstFloatLit(ProtoParser.ConstFloatLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IConstant x, Constant<double> y) =>
@@ -638,7 +638,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitStrLit(ProtoParser.StrLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref string x, string y) => x = context.GetText()
@@ -658,7 +658,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitQuotedStrLit(ProtoParser.QuotedStrLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IConstant x, string y) => x = Constant.Create(y)
@@ -680,7 +680,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFullIdentLit(ProtoParser.FullIdentLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IConstant x, Constant<IIdentifierPath> y) => x = y
@@ -701,7 +701,7 @@ namespace Kingdom.Protobuf
         public override void ExitConstant(ProtoParser.ConstantContext context)
         {
             // Should support any of the model Having a Constant.
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumValueOption x, IConstant y) => x.Value = y
                     )
@@ -727,7 +727,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEmptyDecl(ProtoParser.EmptyDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, EmptyStatement y) => x.Items.Add(y)
                     )
@@ -762,7 +762,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitOptionDecl(ProtoParser.OptionDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, OptionStatement y) => x.Items.Add(y)
                     )
@@ -784,8 +784,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void EnterPackageDecl(ProtoParser.PackageDeclContext context)
         {
-            ValidateFirstDescriptorItem(context
-                , (ProtoDescriptor x) => !x.Items.OfType<PackageStatement>().Any()
+            ValidateFirstDescriptorItem((ProtoDescriptor x) => !x.Items.OfType<PackageStatement>().Any()
                 , x => $"Cannot have more than one '{typeof(PackageStatement).FullName}'.");
 
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
@@ -795,7 +794,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitPackageDecl(ProtoParser.PackageDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, PackageStatement y) => x.Items.Add(y)
                     )
@@ -815,7 +814,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitImportModifier(ProtoParser.ImportModifierContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ImportStatement x, ImportModifierKind? _)
                             => x.Modifier = context.GetText().ToImportModifier()
@@ -836,7 +835,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitImportDecl(ProtoParser.ImportDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, ImportStatement y) => x.Items.Add(y)
                     )
@@ -855,7 +854,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref SyntaxStatement x, SyntaxKind y) => x.Syntax = y
                     )
@@ -875,7 +874,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitSyntaxDecl(ProtoParser.SyntaxDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, SyntaxStatement y) => x.Syntax = y
                     )
@@ -895,7 +894,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumValueOption(ProtoParser.EnumValueOptionContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumValueOptionList x, EnumValueOption y) => x.Add(y)
                     )
@@ -915,7 +914,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumValueOptions(ProtoParser.EnumValueOptionsContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumFieldDescriptor x, EnumValueOptionList y) => x.Options = y
                     )
@@ -934,7 +933,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumFieldOrdinal(ProtoParser.EnumFieldOrdinalContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute((ref EnumFieldDescriptor x, long y) => x.Ordinal = y)
                 )
             )
@@ -952,7 +951,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumFieldDecl(ProtoParser.EnumFieldDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumBody x, EnumFieldDescriptor y) => x.Add(y)
                     )
@@ -972,7 +971,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumBody(ProtoParser.EnumBodyContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref EnumStatement x, EnumBody y) => x.Items = y
                     )
@@ -992,7 +991,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitEnumDecl(ProtoParser.EnumDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref ITopLevelDefinition x, EnumStatement y) => x = y
@@ -1019,7 +1018,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFieldOption(ProtoParser.FieldOptionContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref FieldOptionList x, FieldOption y) => x.Add(y)
                     )
@@ -1040,7 +1039,7 @@ namespace Kingdom.Protobuf
         public override void ExitFieldOptions(ProtoParser.FieldOptionsContext context)
         {
             // Should handle any case involving Having Field Option Options.
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref NormalFieldStatement x, FieldOptionList y) => x.Options = y
                     )
@@ -1068,7 +1067,7 @@ namespace Kingdom.Protobuf
         {
             LabelKind GetParsedLabel() => context.GetText().ParseLabelKind();
 
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref NormalFieldStatement x, LabelKind _) => x.Label = GetParsedLabel()
                     )
@@ -1091,7 +1090,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitKeyType(ProtoParser.KeyTypeContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref MapFieldStatement x, KeyType _) => x.KeyType = context.GetText().ParseKeyType()
                     )
@@ -1110,7 +1109,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitProtoType(ProtoParser.ProtoTypeContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref IVariant x, Variant<ProtoType> y) =>
@@ -1134,7 +1133,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitType(ProtoParser.TypeContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref NormalFieldStatement x, IVariant y) => x.FieldType = y
                     )
@@ -1160,7 +1159,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFieldDecl(ProtoParser.FieldDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ExtendStatement x, NormalFieldStatement y) => x.Items.Add(y)
                     )
@@ -1193,13 +1192,11 @@ namespace Kingdom.Protobuf
         {
             var s = context.GetText();
 
-            ValidateCurrentDescriptorItem(context
-                // ReSharper disable once ImplicitlyCapturedClosure
-                , (string _) => s.Any() && AyeZedRange.Contains(s.First())
+            ValidateCurrentDescriptorItem((string _) => s.Any() && AyeZedRange.Contains(s.First())
                 // ReSharper disable once ImplicitlyCapturedClosure
                 , _ => $"Group Name '{s}' must begin with a Capital Letter.");
 
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref GroupFieldStatement x, string _) => x.Name = s
                     )
@@ -1220,7 +1217,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitGroupDecl(ProtoParser.GroupDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ExtendStatement x, GroupFieldStatement y) => x.Items.Add(y)
                     )
@@ -1245,7 +1242,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitElementTypeGlobalScope(ProtoParser.ElementTypeGlobalScopeContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ElementTypeIdentifierPath x, bool y) => x.IsGlobalScope = y
                     )
@@ -1265,7 +1262,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitElementType(ProtoParser.ElementTypeContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     /* Variant here most commonly used for Type, but we will give the benefit of the doubt here,
                      * especially if we decide to merge Constant and Variant concerns under one umbrella. */
                     , () => TryOnExitResolveSynthesizedAttribute(
@@ -1291,7 +1288,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitExtendDecl(ProtoParser.ExtendDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref ITopLevelDefinition x, ExtendStatement y) => x = y
@@ -1317,7 +1314,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangeMinimumLit(ProtoParser.RangeMinimumLitContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref RangeDescriptor x, long y) => x.Minimum = y
                     )
@@ -1343,7 +1340,7 @@ namespace Kingdom.Protobuf
             // TODO: TBD: which whose test cases should break for invalid ranges...
             // TODO: TBD: and for which will need to do a bit of shuffling for valid/invalid range test cases...
             // TODO: TBD: similar sort of validation should happen for any field number? or maybe we just route that validation through a single rule..
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref long? x, long y) => x = y
@@ -1363,7 +1360,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangeMaximumMax(ProtoParser.RangeMaximumMaxContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref long? x, long y) => x = y
@@ -1385,7 +1382,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangeMaximum(ProtoParser.RangeMaximumContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref RangeDescriptor x, long? y) => x.Maximum = y
                     )
@@ -1405,7 +1402,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangeDecl(ProtoParser.RangeDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref RangeList x, RangeDescriptor y) => x.Add(y)
                     )
@@ -1425,7 +1422,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangesDecl(ProtoParser.RangesDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ExtensionsStatement x, RangeList y) => x.Items = y
                     )
@@ -1448,7 +1445,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitExtensionsDecl(ProtoParser.ExtensionsDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref GroupFieldStatement x, ExtensionsStatement y) => x.Items.Add(y)
                     )
@@ -1471,7 +1468,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFieldName(ProtoParser.FieldNameContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref FieldNameList x, Identifier y) => x.Add(y)
                     )
@@ -1491,7 +1488,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFieldNames(ProtoParser.FieldNamesContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref FieldNamesReservedStatement statement, FieldNameList x) => statement.Items = x
                     )
@@ -1511,7 +1508,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFieldNamesReservedDecl(ProtoParser.FieldNamesReservedDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref ReservedStatement x, FieldNamesReservedStatement y) => x = y
@@ -1532,7 +1529,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitRangesReservedDecl(ProtoParser.RangesReservedDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref ReservedStatement x, RangesReservedStatement y) => x = y
@@ -1552,7 +1549,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitReservedDecl(ProtoParser.ReservedDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref GroupFieldStatement x, ReservedStatement y) => x.Items.Add(y)
                     )
@@ -1575,7 +1572,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitOneOfField(ProtoParser.OneOfFieldContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref OneOfStatement x, OneOfFieldStatement y) => x.Items.Add(y)
                     )
@@ -1595,7 +1592,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitOneOfDecl(ProtoParser.OneOfDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref MessageStatement x, OneOfStatement y) => x.Items.Add(y)
                     )
@@ -1618,7 +1615,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitMapFieldDecl(ProtoParser.MapFieldDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref GroupFieldStatement x, MapFieldStatement y) => x.Items.Add(y)
                     )
@@ -1641,7 +1638,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitMessageDecl(ProtoParser.MessageDeclContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
                         (ref ITopLevelDefinition x, MessageStatement y) => x = y
@@ -1668,7 +1665,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitTopLevelDef(ProtoParser.TopLevelDefContext context)
         {
-            using (CreateContext(context, Descriptors
+            using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         (ref ProtoDescriptor x, ITopLevelDefinition y) => x.Items.Add(y)
                     )
@@ -1688,16 +1685,8 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitProto(ProtoParser.ProtoContext context)
         {
-            // There ought to be nothing left to Reduce here.
-            var expectedType = typeof(ProtoDescriptor);
-            var (firstType, firstInstance) = Descriptors.First();
-            if (firstType != expectedType)
-            {
-                throw new InvalidOperationException($"The first item was not of type '{expectedType.FullName}'.");
-            }
-
-            ActualProto = firstInstance as ProtoDescriptor;
-            Descriptors.Clear();
+            ActualProto = Stack.RootInstance;
+            Stack.Clear();
         }
     }
 }

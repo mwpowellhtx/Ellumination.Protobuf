@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using Kingdom.Protobuf.Collections;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;
-    using DescriptorTuple = Tuple<Type, object>;
 
     /// <inheritdoc cref="BaseErrorListener"/>
     public abstract class ProtoDescriptorListenerBase : BaseErrorListener, IProtoListener
     {
+        /// <summary>
+        /// Gets the AST Stack.
+        /// </summary>
+        protected AbstractSyntaxTreeStack<ProtoDescriptor> Stack { get; }
+            = new AbstractSyntaxTreeStack<ProtoDescriptor>();
+
         /// <summary>
         /// Gets the Actual <see cref="ProtoDescriptor"/> instance.
         /// </summary>
@@ -25,12 +29,6 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         protected static T GetDefault<T>() => default(T);
 
-        // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
-        /// <summary>
-        /// Gets the Descriptors.
-        /// </summary>
-        protected internal IList<DescriptorTuple> Descriptors { get; } = new List<DescriptorTuple> { };
-
         /// <summary>
         /// Callback provided in order to Synthesize the <typeparamref name="TCurrent"/> value.
         /// </summary>
@@ -40,8 +38,6 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         protected delegate TCurrent SynthesizeCallback<in TContext, out TCurrent>(TContext context)
             where TContext : RuleContext;
-
-        private static DescriptorTuple CreateDescriptor(Type type, object value) => new DescriptorTuple(type, value);
 
         /// <summary>
         /// Callers must specify the Synthesized Type as strongly as possible.
@@ -54,18 +50,7 @@ namespace Kingdom.Protobuf
         protected void OnEnterSynthesizeAttribute<TContext, TCurrent>(TContext context,
             SynthesizeCallback<TContext, TCurrent> synthesize)
             where TContext : RuleContext
-            => Descriptors.Add(CreateDescriptor(typeof(TCurrent), synthesize(context)));
-
-        /// <summary>
-        /// Callback provided in order to Collapse the <see cref="Descriptors"/> to the Previous
-        /// state.
-        /// </summary>
-        /// <typeparam name="TPrevious"></typeparam>
-        /// <typeparam name="TCurrent"></typeparam>
-        /// <param name="previous"></param>
-        /// <param name="current"></param>
-        protected delegate void CollapseToPreviousCallback<TPrevious, in TCurrent>(ref TPrevious previous
-            , TCurrent current);
+            => Stack.PushBack(synthesize(context));
 
         /// <summary>
         /// The tricky part about unwinding the Stack properly is that the Caller must know the
@@ -80,153 +65,43 @@ namespace Kingdom.Protobuf
         /// </summary>
         /// <typeparam name="TPrevious"></typeparam>
         /// <typeparam name="TCurrent"></typeparam>
-        /// <param name="callback"></param>
+        /// <param name="reduction"></param>
         protected bool TryOnExitResolveSynthesizedAttribute<TPrevious, TCurrent>(
-            CollapseToPreviousCallback<TPrevious, TCurrent> callback)
-        {
-            // Short circuit when we fail to match the types.
-            var d = Descriptors;
-
-            var count = d.Count;
-
-            // The Match needs to be a little stronger, including the actual originating Type.
-            bool DoesMatch<T>(Func<IEnumerable<DescriptorTuple>, DescriptorTuple> getter)
-            {
-                var tuple = getter(Descriptors);
-
-                // We identify the Tuple first because we may already have visited the Descriptors.
-                if (tuple == null)
-                {
-                    return false;
-                }
-
-                // We do not care about the Value at this level.
-                var (candidateType, _) = tuple;
-                // The match must be Strong. We cannot fall back on the loose definition.
-                return candidateType == typeof(T) /*|| value is T || value == null*/;
-            }
-
-            // ReSharper disable once InvertIf
-            if (DoesMatch<TPrevious>(x => x.NextToLast())
-                && DoesMatch<TCurrent>(x => x.Last()))
-            {
-                var (previousType, previous) = d.NextToLast();
-                var current = d.Last();
-
-                var previousInstance = (TPrevious) previous;
-                var currentInstance = (TCurrent) current.Item2;
-
-                callback(ref previousInstance, currentInstance);
-
-                d.TryRemoveAt(d.Count - 1);
-
-                /* Whatever work was done to Previous, needs to be replace. This is especially
-                 * true when working with integral types. Remember to reintroduce the Previous
-                 * including the now-collapsed Instance. */
-
-                d[d.Count - 1] = CreateDescriptor(previousType, previousInstance);
-            }
-
-            // TODO: TBD: may want a more specific Count verification here...
-            // TODO: TBD: even throw an exception if Count is dramatically different, not less/greater as potentially expected, etc
-            return d.Count != count;
-        }
-
-        /// <summary>
-        /// Callback returns whether <paramref name="value"/> Validation is correct.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected delegate bool DescriptorItemValidationCallback<in T>(T value);
-
-        /// <summary>
-        /// Renders the <typeparamref name="T"/> <paramref name="value"/>
-        /// as a <see cref="string"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected delegate string RenderDescriptorItemCallback<in T>(T value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="ex"></param>
-        /// <param name="ctx"></param>
-        protected delegate void VisitExceptionRuleContextCallback<in TException, in TContext>(TException ex, TContext ctx)
-            where TException : Exception
-            where TContext : RuleContext;
-
-        private void ValidateDescriptorItem<TValue, TContext>(TContext context
-            , Func<IEnumerable<DescriptorTuple>, DescriptorTuple> filter
-            , DescriptorItemValidationCallback<TValue> validate, RenderDescriptorItemCallback<TValue> render = null
-            , VisitExceptionRuleContextCallback<InvalidOperationException, TContext> visit = null)
-        where TContext : RuleContext
-        {
-            if (!Descriptors.Any())
-            {
-                throw new InvalidOperationException("There are no Descriptors in the stack.");
-            }
-
-            var requestedType = typeof(TValue);
-            var (actualType, objValue) = filter(Descriptors);
-
-            if (actualType != requestedType)
-            {
-                throw new InvalidOperationException($"'{actualType.FullName}' other than expected '{requestedType.FullName}'.");
-            }
-
-            var actualValue = (TValue) objValue;
-
-            if (validate(actualValue))
-            {
-                return;
-            }
-
-            var message =
-                (render ?? (x => $"Unexpected or invalid '{requestedType}' value '{x}'.")).Invoke(actualValue);
-
-            var ex = new InvalidOperationException(message);
-
-            visit?.Invoke(ex, context);
-
-            throw ex;
-        }
+            ReduceStackToPreviousCallback<TPrevious, TCurrent> reduction)
+            => Stack.TryReduce(reduction);
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="TValue"></typeparam>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
         /// <param name="validate"></param>
         /// <param name="render"></param>
         /// <param name="visit"></param>
-        protected void ValidateFirstDescriptorItem<TValue, TContext>(TContext context
-            , DescriptorItemValidationCallback<TValue> validate
-            , RenderDescriptorItemCallback<TValue> render = null
-            , VisitExceptionRuleContextCallback<InvalidOperationException, TContext> visit = null)
-            where TContext : RuleContext
-            => ValidateDescriptorItem(context, x => x.First(), validate, render, visit);
+        protected void ValidateFirstDescriptorItem<TValue>(Func<TValue, bool> validate
+            , Func<TValue, string> render = null, Action<InvalidOperationException> visit = null)
+            => Stack.ValidateFirst(validate, render, visit);
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="TValue"></typeparam>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
         /// <param name="validate"></param>
         /// <param name="render"></param>
         /// <param name="visit"></param>
-        protected void ValidateCurrentDescriptorItem<TValue, TContext>(TContext context
-            , DescriptorItemValidationCallback<TValue> validate
-            , RenderDescriptorItemCallback<TValue> render = null
-            , VisitExceptionRuleContextCallback<InvalidOperationException, TContext> visit = null)
-            where TContext : RuleContext
-            => ValidateDescriptorItem(context, x => x.Last(), validate, render, visit);
+        protected void ValidateLastDescriptorItem<TValue>(Func<TValue, bool> validate
+            , Func<TValue, string> render = null, Action<InvalidOperationException> visit = null)
+            => Stack.ValidateLast(validate, render, visit);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="validate"></param>
+        /// <param name="render"></param>
+        /// <param name="visit"></param>
+        protected void ValidateCurrentDescriptorItem<TValue>(Func<TValue, bool> validate
+            , Func<TValue, string> render = null, Action<InvalidOperationException> visit = null)
+            => Stack.ValidateLast(validate, render, visit);
 
         /// <inheritdoc />
         public void VisitTerminal(ITerminalNode node)
