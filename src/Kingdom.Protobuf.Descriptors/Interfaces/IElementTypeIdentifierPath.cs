@@ -4,9 +4,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IIdentifierPath"/>
-    public interface IElementTypeIdentifierPath
-        : IIdentifierPath
-            , IEquatable<ElementTypeIdentifierPath>
+    public interface IElementTypeIdentifierPath : IIdentifierPath, IEquatable<ElementTypeIdentifierPath>
     {
         /// <summary>
         /// Gets or Sets whether IsGlobalScope.

@@ -2,9 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IMessageBodyParent"/>
-    public interface IMessageStatement
-        : IMessageBodyParent
-            , IHasName<Identifier>
+    public interface IMessageStatement : IMessageBodyParent, IHasName<Identifier>
     {
     }
 }

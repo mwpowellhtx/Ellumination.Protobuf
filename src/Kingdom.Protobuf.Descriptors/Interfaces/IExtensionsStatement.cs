@@ -2,10 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IParentItem"/>
-    public interface IExtensionsStatement
-        : ICanRenderString
-            , IHasBody<RangeDescriptor>
-            , IParentItem
+    public interface IExtensionsStatement : IDescriptor, IHasBody<RangeDescriptor>, IParentItem
     {
     }
 }

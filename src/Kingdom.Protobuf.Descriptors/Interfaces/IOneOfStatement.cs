@@ -3,7 +3,7 @@ namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IParentItem"/>
     public interface IOneOfStatement
-        : ICanRenderString
+        : IDescriptor
             , IParentItem
             , IHasName<Identifier>
             , IHasBody<IOneOfBodyItem>

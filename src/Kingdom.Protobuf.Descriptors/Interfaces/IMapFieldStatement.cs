@@ -2,9 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IFieldStatement"/>
-    public interface IMapFieldStatement
-        : IFieldStatement
-            , IHasOptions<FieldOption>
+    public interface IMapFieldStatement : IFieldStatement, IHasOptions<FieldOption>
     {
         /// <summary>
         /// Gets or Sets the Key Type.

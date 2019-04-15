@@ -7,10 +7,7 @@ namespace Kingdom.Protobuf
     /// <inheritdoc cref="IHasName{T}" />
     /// <see cref="OptionStatement"/>
     /// <see cref="EnumValueOption"/>
-    public interface IOption
-        : IHasName<OptionIdentifierPath>
-            , IHasConstant
-            , ICanRenderString
+    public interface IOption : IDescriptor, IHasName<OptionIdentifierPath>, IHasConstant
     {
     }
 }

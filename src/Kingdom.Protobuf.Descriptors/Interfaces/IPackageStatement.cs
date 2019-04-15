@@ -2,7 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="ICanRenderString"/>
-    public interface IPackageStatement : ICanRenderString
+    public interface IPackageStatement : IDescriptor
     {
         /// <summary>
         /// Gets or Sets the PackagePath.

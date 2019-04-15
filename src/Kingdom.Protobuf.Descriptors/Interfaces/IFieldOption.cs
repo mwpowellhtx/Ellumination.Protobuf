@@ -3,10 +3,7 @@ namespace Kingdom.Protobuf
 {
     //// ReSharper disable once PossibleInterfaceMemberAmbiguity
     /// <inheritdoc cref="IOption"/>
-    public interface IFieldOption
-        : IOption
-            //, IHasParent<INormalFieldStatement>
-            //, IHasParent<IMapFieldStatementParent>
+    public interface IFieldOption : IOption
     {
     }
 }

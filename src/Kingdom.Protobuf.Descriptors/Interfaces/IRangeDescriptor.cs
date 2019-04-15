@@ -6,12 +6,12 @@ namespace Kingdom.Protobuf
     // ReSharper disable once PossibleInterfaceMemberAmbiguity
     /// <inheritdoc cref="IReservedBodyItem" />
     public interface IRangeDescriptor
-        : IReservedBodyItem
-            , ICanRenderString
+        : IDescriptor
             , IHasParent<IExtensionsStatement>
             , IHasParent<IReservedStatement>
             , IEquatable<IRangeDescriptor>
             , IEquatable<long>
+            , IReservedBodyItem
     {
         /// <summary>
         /// Gets or sets the Minimum. This value is always required. Acts like an

@@ -5,9 +5,7 @@ namespace Kingdom.Protobuf
     /// 
     /// </summary>
     /// <inheritdoc cref="ICanRenderString" />
-    public interface IFieldStatement
-        : ICanRenderString
-            , IParentItem
+    public interface IFieldStatement : IDescriptor, IParentItem
     {
     }
 }

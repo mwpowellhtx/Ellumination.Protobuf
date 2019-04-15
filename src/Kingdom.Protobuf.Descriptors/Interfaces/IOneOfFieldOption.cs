@@ -3,9 +3,7 @@ namespace Kingdom.Protobuf
 {
     // ReSharper disable once PossibleInterfaceMemberAmbiguity
     /// <inheritdoc cref="IFieldOption"/>
-    public interface IOneOfFieldOption
-        : IFieldOption
-            , IHasParent<IOneOfFieldStatement>
+    public interface IOneOfFieldOption : IFieldOption, IHasParent<IOneOfFieldStatement>
     {
     }
 }

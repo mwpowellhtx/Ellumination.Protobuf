@@ -2,10 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IFieldStatement"/>
-    public interface INormalFieldStatement
-        : IFieldStatement
-            , IHasLabel
-            , IHasOptions<FieldOption>
+    public interface INormalFieldStatement : IFieldStatement, IHasLabel, IHasOptions<FieldOption>
     {
         /// <summary>
         /// Gets or Sets the Field Type.

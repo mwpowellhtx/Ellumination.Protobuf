@@ -2,9 +2,7 @@
 namespace Kingdom.Protobuf
 {
     /// <inheritdoc cref="IParentItem"/>
-    public interface IProto
-        : IParentItem
-            , IHasBody<IProtoBodyItem>
+    public interface IProto : IParentItem, IHasBody<IProtoBodyItem>
     {
     }
 }

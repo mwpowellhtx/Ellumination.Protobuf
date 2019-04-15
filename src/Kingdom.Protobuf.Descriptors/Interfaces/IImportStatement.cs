@@ -2,8 +2,8 @@
 namespace Kingdom.Protobuf
 {
     // ReSharper disable once PossibleInterfaceMemberAmbiguity
-    /// <inheritdoc cref="IFieldOption"/>
-    public interface IMapFieldOption : IFieldOption, IHasParent<IMapFieldStatement>
+    /// <inheritdoc cref="IDescriptor"/>
+    public interface IImportStatement : IDescriptor, IProtoBodyItem
     {
     }
 }

@@ -1,12 +1,9 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <inheritdoc />
-    public interface ISyntaxStatement
-        : IHasParent<ProtoDescriptor>
+    // ReSharper disable once PossibleInterfaceMemberAmbiguity
+    /// <inheritdoc cref="IDescriptor"/>
+    public interface ISyntaxStatement : IDescriptor, IHasParent<ProtoDescriptor>
     {
     }
 }
