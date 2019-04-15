@@ -8,9 +8,7 @@ namespace Kingdom.Protobuf
     /// 
     /// </summary>
     /// <inheritdoc cref="DescriptorBase" />
-    public class ImportStatement
-        : DescriptorBase
-            , IProtoBodyItem
+    public class ImportStatement : DescriptorBase, IImportStatement
     {
         IProto IHasParent<IProto>.Parent
         {

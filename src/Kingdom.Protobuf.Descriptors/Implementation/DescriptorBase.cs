@@ -12,6 +12,13 @@ namespace Kingdom.Protobuf
         /// </summary>
         public IParentItem Parent { get; set; }
 
+
+        IParentItem IHasParent<IParentItem>.Parent
+        {
+            get => Parent;
+            set => Parent = value;
+        }
+
         // ReSharper disable once InconsistentNaming
         /// <summary>
         /// Returns the Range corresponding to <paramref name="values"/>.

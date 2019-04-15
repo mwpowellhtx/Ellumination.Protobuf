@@ -6,9 +6,7 @@ namespace Kingdom.Protobuf
     using static String;
 
     /// <inheritdoc cref="DescriptorBase"/>
-    public class Identifier
-        : DescriptorBase<string>
-            , IIdentifier
+    public class Identifier : DescriptorBase<string>, IIdentifier
     {
         IReservedStatement IHasParent<IReservedStatement>.Parent
         {

@@ -10,7 +10,11 @@ namespace Kingdom.Protobuf
     public class SyntaxStatement : DescriptorBase, ISyntaxStatement
     {
         /// <inheritdoc />
-        public ProtoDescriptor Parent { get; set; }
+        ProtoDescriptor IHasParent<ProtoDescriptor>.Parent
+        {
+            get => Parent as ProtoDescriptor;
+            set => Parent = value;
+        }
 
         /// <summary>
         /// Gets or Sets the Syntax.

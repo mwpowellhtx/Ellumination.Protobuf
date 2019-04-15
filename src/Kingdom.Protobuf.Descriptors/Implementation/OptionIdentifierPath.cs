@@ -8,30 +8,18 @@ namespace Kingdom.Protobuf
     using static String;
 
     /// <inheritdoc cref="IdentifierPath"/>
-    public class OptionIdentifierPath
-        : IdentifierPath
-            , IEquatable<OptionIdentifierPath>
+    public class OptionIdentifierPath : IdentifierPath, IOptionIdentifierPath
     {
         private bool? _prefixGrouped;
 
-        /// <summary>
-        /// Gets or Sets whether IsPrefixGrouped. The Prefix may be Grouped, that is, Enclosed in
-        /// Parentheses. The state of <see cref="SuffixStartIndex"/> can override the default
-        /// condition of <see cref="IsPrefixGrouped"/>.
-        /// </summary>
+        /// <inheritdoc />
         public bool IsPrefixGrouped
         {
             get => (_prefixGrouped ?? false) || SuffixStartIndex > 1;
             set => _prefixGrouped = value;
         }
 
-        /// <summary>
-        /// Gets or Sets the SuffixStartIndex. Not all Paths of a Suffix, except
-        /// in the case of Option Name. This Rule may optionally have a Suffix starting
-        /// at the specified Index.
-        /// </summary>
-        /// <remarks>This property is useful when representing the Option Name Identifier Path,
-        /// which has a clear starting index at which point an optional Suffix begins.</remarks>
+        /// <inheritdoc />
         public int? SuffixStartIndex { get; set; }
 
         /// <inheritdoc />
