@@ -56,7 +56,10 @@ CLOSE_CURLY_BRACE: '}';
 CLOSE_PAREN: ')';
 CLOSE_SQUARE_BRACKET: ']';
 COMMA: ',';
-DEFAULT: 'default';
+//// TODO: TBD: not sure why I defined this. I do not use it for any reason.
+//// TODO: TBD: maybe I had it in there thinking there were "special rules" for 'default' field options.
+//// TODO: TBD: there may be, in name only, but none that justify, I think, a parser, never mind a lexer, rule.
+//DEFAULT: 'default';
 DOT: PERIOD;
 ENUM: 'enum';
 EOS: ';';
@@ -131,8 +134,20 @@ groupName = capitalLetter { letter | decimalDigit | "_" }
 */
 IDENT: LET ( LET | DIG | UNDERSCORE )*;
 
-//// TODO: TBD: would a lexer rule work?
-//STR_LIT: ( '\\"' | ~( '\n' | '\r' ) )*;
+/*
+strLit = ( "'" { charValue } "'" ) | ( '"' { charValue } '"' )
+charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
+hexEscape = '\' ( "x" | "X" ) hexDigit hexDigit
+octEscape = '\' octalDigit octalDigit octalDigit
+charEscape = '\' ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | '\' | "'" | '"' )
+quote = "'" | '"'
+*/
+// TODO: TBD: it is a lot more involved than this, but let's see if we can get this to work...
+// TODO: TBD: have a look here for possible approach concerning escape strings, etc:
+// TODO: TBD: https://github.com/antlr/antlr4/blob/master/doc/faq/lexical.md
+// TODO: TBD: warning AC0146: non-fragment lexer rule 'STR_LIT' can match the empty string
+// TODO: TBD: yes, this is true, but I think this is appropriate. depending on the "listener" context, of course.
+STR_LIT: ( '\\"' | ~'"' )*;
 
 // Required in order to not silently drop unexpected characters.
 ERROR_CHAR: .;
@@ -147,15 +162,6 @@ groupName: IDENT;
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
-*/
-
-/*
-strLit = ( "'" { charValue } "'" ) | ( '"' { charValue } '"' )
-charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
-hexEscape = '\' ( "x" | "X" ) hexDigit hexDigit
-octEscape = '\' octalDigit octalDigit octalDigit
-charEscape = '\' ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | '\' | "'" | '"' )
-quote = "'" | '"'
 */
 
 // Parser Rules
@@ -179,8 +185,8 @@ groupName = capitalLetter { letter | decimalDigit | "_" }
 */
 
 // See Lexer Rule comments.
-ident: IDENT;
 // FullIdent needs a first class AST in order to tell the difference between that and a string literal.
+ident: IDENT;
 fullIdent: ident ( DOT ident )*;
 
 // optionName = ( ident | "(" fullIdent ")" ) { "." ident }
@@ -204,26 +210,16 @@ elementType: elementTypeGlobalScope? ( ident DOT )* ident;
 protoType: DOUBLE | FLOAT | INT32 | INT64 | UINT32 | UINT64 | SINT32 | SINT64 | FIXED32 | FIXED64 | SFIXED32 | SFIXED64 | BOOL | STRING | BYTES;
 
 // Should resolve to a Variant type.
-type: elementType | protoType;
+type: protoType | elementType;
 
-keyType : INT32 | INT64 | UINT32 | UINT64 | SINT32 | SINT64 | FIXED32 | FIXED64 | SFIXED32 | SFIXED64 | BOOL | STRING;
+keyType: INT32 | INT64 | UINT32 | UINT64 | SINT32 | SINT64 | FIXED32 | FIXED64 | SFIXED32 | SFIXED64 | BOOL | STRING;
 
 // boolLit = "true" | "false" 
 booleanFalse: BOOLEAN_FALSE;
 booleanTrue: BOOLEAN_TRUE;
 booleanLit: booleanFalse | booleanTrue;
 
-/*
-strLit = ( "'" { charValue } "'" ) | ( '"' { charValue } '"' )
-charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
-hexEscape = '\' ( "x" | "X" ) hexDigit hexDigit
-octEscape = '\' octalDigit octalDigit octalDigit
-charEscape = '\' ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | '\' | "'" | '"' )
-quote = "'" | '"'
-*/
-strLit: ( '\\"' | ~( '\n' | '\r' ) )*;
-//// TODO: TBD: this was working, I think, prior to last week's .NET updates...
-//strLit: ( ~[\n\r] | '\\"' );
+strLit: STR_LIT;
 
 // TODO: TBD: need to elaborate this one significantly...
 quotedStrLit: '"' strLit '"';
@@ -278,15 +274,17 @@ fullIdentLit: fullIdent;
 constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) |
                 strLit | boolLit 
 */
-constant : booleanLit | quotedStrLit | constFloatLit | constIntLit | fullIdentLit;
+constant: booleanLit | fullIdentLit | constFloatLit | constIntLit | quotedStrLit;
+/*
+Similar with Boost.Spirit.Qi, order is important here. Rule in the Alternatives
+that can be easily ruled in, before reacing the more complex ones, like String
+Literals.
+*/
 
 // emptyStatement = ";"
 emptyDecl: EOS;
 
-syntaxValue
-  : ( '\'' PROTO2 '\''
-        | '"' PROTO2 '"' )
-;
+syntaxValue: ( '\'' PROTO2 '\'' | '"' PROTO2 '"' );
 
 syntaxDecl: SYNTAX EQU syntaxValue EOS;
 
@@ -356,7 +354,7 @@ reserved = "reserved" ( ranges | fieldNames ) ";"
 fieldNames = fieldName { "," fieldName }
 */
 // We have to separate these two because we must know the kind of Reserved that it is.
-reservedDecl : ( fieldNamesReservedDecl | rangesReservedDecl );
+reservedDecl: ( fieldNamesReservedDecl | rangesReservedDecl );
 rangesReservedDecl: RESERVED rangesDecl EOS;
 fieldNamesReservedDecl: RESERVED fieldNames EOS;
 // Turns out this needs to be a First Class Parser Rule after all.
