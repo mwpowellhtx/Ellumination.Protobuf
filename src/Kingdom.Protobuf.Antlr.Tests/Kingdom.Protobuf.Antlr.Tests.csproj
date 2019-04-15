@@ -7,10 +7,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.0.0.13775</Version>
-    <AssemblyVersion>1.0.0.13775</AssemblyVersion>
-    <FileVersion>1.0.0.13775</FileVersion>
-    <PackageVersion>1.0.0.13775</PackageVersion>
+    <Version>1.0.1.25761</Version>
+    <AssemblyVersion>1.0.1.25761</AssemblyVersion>
+    <FileVersion>1.0.1.25761</FileVersion>
+    <PackageVersion>1.0.1.25761</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,5 +37,18 @@
     <ProjectReference Include="..\Kingdom.Protobuf.Descriptors\Kingdom.Protobuf.Descriptors.csproj" />
     <ProjectReference Include="..\Kingdom.Protobuf.Antlr\Kingdom.Protobuf.Antlr.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\tools\Google\or-tools\sat\#sat_parameters.proto" Link="Resources\#sat_parameters.proto" />
+    <None Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(ProjectDir)extract_google_ortools_proto.bat&quot;" />
+  </Target>
 
 </Project>
