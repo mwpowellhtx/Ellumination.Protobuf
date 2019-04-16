@@ -354,22 +354,22 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public virtual void EnterConstIntLit(ProtoParser.ConstIntLitContext context)
+        public virtual void EnterSignedIntLit(ProtoParser.SignedIntLitContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void ExitConstIntLit(ProtoParser.ConstIntLitContext context)
+        public virtual void ExitSignedIntLit(ProtoParser.SignedIntLitContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void EnterInfinity(ProtoParser.InfinityContext context)
+        public virtual void EnterInf(ProtoParser.InfContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void ExitInfinity(ProtoParser.InfinityContext context)
+        public virtual void ExitInf(ProtoParser.InfContext context)
         {
         }
 
@@ -384,12 +384,12 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public virtual void EnterFloatingPointValue(ProtoParser.FloatingPointValueContext context)
+        public virtual void EnterNumericFloatLit(ProtoParser.NumericFloatLitContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void ExitFloatingPointValue(ProtoParser.FloatingPointValueContext context)
+        public virtual void ExitNumericFloatLit(ProtoParser.NumericFloatLitContext context)
         {
         }
 
@@ -404,12 +404,12 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public virtual void EnterConstFloatLit(ProtoParser.ConstFloatLitContext context)
+        public virtual void EnterSignedFloatLit(ProtoParser.SignedFloatLitContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void ExitConstFloatLit(ProtoParser.ConstFloatLitContext context)
+        public virtual void ExitSignedFloatLit(ProtoParser.SignedFloatLitContext context)
         {
         }
 
@@ -420,16 +420,6 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         public virtual void ExitStrLit(ProtoParser.StrLitContext context)
-        {
-        }
-
-        /// <inheritdoc />
-        public virtual void EnterQuotedStrLit(ProtoParser.QuotedStrLitContext context)
-        {
-        }
-
-        /// <inheritdoc />
-        public virtual void ExitQuotedStrLit(ProtoParser.QuotedStrLitContext context)
         {
         }
 
@@ -463,15 +453,15 @@ namespace Kingdom.Protobuf
         {
         }
 
-        /// <inheritdoc />
-        public virtual void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
-        {
-        }
+        ///// <inheritdoc />
+        //public virtual void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
+        //{
+        //}
 
-        /// <inheritdoc />
-        public virtual void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
-        {
-        }
+        ///// <inheritdoc />
+        //public virtual void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
+        //{
+        //}
 
         /// <inheritdoc />
         public virtual void EnterSyntaxDecl(ProtoParser.SyntaxDeclContext context)
@@ -804,12 +794,12 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public virtual void EnterProto(ProtoParser.ProtoContext context)
+        public virtual void EnterProtoDecl(ProtoParser.ProtoDeclContext context)
         {
         }
 
         /// <inheritdoc />
-        public virtual void ExitProto(ProtoParser.ProtoContext context)
+        public virtual void ExitProtoDecl(ProtoParser.ProtoDeclContext context)
         {
         }
 

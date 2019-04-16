@@ -467,13 +467,13 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void EnterConstIntLit(ProtoParser.ConstIntLitContext context)
+        public override void EnterSignedIntLit(ProtoParser.SignedIntLitContext context)
         {
             OnEnterSynthesizeAttribute(context, ctx => Constant.Create<long>());
         }
 
         /// <inheritdoc />
-        public override void ExitConstIntLit(ProtoParser.ConstIntLitContext context)
+        public override void ExitSignedIntLit(ProtoParser.SignedIntLitContext context)
         {
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
@@ -491,13 +491,13 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void EnterInfinity(ProtoParser.InfinityContext context)
+        public override void EnterInf(ProtoParser.InfContext context)
         {
             OnEnterSynthesizeAttribute(context, ctx => Infinity);
         }
 
         /// <inheritdoc />
-        public override void ExitInfinity(ProtoParser.InfinityContext context)
+        public override void ExitInf(ProtoParser.InfContext context)
         {
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
@@ -531,13 +531,13 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void EnterFloatingPointValue(ProtoParser.FloatingPointValueContext context)
+        public override void EnterNumericFloatLit(ProtoParser.NumericFloatLitContext context)
         {
             OnEnterSynthesizeAttribute(context, ctx => default(double));
         }
 
         /// <inheritdoc />
-        public override void ExitFloatingPointValue(ProtoParser.FloatingPointValueContext context)
+        public override void ExitNumericFloatLit(ProtoParser.NumericFloatLitContext context)
         {
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
@@ -568,7 +568,7 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void EnterConstFloatLit(ProtoParser.ConstFloatLitContext context)
+        public override void EnterSignedFloatLit(ProtoParser.SignedFloatLitContext context)
         {
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
             // Here we can know that the Floating Point Literal is destined as a Constant.
@@ -576,7 +576,7 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void ExitConstFloatLit(ProtoParser.ConstFloatLitContext context)
+        public override void ExitSignedFloatLit(ProtoParser.SignedFloatLitContext context)
         {
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
@@ -638,32 +638,20 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitStrLit(ProtoParser.StrLitContext context)
         {
-            using (CreateContext(context, Stack
-                    , () => TryOnExitResolveSynthesizedAttribute(
-                        // ReSharper disable once RedundantAssignment
-                        (ref string x, string y) => x = context.GetText()
-                    )
-                )
-            )
+            // Interpret the String Literal sans the enclosing tick/quotation marks.
+            string GetContextTextSans()
             {
+                var s = context.GetText();
+                return s.Substring(1, s.Length - 2);
             }
-        }
 
-        /// <inheritdoc />
-        public override void EnterQuotedStrLit(ProtoParser.QuotedStrLitContext context)
-        {
-            OnEnterSynthesizeAttribute(context, ctx => Empty);
-        }
-
-        /// <inheritdoc />
-        public override void ExitQuotedStrLit(ProtoParser.QuotedStrLitContext context)
-        {
             using (CreateContext(context, Stack
-                    , () => TryOnExitResolveSynthesizedAttribute(
-                        // ReSharper disable once RedundantAssignment
-                        (ref IConstant x, string y) => x = Constant.Create(y)
-                    )
-                    , () => TryOnExitResolveSynthesizedAttribute((ref ImportStatement x, string y) => x.ImportPath = y)
+                    // ReSharper disable once RedundantAssignment
+                    , () => TryOnExitResolveSynthesizedAttribute((ref string x, string y) => x = GetContextTextSans())
+                    // ReSharper disable once RedundantAssignment
+                    , () => TryOnExitResolveSynthesizedAttribute((ref IConstant x, string y) => x = Constant.Create(GetContextTextSans()))
+                    , () => TryOnExitResolveSynthesizedAttribute((ref ImportStatement x, string y) => x.ImportPath = GetContextTextSans())
+                    , () => TryOnExitResolveSynthesizedAttribute((ref SyntaxStatement x, string y) => x.Syntax = GetContextTextSans().ToSyntaxKind())
                 )
             )
             {
@@ -845,24 +833,24 @@ namespace Kingdom.Protobuf
             }
         }
 
-        /// <inheritdoc />
-        public override void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
-        {
-            OnEnterSynthesizeAttribute(context, ctx => SyntaxKind.Proto2);
-        }
+        ///// <inheritdoc />
+        //public override void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
+        //{
+        //    OnEnterSynthesizeAttribute(context, ctx => SyntaxKind.Proto2);
+        //}
 
-        /// <inheritdoc />
-        public override void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
-        {
-            using (CreateContext(context, Stack
-                    , () => TryOnExitResolveSynthesizedAttribute(
-                        (ref SyntaxStatement x, SyntaxKind y) => x.Syntax = y
-                    )
-                )
-            )
-            {
-            }
-        }
+        ///// <inheritdoc />
+        //public override void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
+        //{
+        //    using (CreateContext(context, Stack
+        //            , () => TryOnExitResolveSynthesizedAttribute(
+        //                (ref SyntaxStatement x, SyntaxKind y) => x.Syntax = y
+        //            )
+        //        )
+        //    )
+        //    {
+        //    }
+        //}
 
         /// <inheritdoc />
         public override void EnterSyntaxDecl(ProtoParser.SyntaxDeclContext context)
@@ -1676,14 +1664,14 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public override void EnterProto(ProtoParser.ProtoContext context)
+        public override void EnterProtoDecl(ProtoParser.ProtoDeclContext context)
         {
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
             OnEnterSynthesizeAttribute(context, ctx => new ProtoDescriptor { });
         }
 
         /// <inheritdoc />
-        public override void ExitProto(ProtoParser.ProtoContext context)
+        public override void ExitProtoDecl(ProtoParser.ProtoDeclContext context)
         {
             ActualProto = Stack.RootInstance;
             Stack.Clear();

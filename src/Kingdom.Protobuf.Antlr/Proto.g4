@@ -1,101 +1,58 @@
-// https://github.com/tunnelvisionlabs/antlr4cs
-// https://github.com/antlr/antlr4/blob/master/doc/csharp-target.md#how-do-i-create-and-run-a-custom-listener
-// https://developers.google.com/protocol-buffers/docs/reference/proto2-spec
-// https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md
-// https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md
-// https://community.esri.com/thread/182866-mismatch-between-the-processor-architecture-of-the-project-being-built-msil-and-the-processor-architecture-of-the-reference-oracledataaccess
-// https://stackoverflow.com/questions/47752764/there-was-a-mismatch-between-the-processor-architecture-of-the-project-being-bui
-// https://stackoverflow.com/questions/10113532/how-do-i-fix-the-visual-studio-compile-error-mismatch-between-processor-archit
+// http://github.com/tunnelvisionlabs/antlr4cs
+// http://github.com/antlr/antlr4/blob/master/doc/csharp-target.md#how-do-i-create-and-run-a-custom-listener
+// http://developers.google.com/protocol-buffers/docs/reference/proto2-spec
+// http://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md
+// http://github.com/antlr/antlr4/blob/master/doc/parser-rules.md
+// http://community.esri.com/thread/182866-mismatch-between-the-processor-architecture-of-the-project-being-built-msil-and-the-processor-architecture-of-the-reference-oracledataaccess
+// http://stackoverflow.com/questions/47752764/there-was-a-mismatch-between-the-processor-architecture-of-the-project-being-bui
+// http://stackoverflow.com/questions/10113532/how-do-i-fix-the-visual-studio-compile-error-mismatch-between-processor-archit
+// http://stackoverflow.com/questions/39958165/antlr4-how-can-i-match-end-of-lines-inside-multiline-comments
+// http://stackoverflow.com/questions/12898052/antlr-how-to-skip-multiline-comments
 
-// This grammar supports a subset of the Protocol Buffers Version 2. We support up to but
-// not including the Service declaration, RPC, or Streams. This is the extent of the support
-// we require for what we are trying to accomplish with this project. If additional elements,
-// code generation, etc, are required, we will gladly consider Pull Requests for said
-// functionalityaligned with our licensing model.
+// This grammar supports a subset of the Protocol Buffers Version 2. We support up to but not
+// including the Service declaration, RPC, or Streams. This is the extent of the support we
+// require for what we are trying to accomplish with this project. If additional elements, code
+// generation, etc, are required, we will gladly consider Pull Requests for said functionality
+// aligned with our licensing model.
+
+/*
+http://developers.google.com/protocol-buffers/docs/reference/proto2-spec
+http://developers.google.com/protocol-buffers/docs/proto
+|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+*/
 
 grammar Proto;
 
-// TODO: TBD: for now, re-routing White Space and Comments to the HIDDEN channel. 
-// TODO: TBD: eventually, I could see potentially re-routing Comments to another Channel.
-// Support for Single Line and Multi Line Comments.
-SINGLELINE: '//' ~[\r\n]* -> channel(HIDDEN);
-
-// We do not care about NEWLINE for MULTILINE, in fact, we would not expect that.
-MULTILINE: '/*' .+? '*/' -> channel(HIDDEN);
-
-WS: [ \r\n\t]+ -> channel(HIDDEN);
-
-// NEWLINE : '\r'? '\n' { {System.out.println("Newlines so far: " + (++counter)); } };
-NEWLINE: '\r'? '\n';
-
-// capitalLetter =  "A" … "Z"
-fragment CAP_LET: [A-Z];
-// decimalDigit = "0" … "9"
-fragment DIG: [0-9];
-fragment DIG_19: [1-9];
-fragment E: [Ee];
-// It is worth establishing lexical comprehension for EXPONENT.
-fragment EXP: [Ee] [+-]? [0-9]+;
-fragment PERIOD: '.';
-// hexDigit     = "0" … "9" | "A" … "F" | "a" … "f"
-fragment HEX_DIG: [0-9a-zA-Z];
-// letter = "A" … "Z" | "a" … "z"
-fragment LET: [a-zA-Z];
-// octalDigit   = "0" … "7"
-fragment OCT_DIG: [0-7];
-fragment SIGNAGE: [+-];
-fragment UNDERSCORE: '_';
-fragment X: [Xx];
-fragment ZED: [0];
-
-// Protocol Buffer Tokens
-PROTO2: 'proto2';
-
-CLOSE_ANGLE_BRACKET: '>';
-CLOSE_CURLY_BRACE: '}';
-CLOSE_PAREN: ')';
-CLOSE_SQUARE_BRACKET: ']';
-COMMA: ',';
-//// TODO: TBD: not sure why I defined this. I do not use it for any reason.
-//// TODO: TBD: maybe I had it in there thinking there were "special rules" for 'default' field options.
-//// TODO: TBD: there may be, in name only, but none that justify, I think, a parser, never mind a lexer, rule.
-//DEFAULT: 'default';
-DOT: PERIOD;
+// LEXER RULES //////////////////////////////////////////////////////////////////////////
 ENUM: 'enum';
-EOS: ';';
-EQU: '=';
 EXTEND: 'extend';
 EXTENSIONS: 'extensions';
-FIELD: 'field';
 GROUP: 'group';
 IMPORT: 'import';
+OPTION: 'option';
 MAP: 'map';
-MAX: 'max';
 MESSAGE: 'message';
 ONEOF: 'oneof';
-OPEN_ANGLE_BRACKET: '<';
-OPEN_CURLY_BRACE: '{';
-OPEN_PAREN: '(';
-OPEN_SQUARE_BRACKET: '[';
-OPTION: 'option';
-OPTIONAL: 'optional';
 PACKAGE: 'package';
+RESERVED: 'reserved';
+SYNTAX: 'syntax';
+
+//RPC: 'rpc';
+//SERVICE: 'service';
+//RETURNS: 'returns';
+//STREAM: 'stream';
+
+MAX: 'max';
+OPTIONAL: 'optional';
 PUBLIC: 'public';
 REPEATED: 'repeated';
 REQUIRED: 'required';
-RESERVED: 'reserved';
-//RETURNS: 'returns';
-//RPC: 'rpc';
-//SERVICE: 'service';
-SIGN: SIGNAGE;
-//STREAM: 'stream';
-SYNTAX: 'syntax';
 TO: 'to';
 WEAK: 'weak';
 
-// Type Keywords
-// https://developers.google.com/protocol-buffers/docs/proto#scalar
-// https://developers.google.com/protocol-buffers/docs/proto3#scalar
 BOOL: 'bool';
 BYTES: 'bytes';
 DOUBLE: 'double';
@@ -112,19 +69,69 @@ STRING: 'string';
 UINT32: 'uint32';
 UINT64: 'uint64';
 
-BOOLEAN_FALSE: 'false';
-BOOLEAN_TRUE: 'true';
+FALSE_LIT: 'false';
+INF: 'inf';
+NAN: 'nan';
+//PROTO2: 'proto2';
+TRUE_LIT: 'true';
 
+MULTI_LINE_COMMENT: LML .*? RML -> channel(HIDDEN);
+SINGLE_LINE_COMMENT: SL ~[\r\n]* -> channel(HIDDEN);
+
+// Whitespace.
+WS: ( SP | HT | VT )+ -> channel(HIDDEN);
+
+// NEWLINE : '\r'? '\n' { {System.out.println("Newlines so far: " + (++counter)); } };
+NL: CR? LF -> channel(HIDDEN);
+
+// Define some punctuation lexer rules.
+QUOT: QUOT_MARK;
+TICK: TICK_MARK;
+
+// Open, or Left, such and such.
+LANGLE: '<';
+LCURLY: '{';
+LPAREN: '(';
+LSQUARE: '[';
+
+// Close, or Right, such and such.
+RANGLE: '>';
+RCURLY: '}';
+RPAREN: ')';
+RSQUARE: ']';
+
+COMMA: ',';
+EOS: ';';
+EQU: '=';
+
+DOT: PERIOD;
+SIGN: SIGNAGE;
+
+/*
+decimalLit = ( "1" ... "9" ) { decimalDigit }
+octalLit = "0" { octalDigit }
+hexLit = "0" ( "x" | "X" ) hexDigit { hexDigit } 
+*/
+DEC_LIT: ZED | DEC_DIG_19 DEC_DIG*;
 HEX_LIT: ZED X HEX_DIG+;
 OCT_LIT: ZED OCT_DIG*;
-DEC_LIT: DIG_19 DIG*;
 
-INFINITY: 'inf';
-NOT_A_NUMBER: 'nan';
-
-FLOAT_DIG_DOT_DIG_OPT_EXP: DIG+ PERIOD DIG* EXP?;
-FLOAT_DIG_EXP: DIG+ EXP;
-FLOAT_DOT_DIG_OPT_EXP: PERIOD DIG+ EXP?;
+/*
+// Lexer is the way to go with this rule.
+// It is better for us to capture the Infinity and Not-a-Number cases separately
+// as "first-class" Parser Rules, not that Lexer Rules are not ("first-class").
+floatLit = "inf" | "nan" | (
+    decimals "." [ decimals ] [ exponent ]
+    | decimals exponent
+    | "." decimals [ exponent ] )
+// We will just use the ANTLR4 operators here, not worth a definition for any multiples.
+decimals = decimalDigit { decimalDigit }
+*/
+FLOAT_LIT:
+    DEC_DIG+ PERIOD DEC_DIG* EXPONENT?
+    | DEC_DIG+ EXPONENT
+    | PERIOD DEC_DIG+ EXPONENT?
+;
 
 /*
 // Supports both cases:
@@ -132,7 +139,73 @@ ident = letter { letter | decimalDigit | "_" }
 groupName = capitalLetter { letter | decimalDigit | "_" }
 // Group Name requires validation during the Listener AST synthesis phase.
 */
-IDENT: LET ( LET | DIG | UNDERSCORE )*;
+IDENT: LET ( LET | DEC_DIG | UNDERSCORE )*;
+
+STR_LIT: QUOT_STR_LIT | TICK_STR_LIT;
+
+// Required in order to not silently drop unexpected characters.
+ERROR_CHAR: . -> channel(HIDDEN);
+
+// Open and close, or Left and Right, Multi-Line comment.
+fragment LML: '/*';
+fragment RML: '*/';
+// Single-Line comment.
+fragment SL: '//';
+
+// Carriage Return, Line Feed.
+fragment CR: '\r';
+fragment LF: '\n';
+// Space.
+fragment SP: ' ';
+// Tab, or Horizontal Tab.
+fragment HT: '\t';
+// Form Feed, or Vertical Tab.
+fragment VT: '\f';
+
+// decimalDigit = "0" ... "9"
+// octalDigit   = "0" ... "7"
+// hexDigit     = "0" ... "9" | "A" ... "F" | "a" ... "f"
+fragment DEC_DIG: [0-9];
+fragment DEC_DIG_19: [1-9];
+fragment OCT_DIG: [0-7];
+fragment OCT_DIG_03: [0-3];
+fragment HEX_DIG: [0-9a-zA-Z];
+fragment SIGNAGE: [+-];
+fragment EXP: [Ee];
+// exponent = ( "e" | "E" ) [ "+" | "-" ] decimals 
+fragment EXPONENT: EXP SIGNAGE? DEC_DIG+;
+fragment PERIOD: '.';
+// letter = "A" ... "Z" | "a" ... "z"
+fragment LET: [a-zA-Z];
+fragment UNDERSCORE: '_';
+// capitalLetter =  "A" ... "Z"
+fragment CAP_LET: [A-Z];
+fragment ZED: [0];
+fragment X: [Xx];
+fragment ESC_START: '\\';
+
+fragment ESC_SEQ:
+    ESC_START ( 'a' | 'v' | 'b' | 't' | 'n' | 'f' | 'r' | '?' | '"' | '\'' | '\\' )
+    | HEX_ESC
+    //| UNICODE_ESC
+    | OCT_ESC
+;
+
+//// TODO: TBD: is this really Unicode?
+//fragment UNICODE_ESC: '\\' 'u' HEX_DIG HEX_DIG HEX_DIG HEX_DIG;
+fragment HEX_ESC:
+    ESC_START X HEX_DIG HEX_DIG
+    | ESC_START X HEX_DIG
+;
+
+fragment OCT_ESC:
+    ESC_START OCT_DIG_03 OCT_DIG OCT_DIG
+    | ESC_START OCT_DIG OCT_DIG
+    | ESC_START OCT_DIG
+;
+
+fragment QUOT_MARK: '"';
+fragment TICK_MARK: '\'';
 
 /*
 strLit = ( "'" { charValue } "'" ) | ( '"' { charValue } '"' )
@@ -142,32 +215,27 @@ octEscape = '\' octalDigit octalDigit octalDigit
 charEscape = '\' ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | '\' | "'" | '"' )
 quote = "'" | '"'
 */
-// TODO: TBD: it is a lot more involved than this, but let's see if we can get this to work...
-// TODO: TBD: have a look here for possible approach concerning escape strings, etc:
-// TODO: TBD: https://github.com/antlr/antlr4/blob/master/doc/faq/lexical.md
-// TODO: TBD: warning AC0146: non-fragment lexer rule 'STR_LIT' can match the empty string
-// TODO: TBD: yes, this is true, but I think this is appropriate. depending on the "listener" context, of course.
-STR_LIT: ( '\\"' | ~'"' )*;
+fragment QUOT_STR_LIT: QUOT_MARK ( ESC_SEQ | ~[\\"\r\n] )* QUOT_MARK;
+fragment TICK_STR_LIT: TICK_MARK ( ESC_SEQ | ~[\\\'\r\n] )* TICK_MARK;
 
-// Required in order to not silently drop unexpected characters.
-ERROR_CHAR: .;
-
+// PARSER RULES /////////////////////////////////////////////////////////////////////////
 // See Lexer Rule comments. Listeners must perform the required Capital Letter validation.
-groupName: IDENT;
 
-// http://developers.google.com/protocol-buffers/docs/reference/proto2-spec
-// http://developers.google.com/protocol-buffers/docs/proto
-/*
-|   alternation
-()  grouping
-[]  option (zero or one time)
-{}  repetition (any number of times)
-*/
+protoDecl: syntaxDecl (
+    importDecl
+    | packageDecl
+    | optionDecl
+    | topLevelDef
+    | emptyDecl )* EOF
+;
 
-// Parser Rules
-
-// https://stackoverflow.com/questions/39958165/antlr4-how-can-i-match-end-of-lines-inside-multiline-comments
-// https://stackoverflow.com/questions/12898052/antlr-how-to-skip-multiline-comments
+//  Not supporting Service for this purpose.
+topLevelDef:
+    messageDecl
+    | enumDecl
+    | extendDecl
+    /*| serviceDecl*/
+;
 
 /*
 fullIdent = ident { "." ident }
@@ -190,108 +258,60 @@ ident: IDENT;
 fullIdent: ident ( DOT ident )*;
 
 // optionName = ( ident | "(" fullIdent ")" ) { "." ident }
-groupedOptionNamePrefix: OPEN_PAREN fullIdent CLOSE_PAREN;
+groupedOptionNamePrefix: LPAREN fullIdent RPAREN;
 singleOptionNamePrefix: ident;
 optionNamePrefix: groupedOptionNamePrefix | singleOptionNamePrefix;
 optionNameSuffix: ( DOT ident )*;
 optionName: optionNamePrefix optionNameSuffix;
 
-label: REQUIRED | OPTIONAL | REPEATED;
-
-/*
-Cannot determine on the first pass whether this is MESSAGE_TYPE or ENUM_TYPE.
-This suffers the same context-agnostic issue as with the Boost.Spirir.Qi baesd approach.
-There is really no way around this on the first pass.
-*/
-elementTypeGlobalScope: DOT;
-elementType: elementTypeGlobalScope? ( ident DOT )* ident;
-
-// Should resolve to ProtoType, literally.
-protoType: DOUBLE | FLOAT | INT32 | INT64 | UINT32 | UINT64 | SINT32 | SINT64 | FIXED32 | FIXED64 | SFIXED32 | SFIXED64 | BOOL | STRING | BYTES;
-
-// Should resolve to a Variant type.
-type: protoType | elementType;
-
-keyType: INT32 | INT64 | UINT32 | UINT64 | SINT32 | SINT64 | FIXED32 | FIXED64 | SFIXED32 | SFIXED64 | BOOL | STRING;
-
 // boolLit = "true" | "false" 
-booleanFalse: BOOLEAN_FALSE;
-booleanTrue: BOOLEAN_TRUE;
+booleanFalse: FALSE_LIT;
+booleanTrue: TRUE_LIT;
 booleanLit: booleanFalse | booleanTrue;
 
-strLit: STR_LIT;
+// Helps to isolate the issue for the general-purpose <fullident/>.
+fullIdentLit: fullIdent;
 
-// TODO: TBD: need to elaborate this one significantly...
-quotedStrLit: '"' strLit '"';
+// Technically the spec does not differentiate + from - Infinity, but we can here.
+inf: INF;
+nan: NAN;
+numericFloatLit: FLOAT_LIT;
+floatLit: inf | nan | numericFloatLit;
+// Signage does not apply until the Constant Phrase.
+signedFloatLit: sign? floatLit;
 
-sign: SIGN;
-
-/*
-intLit     = decimalLit | octalLit | hexLit
-decimalLit = ( "1" … "9" ) { decimalDigit }
-octalLit   = "0" { octalDigit }
-hexLit     = "0" ( "x" | "X" ) hexDigit { hexDigit } 
-// TODO: TBD: how to represent OCT or HEX literals?
-*/
+// intLit = decimalLit | octalLit | hexLit
 hexLit: HEX_LIT;
 octLit: OCT_LIT;
 decLit: DEC_LIT;
 //      Order still matters!
 intLit: hexLit | octLit | decLit;
+
 // Signage does not apply until the Constant Phrase.
-constIntLit: sign? intLit;
+sign: SIGN;
+signedIntLit: sign? intLit;
 
-// fieldNumber = intLit
-fieldNumber: intLit;
+// This is probably sufficient. We may need to comprehend whether the enclosing bits were QUOT ('"') or TICK ("'").
+strLit: STR_LIT;
+
+// constant = boolLit    | fullIdent    | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) | strLit
+constant:     booleanLit | fullIdentLit | signedFloatLit           | signedIntLit               | strLit;
 
 /*
-floatLit = (
-        decimals "." [ decimals ] [ exponent ]
-        | decimals exponent
-        | "." decimals [ exponent ]
-    )
-    | "inf"
-    | "nan"
-decimals  = decimalDigit { decimalDigit }
-exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals 
-// Also, technically the spec does not differentiate + from - Infinity, but we can here.
- */
-infinity: INFINITY;
-nan: NOT_A_NUMBER;
-/*
-At minimum, Floating Point values must involved a Dot.
-Otherwise the Grammar confuses the phrase with the Integer rules.
+syntax = "syntax" "=" quote "proto2" quote ";"
+// Instead of defining a lexer keyword, let it fall through the String Literal definition.
+// Then we handle the issue as a matter of Listener interpretation. The only down side of
+// doing it this way is that casual users of the grammar apart from the Listener itself
+// need to do some leg work in order validate.
 */
-floatingPointValue: FLOAT_DIG_DOT_DIG_OPT_EXP | FLOAT_DIG_EXP | FLOAT_DOT_DIG_OPT_EXP;
-floatLit: infinity | nan | floatingPointValue;
-// Signage does not apply until the Constant Phrase.
-constFloatLit: sign? floatLit;
+syntaxDecl: SYNTAX EQU strLit EOS;
 
-// Helps to isolate the issue for the general-purpose <fullident/>.
-fullIdentLit: fullIdent;
-
-/*
-constant = fullIdent | ( [ "-" | "+" ] intLit ) | ( [ "-" | "+" ] floatLit ) |
-                strLit | boolLit 
-*/
-constant: booleanLit | fullIdentLit | constFloatLit | constIntLit | quotedStrLit;
-/*
-Similar with Boost.Spirit.Qi, order is important here. Rule in the Alternatives
-that can be easily ruled in, before reacing the more complex ones, like String
-Literals.
-*/
+// import = "import" [ "weak" | "public" ] strLit ";" 
+importDecl: IMPORT importModifier? strLit EOS;
+importModifier: WEAK | PUBLIC;
 
 // emptyStatement = ";"
 emptyDecl: EOS;
-
-syntaxValue: ( '\'' PROTO2 '\'' | '"' PROTO2 '"' );
-
-syntaxDecl: SYNTAX EQU syntaxValue EOS;
-
-importModifier: WEAK | PUBLIC;
-
-// import = "import" [ "weak" | "public" ] strLit ";" 
-importDecl: IMPORT importModifier? quotedStrLit EOS;
 
 // package = "package" fullIdent ";"
 packageDecl: PACKAGE fullIdent EOS;
@@ -303,11 +323,82 @@ optionName = ( ident | "(" fullIdent ")" ) { "." ident }
 optionDecl: OPTION optionName EQU constant EOS;
 
 /*
-label = "required" | "optional" | "repeated"
-type = "double" | "float" | "int32" | "int64" | "uint32" | "uint64"
-      | "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64"
-      | "bool" | "string" | "bytes" | messageType | enumType
+message = "message" messageName messageBody
+messageBody = "{" { field | enum | message | extend | extensions | group |
+option | oneof | mapField | reserved | emptyStatement } "}"
 */
+messageDecl: MESSAGE ident messageBody;
+
+messageBody
+  : LCURLY (
+    fieldDecl
+    | enumDecl
+    | messageDecl
+    | extendDecl
+    | extensionsDecl
+    | groupDecl
+    | optionDecl
+    | oneOfDecl
+    | mapFieldDecl
+    | reservedDecl
+    | emptyDecl
+    )* RCURLY
+;
+
+/*
+label = "required" | "optional" | "repeated"
+type = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" | "sint32" | "sint64"
+    | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" | "bool" | "string" | "bytes"
+    | messageType | enumType
+*/
+label:
+    REQUIRED
+    | OPTIONAL
+    | REPEATED
+;
+
+/*
+// Should resolve to ProtoType, literally. Type Keywords:
+// https://developers.google.com/protocol-buffers/docs/proto#scalar
+// https://developers.google.com/protocol-buffers/docs/proto3#scalar
+*/
+protoType:
+    DOUBLE
+    | FLOAT
+    | INT32
+    | INT64
+    | UINT32
+    | UINT64
+    | SINT32
+    | SINT64
+    | FIXED32
+    | FIXED64
+    | SFIXED32
+    | SFIXED64
+    | BOOL
+    | STRING
+    | BYTES
+;
+
+/*
+Cannot determine on the first pass whether this is MESSAGE_TYPE or ENUM_TYPE.
+This suffers the same context-agnostic issue as with the Boost.Spirir.Qi baesd approach.
+There is really no way around this on the first pass.
+*/
+elementTypeGlobalScope: DOT;
+/*
+// Technically, the specification is ambiguous, with the "intent" here:
+messageType = [ "." ] { ident "." } messageName
+enumType = [ "." ] { ident "." } enumName
+// However, the ambiguity is that the Parser itself cannot know whether "ident" should be MessageDecl or EnumDecl.
+*/
+elementType: elementTypeGlobalScope? ( ident DOT )* ident;
+
+// Should resolve to a Variant type.
+type: protoType | elementType;
+
+// fieldNumber = intLit
+fieldNumber: intLit;
 
 /*
 field = label type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
@@ -316,30 +407,37 @@ fieldOptions = fieldOption { ","  fieldOption }
 fieldOption = optionName "=" constant
 */
 fieldDecl: label type ident EQU fieldNumber fieldOptions? EOS;
-fieldOptions: OPEN_SQUARE_BRACKET fieldOption ( COMMA fieldOption )* CLOSE_SQUARE_BRACKET;
+fieldOptions: LSQUARE fieldOption ( COMMA fieldOption )* RSQUARE;
 fieldOption: optionName EQU constant;
 
+/*
+enum = "enum" enumName enumBody
+enumBody = "{" { option | enumField | emptyStatement } "}"
+// While we associate an "integer" with the enumField... Rather we want an Ordinal.
+enumField = ident "=" intLit [ "[" enumValueOption { ","  enumValueOption } "]" ]";"
+//                    ^^^^^^
+enumValueOption = optionName "=" constant
+*/
+enumFieldOrdinal: intLit;
+enumDecl: ENUM ident enumBody;
+enumBody: LCURLY ( optionDecl | enumFieldDecl | emptyDecl )* RCURLY;
+//                    Or FieldNumber, but IntLit works just fine here.
+enumFieldDecl: ident EQU enumFieldOrdinal ( LSQUARE enumValueOptions RSQUARE )? EOS;
+enumValueOptions: enumValueOption ( COMMA enumValueOption )*;
+enumValueOption: optionName EQU constant;
+
+// extend = "extend" messageType "{" {field | group | emptyStatement} "}"
+extendDecl: EXTEND elementType LCURLY ( fieldDecl | groupDecl | emptyDecl )* RCURLY;
+
 // group = label "group" groupName "=" fieldNumber messageBody
+groupName: IDENT;
 groupDecl: label GROUP groupName EQU fieldNumber messageBody;
 
 /*
-oneof = "oneof" oneofName "{" { oneofField | emptyStatement } "}"
-oneofField = type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+extensions = "extensions" ranges ";"
+ranges = range { "," range }
 */
-oneOfDecl: ONEOF ident OPEN_CURLY_BRACE ( oneOfField | emptyDecl )* CLOSE_CURLY_BRACE;
-oneOfField: type ident EQU fieldNumber fieldOptions? EOS;
-
-/*
-mapField = "map" "<" keyType "," type ">" mapName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
-keyType = "int32" | "int64" | "uint32" | "uint64" | "sint32" | "sint64" |
-          "fixed32" | "fixed64" | "sfixed32" | "sfixed64" | "bool" | "string"
-See: MAP, KEY_TYPE, TYPE, ID
-*/
-mapFieldDecl: MAP OPEN_ANGLE_BRACKET keyType COMMA type CLOSE_ANGLE_BRACKET ident EQU fieldNumber fieldOptions? EOS;
-
-// extensions = "extensions" ranges ";"
 extensionsDecl: EXTENSIONS rangesDecl EOS;
-// ranges = range { "," range }
 rangesDecl: rangeDecl ( COMMA rangeDecl )*;
 // Overall: range =  intLit [ "to" ( intLit | "max" ) ]
 rangeDecl: rangeMinimumLit rangeMaximum?;
@@ -348,6 +446,35 @@ rangeMinimumLit: intLit;
 rangeMaximum: TO ( rangeMaximumMax | rangeMaximumLit );
 rangeMaximumMax: MAX;
 rangeMaximumLit: intLit;
+
+/*
+oneof = "oneof" oneofName "{" { oneofField | emptyStatement } "}"
+oneofField = type fieldName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+*/
+oneOfDecl: ONEOF ident LCURLY ( oneOfField | emptyDecl )* RCURLY;
+oneOfField: type ident EQU fieldNumber fieldOptions? EOS;
+
+/*
+mapField = "map" "<" keyType "," type ">" mapName "=" fieldNumber [ "[" fieldOptions "]" ] ";"
+keyType = "int32" | "int64" | "uint32" | "uint64" | "sint32" | "sint64" | "fixed32" | "fixed64"
+    | "sfixed32" | "sfixed64" | "bool" | "string"
+*/
+mapFieldDecl: MAP LANGLE keyType COMMA type RANGLE ident EQU fieldNumber fieldOptions? EOS;
+
+keyType:
+    INT32
+    | INT64
+    | UINT32
+    | UINT64
+    | SINT32
+    | SINT64
+    | FIXED32
+    | FIXED64
+    | SFIXED32
+    | SFIXED64
+    | BOOL
+    | STRING
+;
 
 /*
 reserved = "reserved" ( ranges | fieldNames ) ";"
@@ -361,52 +488,6 @@ fieldNamesReservedDecl: RESERVED fieldNames EOS;
 fieldNames: fieldName ( COMMA fieldName )*;
 fieldName: ident;
 
-/*
-enum = "enum" enumName enumBody
-enumBody = "{" { option | enumField | emptyStatement } "}"
-// While we associate an "integer" with the enumField... Rather we want an Ordinal.
-enumField = ident "=" intLit [ "[" enumValueOption { ","  enumValueOption } "]" ]";"
-//                    ^^^^^^
-enumValueOption = optionName "=" constant
-*/
-enumFieldOrdinal: intLit;
-enumDecl: ENUM ident enumBody;
-enumBody: OPEN_CURLY_BRACE ( optionDecl | enumFieldDecl | emptyDecl )* CLOSE_CURLY_BRACE;
-//                    Or FieldNumber, but IntLit works just fine here.
-enumFieldDecl: ident EQU enumFieldOrdinal ( OPEN_SQUARE_BRACKET enumValueOptions CLOSE_SQUARE_BRACKET )? EOS;
-enumValueOptions: enumValueOption ( COMMA enumValueOption )*;
-enumValueOption: optionName EQU constant;
-
-/*
-message = "message" messageName messageBody
-messageBody = "{" { field | enum | message | extend | extensions | group |
-option | oneof | mapField | reserved | emptyStatement } "}"
-*/
-messageDecl: MESSAGE ident messageBody;
-
-messageBody
-  : OPEN_CURLY_BRACE (
-    fieldDecl
-    | enumDecl
-    | messageDecl
-    | extendDecl
-    | extensionsDecl
-    | groupDecl
-    | optionDecl
-    | oneOfDecl
-    | mapFieldDecl
-    | reservedDecl
-    | emptyDecl
-    )* CLOSE_CURLY_BRACE
-;
-
-// extend = "extend" messageType "{" {field | group | emptyStatement} "}"
-extendDecl: EXTEND elementType OPEN_CURLY_BRACE ( fieldDecl | groupDecl | emptyDecl )* CLOSE_CURLY_BRACE;
-
-proto: syntaxDecl ( importDecl | packageDecl | optionDecl | topLevelDef | emptyDecl )* EOF;
-
-//  Not supporting Service for this purpose.
-topLevelDef: messageDecl | enumDecl | extendDecl /*| serviceDecl*/;
 
 //// TODO: TBD: will not support this for now, it really is not necessary given the Proto I am interested in.
 //// TODO: TBD: if I were to more fully support Service, etc, I would refactor some rules in order to better identify the given phrase.
@@ -415,20 +496,20 @@ topLevelDef: messageDecl | enumDecl | extendDecl /*| serviceDecl*/;
 
 //// service = "service" serviceName "{" { option | rpc | stream | emptyStatement } "}"
 //serviceDecl:
-//  SERVICE ident OPEN_CURLY_BRACE ( optionDecl | rpcDecl | streamDecl | emptyDecl )* CLOSE_CURLY_BRACE
+//  SERVICE ident LCURLY ( optionDecl | rpcDecl | streamDecl | emptyDecl )* RCURLY
 //;
 
 //// TODO: TBD: to be honest, I'm not sure why they don't simply support the empty body, yet have an end of statement alternative.
 //// rpc = "rpc" rpcName "(" [ "stream" ] messageType ")" "returns" "(" [ "stream" ] messageType ")" ( ( "{" { option | emptyStatement } "}" ) | ";" )
 //rpcDecl:
-//  RPC ident OPEN_PAREN STREAM? elementType CLOSE_PAREN
-//    RETURNS OPEN_PAREN STREAM? elementType CLOSE_PAREN
-//      ( ( OPEN_CURLY_BRACE ( optionDecl | emptyDecl )* CLOSE_CURLY_BRACE ) | EOS )
+//  RPC ident LPAREN STREAM? elementType RPAREN
+//    RETURNS LPAREN STREAM? elementType RPAREN
+//      ( ( LCURLY ( optionDecl | emptyDecl )* RCURLY ) | EOS )
 //;
 
 //// TODO: TBD: similar question here as above...
 //// stream = "stream" streamName "(" messageType "," messageType ")" ( ( "{" { option | emptyStatement } "}") | ";" )
 //streamDecl:
-//  STREAM ident OPEN_PAREN elementType COMMA elementType CLOSE_PAREN
-//    ( ( OPEN_CURLY_BRACE ( optionDecl | emptyDecl )* CLOSE_CURLY_BRACE ) | EOS )
+//  STREAM ident LPAREN elementType COMMA elementType RPAREN
+//    ( ( LCURLY ( optionDecl | emptyDecl )* RCURLY ) | EOS )
 //;
