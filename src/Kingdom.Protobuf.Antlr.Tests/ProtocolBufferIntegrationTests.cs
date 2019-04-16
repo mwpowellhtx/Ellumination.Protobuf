@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using Antlr4.Runtime;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Antlr4.Runtime;
     using Xunit;
     using Xunit.Abstractions;
     using static String;
@@ -16,49 +16,44 @@ namespace Kingdom.Protobuf
         {
         }
 
-        // ReSharper disable once StringLiteralTypo
         /// <summary>
-        /// &quot;#sat_parameter.proto&quot;
+        /// 
         /// </summary>
-        private static string ResourcePath => Join(".", "Resources", "#sat_parameters", "proto");
-
-        private Stream ResourceStream
+        /// <param name="resourcePath"></param>
+        [Theory, ClassData(typeof(ProtocolBufferIntegrationTestCases))]
+        public void Protocol_Buffer_Integration_Source_Parses(string resourcePath)
         {
-            get
+            string GetResourceSource()
             {
-                var type = GetType();
-                return type.Assembly.GetManifestResourceStream(type, ResourcePath);
-            }
-        }
-
-        private string ProtocolBufferSource
-        {
-            get
-            {
-                using (var stream = ResourceStream)
+                Stream GetResourceStream()
                 {
-                    Assert.NotNull(stream);
+                    var type = GetType();
+                    const string streaming = nameof(streaming);
+                    OutputHelper.WriteLine(Join(Empty, $"<{streaming}>", $"{type.FullName}.{resourcePath}", $"</{streaming}>"));
+                    return type.Assembly.GetManifestResourceStream(type, resourcePath);
+                }
 
+                using (var stream = GetResourceStream())
+                {
                     using (var reader = new StreamReader(stream))
                     {
-                        return reader.ReadToEndAsync().Result;
+                        var s = reader.ReadToEndAsync().Result;
+                        const string source = nameof(source);
+                        OutputHelper.WriteLine(Join("\r\n", $"<{source}>", s, $"</{source}>"));
+                        return s;
                     }
                 }
             }
-        }
 
-        [Fact]
-        public void Protocol_Buffer_Integration_Source_Parses()
-        {
-            ProtoParser.ProtoContext EvaluateCallback(ProtoParser parser) => parser.proto();
+            ProtoParser.ProtoDeclContext EvaluateCallback(ProtoParser parser) => parser.protoDecl();
 
             ProtoDescriptor EvaluateProtoDescriptor()
             {
-                var source = ProtocolBufferSource;
+                var source = GetResourceSource();
 
                 var listener = source.Trim().WalkEvaluatedContext<ProtoLexer, CommonTokenStream, ProtoParser
                     // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
-                    , ProtoParser.ProtoContext, ProtoDescriptorListener>(EvaluateCallback, new DefaultErrorListener { });
+                    , ProtoParser.ProtoDeclContext, ProtoDescriptorListener>(EvaluateCallback, new DefaultErrorListener { });
 
                 return listener.ActualProto;
             }

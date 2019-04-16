@@ -11,7 +11,7 @@ namespace Kingdom.Protobuf
     using static Collections;
     using static Double;
     using static Statements;
-    using EvaluateCallbackDelegate = AntlrEvaluateParserContextDelegate<ProtoParser, ProtoParser.ProtoContext>;
+    using EvaluateCallbackDelegate = AntlrEvaluateParserContextDelegate<ProtoParser, ProtoParser.ProtoDeclContext>;
 
     /// <summary>
     /// 
@@ -20,7 +20,7 @@ namespace Kingdom.Protobuf
     /// <typeparam name="TListener"></typeparam>
     /// <inheritdoc cref="AntlrParserTestFixtureBase{TSource,TStream,TParser,TContext,TListener,TTarget}" />
     public abstract class ProtoParserTestFixtureBase<TSource, TListener> : AntlrParserTestFixtureBase<
-        TSource, CommonTokenStream, ProtoParser, ProtoParser.ProtoContext, TListener, ProtoDescriptor>
+        TSource, CommonTokenStream, ProtoParser, ProtoParser.ProtoDeclContext, TListener, ProtoDescriptor>
         , IDisposable
         where TSource : class, ITokenSource
         where TListener : ProtoDescriptorListenerBase
@@ -32,7 +32,7 @@ namespace Kingdom.Protobuf
 
         /// <inheritdoc />
         /// <see cref="ProtoParser.proto"/>
-        protected override EvaluateCallbackDelegate EvaluateCallback { get; } = parser => parser.proto();
+        protected override EvaluateCallbackDelegate EvaluateCallback { get; } = parser => parser.protoDecl();
 
         protected IStringRenderingOptions RenderingOptions { get; set; } = new StringRenderingOptions();
 
