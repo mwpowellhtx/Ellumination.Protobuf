@@ -7,10 +7,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.0.1.25761</Version>
-    <AssemblyVersion>1.0.1.25761</AssemblyVersion>
-    <FileVersion>1.0.1.25761</FileVersion>
-    <PackageVersion>1.0.1.25761</PackageVersion>
+    <Version>1.0.2.25073</Version>
+    <AssemblyVersion>1.0.2.25073</AssemblyVersion>
+    <FileVersion>1.0.2.25073</FileVersion>
+    <PackageVersion>1.0.2.25073</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,11 +40,30 @@
 
   <ItemGroup>
     <EmbeddedResource Include="..\tools\Google\or-tools\sat\#sat_parameters.proto" Link="Resources\#sat_parameters.proto" />
-    <None Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto" />
+    <EmbeddedResource Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\tools\Google\or-tools\glop\parameters.proto" Link="Resources\parameters.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\tools\Google\or-tools\graph\flow_problem.proto" Link="Resources\flow_problem.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\tools\Google\or-tools\linear_solver\linear_solver.proto" Link="Resources\linear_solver.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\tools\Google\or-tools\sat\boolean_problem.proto" Link="Resources\boolean_problem.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\tools\Google\or-tools\bop\#bop_parameters.proto" Link="Resources\#bop_parameters.proto" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
