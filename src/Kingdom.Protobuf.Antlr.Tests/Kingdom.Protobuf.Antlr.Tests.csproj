@@ -7,10 +7,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.0.2.25073</Version>
-    <AssemblyVersion>1.0.2.25073</AssemblyVersion>
-    <FileVersion>1.0.2.25073</FileVersion>
-    <PackageVersion>1.0.2.25073</PackageVersion>
+    <Version>1.0.2.25074</Version>
+    <AssemblyVersion>1.0.2.25074</AssemblyVersion>
+    <FileVersion>1.0.2.25074</FileVersion>
+    <PackageVersion>1.0.2.25074</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,15 +39,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\tools\Google\or-tools\sat\#sat_parameters.proto" Link="Resources\#sat_parameters.proto" />
-    <EmbeddedResource Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(ProjectDir)extract_google_ortools_proto.bat&quot;" />
+  </Target>
+
   <ItemGroup>
+    <EmbeddedResource Include="..\tools\Google\or-tools\bop\#bop_parameters.proto" Link="Resources\#bop_parameters.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\tools\Google\or-tools\glop\parameters.proto" Link="Resources\parameters.proto">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -60,14 +62,9 @@
     <EmbeddedResource Include="..\tools\Google\or-tools\sat\boolean_problem.proto" Link="Resources\boolean_problem.proto">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="..\tools\Google\or-tools\bop\#bop_parameters.proto" Link="Resources\#bop_parameters.proto" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="&quot;$(ProjectDir)extract_google_ortools_proto.bat&quot;" />
-  </Target>
 
 </Project>
