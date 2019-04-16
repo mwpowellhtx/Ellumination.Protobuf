@@ -5,6 +5,8 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static Characters;
+
     // TODO: TBD: see notes concerning Variant, since the scaffold is so similar, I do not think it makes sense to pursue any sort of code generation here...
     // TODO: TBD: but rather "collapse" the supported types under the banner of "variant", potentially
     // TODO: TBD: notwithstanding potential for usage ambiguities... i.e. "constant" has a specific meaning, whereas "variant" just occurs as a natural alternative
@@ -171,7 +173,7 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         protected delegate string RenderCallback(object x, IStringRenderingOptions options);
 
-        private static string RenderBoolean(bool x, IStringRenderingOptions o) => $"{x}".ToLower();
+        private static string RenderBoolean(bool x, IStringRenderingOptions _) => $"{x}".ToLower();
         // ReSharper disable once SuggestBaseTypeForParameter
         private static string RenderLong(long x, IStringRenderingOptions o) => x.RenderLong(o.IntegerRendering);
         private static string RenderUnsignedLong(ulong x, IStringRenderingOptions o) => RenderLong((long) x, o);
@@ -199,9 +201,9 @@ namespace Kingdom.Protobuf
         }
 
         // TODO: TBD: escape the string...
-        private static string RenderString(string s, IStringRenderingOptions o) => $"\"{s}\"";
+        private static string RenderString(string s, IStringRenderingOptions _) => $"{OpenQuote}{s}{CloseQuote}";
         // TODO: TBD: circle around on this one... how ought this one to be rendered?
-        private static string RenderBytes(IEnumerable<byte> x, IStringRenderingOptions o)
+        private static string RenderBytes(IEnumerable<byte> _, IStringRenderingOptions __)
             => throw new NotImplementedException();
         // ReSharper disable once SuggestBaseTypeForParameter
         // TODO: TBD: we see this in terms of the interface today, but ostensibly we should also support the concrete class...
