@@ -4,7 +4,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
-    using static Collections;
+    using static CollectionHelpers;
     using static Identification;
 
     internal class BasicEnumStatementTestCases : TestCasesBase

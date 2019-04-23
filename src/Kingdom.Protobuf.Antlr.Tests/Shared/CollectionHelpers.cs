@@ -3,7 +3,7 @@
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
-    internal static class Collections
+    internal static class CollectionHelpers
     {
         // ReSharper disable once InconsistentNaming
         /// <summary>

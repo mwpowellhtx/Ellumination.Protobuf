@@ -4,9 +4,10 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Kingdom.Collections.Variants;
     using Xunit;
     using Xunit.Abstractions;
-    using static Collections;
+    using static CollectionHelpers;
     using static Domain;
 
     public class ExtendStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>

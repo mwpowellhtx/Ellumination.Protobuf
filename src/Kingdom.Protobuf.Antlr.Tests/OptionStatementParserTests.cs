@@ -3,7 +3,7 @@ namespace Kingdom.Protobuf
 {
     using Xunit;
     using Xunit.Abstractions;
-    using static Collections;
+    using static CollectionHelpers;
 
     public class OptionStatementParserTests : ProtoParserTestFixtureBase<ProtoLexer, ProtoDescriptorListener>
     {

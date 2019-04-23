@@ -25,9 +25,10 @@ namespace Kingdom.Protobuf
      *                        ?
      *
      */
+    using Kingdom.Collections.Variants;
     using Xunit;
     using Xunit.Abstractions;
-    using static Collections;
+    using static CollectionHelpers;
     using static Domain;
     using static Identification;
     using static Statements;

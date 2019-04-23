@@ -5,7 +5,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Xunit.Abstractions;
-    using static Collections;
+    using static CollectionHelpers;
     using static Domain;
     using static Identification;
 

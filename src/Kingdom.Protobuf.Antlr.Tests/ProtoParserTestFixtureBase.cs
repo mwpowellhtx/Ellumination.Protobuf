@@ -8,7 +8,7 @@ namespace Kingdom.Protobuf
     using Antlr4.Runtime;
     using Xunit;
     using Xunit.Abstractions;
-    using static Collections;
+    using static CollectionHelpers;
     using static Double;
     using static Statements;
     using EvaluateCallbackDelegate = AntlrEvaluateParserContextDelegate<ProtoParser, ProtoParser.ProtoDeclContext>;

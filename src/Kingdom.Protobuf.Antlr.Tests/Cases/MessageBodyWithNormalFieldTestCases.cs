@@ -5,7 +5,8 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
-    using static Collections;
+    using Kingdom.Collections.Variants;
+    using static CollectionHelpers;
     using static Domain;
     using static Identification;
 

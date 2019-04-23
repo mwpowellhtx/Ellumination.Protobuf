@@ -5,7 +5,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
-    using static Collections;
+    using static CollectionHelpers;
 
     internal abstract class TestCasesBase : IEnumerable<object[]>
     {

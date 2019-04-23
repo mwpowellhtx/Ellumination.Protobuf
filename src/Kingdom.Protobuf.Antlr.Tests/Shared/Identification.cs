@@ -7,7 +7,7 @@ namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
     using static CharacterSets;
-    using static Collections;
+    using static CollectionHelpers;
     using static String;
 
     internal static class Identification

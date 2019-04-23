@@ -4,6 +4,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using static CollectionHelpers;
     using static ImportModifierKind;
 
     internal class ImportStatementTestCases : TestCasesBase
@@ -17,9 +18,9 @@ namespace Kingdom.Protobuf
             {
                 IEnumerable<object[]> GetAll()
                 {
-                    yield return Collections.GetRange<object>((ImportModifierKind?) null).ToArray();
-                    yield return Collections.GetRange<object>((ImportModifierKind?) Public).ToArray();
-                    yield return Collections.GetRange<object>((ImportModifierKind?) Weak).ToArray();
+                    yield return GetRange<object>((ImportModifierKind?) null).ToArray();
+                    yield return GetRange<object>((ImportModifierKind?) Public).ToArray();
+                    yield return GetRange<object>((ImportModifierKind?) Weak).ToArray();
                 }
 
                 return _privateCases ?? (_privateCases = GetAll().ToArray());

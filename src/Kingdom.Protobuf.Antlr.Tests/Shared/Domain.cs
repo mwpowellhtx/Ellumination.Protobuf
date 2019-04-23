@@ -6,8 +6,9 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
+    using Kingdom.Collections.Variants;
     using Xunit;
-    using static Collections;
+    using static CollectionHelpers;
     using static Identification;
     using static Randomizer;
     using static FieldNumbers;
