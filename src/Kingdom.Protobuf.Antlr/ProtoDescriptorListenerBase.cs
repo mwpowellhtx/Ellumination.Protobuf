@@ -453,16 +453,6 @@ namespace Kingdom.Protobuf
         {
         }
 
-        ///// <inheritdoc />
-        //public virtual void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
-        //{
-        //}
-
-        ///// <inheritdoc />
-        //public virtual void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
-        //{
-        //}
-
         /// <inheritdoc />
         public virtual void EnterSyntaxDecl(ProtoParser.SyntaxDeclContext context)
         {

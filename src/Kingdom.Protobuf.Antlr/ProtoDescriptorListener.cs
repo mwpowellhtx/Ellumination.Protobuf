@@ -5,6 +5,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Kingdom.Collections.Variants;
     using static DescriptorStackContext;
     using static FieldNumbers;
     using static RangeDescriptor;
@@ -832,25 +833,6 @@ namespace Kingdom.Protobuf
             {
             }
         }
-
-        ///// <inheritdoc />
-        //public override void EnterSyntaxValue(ProtoParser.SyntaxValueContext context)
-        //{
-        //    OnEnterSynthesizeAttribute(context, ctx => SyntaxKind.Proto2);
-        //}
-
-        ///// <inheritdoc />
-        //public override void ExitSyntaxValue(ProtoParser.SyntaxValueContext context)
-        //{
-        //    using (CreateContext(context, Stack
-        //            , () => TryOnExitResolveSynthesizedAttribute(
-        //                (ref SyntaxStatement x, SyntaxKind y) => x.Syntax = y
-        //            )
-        //        )
-        //    )
-        //    {
-        //    }
-        //}
 
         /// <inheritdoc />
         public override void EnterSyntaxDecl(ProtoParser.SyntaxDeclContext context)
