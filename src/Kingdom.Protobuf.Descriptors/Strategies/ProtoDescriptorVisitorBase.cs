@@ -5,6 +5,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Collections.Variants;
     using static FieldNumbers;
     using static SyntaxKind;
 

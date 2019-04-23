@@ -1,6 +1,8 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Collections.Variants;
+
     /// <inheritdoc cref="IParentItem"/>
     public interface IOneOfFieldStatement
         : ICanRenderString

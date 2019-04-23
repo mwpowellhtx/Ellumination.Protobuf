@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.4.25069</Version>
-    <AssemblyVersion>1.0.4.25069</AssemblyVersion>
-    <FileVersion>1.0.4.25069</FileVersion>
-    <PackageVersion>1.0.4.25069</PackageVersion>
+    <Version>1.0.4.25085</Version>
+    <AssemblyVersion>1.0.4.25085</AssemblyVersion>
+    <FileVersion>1.0.4.25085</FileVersion>
+    <PackageVersion>1.0.4.25085</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="1.0.0.9089" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

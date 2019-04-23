@@ -5,6 +5,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Collections;
+    using Collections.Variants;
     using static Characters;
     using static LabelKind;
     using static WhiteSpaceAndCommentOption;
