@@ -125,7 +125,7 @@ namespace Kingdom.Protobuf
         internal static long InvalidFieldNumber => GetNextInvalidFieldNumber(
             long.MinValue, long.MaxValue, x => x.IsValidFieldNumber());
 
-        internal static IEnumerable<IConstant> BuildOptionValues<T>(params T[] values)
+        internal static IEnumerable<IVariant> BuildOptionValues<T>(params T[] values)
         {
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var value in values)
@@ -339,7 +339,7 @@ namespace Kingdom.Protobuf
         }
 
         internal static IEnumerable<TOption> ElaborateOptions<TOption>(OptionIdentifierPath[] optionNames
-            , IConstant[] optionValues)
+            , IVariant[] optionValues)
             where TOption : IOption, new()
         {
             var inputs = optionNames.ToArray<object>() // OptionName
@@ -353,7 +353,7 @@ namespace Kingdom.Protobuf
             {
                 var current = inputs.CurrentCombination.ToArray();
                 var optionName = (OptionIdentifierPath) current[0];
-                var optionValue = (IConstant) current[1];
+                var optionValue = (IVariant) current[1];
                 yield return new TOption {Name = optionName, Value = optionValue};
             }
         }

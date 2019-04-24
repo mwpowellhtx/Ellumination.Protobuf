@@ -232,7 +232,7 @@ namespace Kingdom.Protobuf
         /// <param name="optionValues"></param>
         [Theory, ClassData(typeof(MessageBodyWithOneOfTestCases))]
         public void VerifyMessageBodyWithOneOf(string oneOfName, FieldTupleType[] fieldTuples
-            , OptionIdentifierPath[] optionNames, IConstant[] optionValues)
+            , OptionIdentifierPath[] optionNames, IVariant[] optionValues)
         {
             Assert.NotNull(fieldTuples);
             Assert.NotEmpty(fieldTuples);
@@ -257,7 +257,7 @@ namespace Kingdom.Protobuf
 
         [Theory, ClassData(typeof(MessageBodyWithOneOfWithWhiteSpaceTestCases))]
         public void VerifyMessageBodyWithOneOfWithWhiteSpace(string oneOfName, FieldTupleType[] fieldTuples
-            , OptionIdentifierPath[] optionNames, IConstant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
+            , OptionIdentifierPath[] optionNames, IVariant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
         {
             RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
             VerifyMessageBodyWithOneOf(oneOfName, fieldTuples, optionNames, optionValues);
@@ -274,7 +274,7 @@ namespace Kingdom.Protobuf
         /// <param name="optionValues"></param>
         [Theory, ClassData(typeof(MessageBodyWithMapFieldTestCases))]
         public void VerifyMessageBodyWithMapField(KeyType keyType, IVariant valueType, string mapName, long fieldNumber
-            , OptionIdentifierPath[] optionNames, IConstant[] optionValues)
+            , OptionIdentifierPath[] optionNames, IVariant[] optionValues)
         {
             ExpectedBody.Add(new MapFieldStatement
             {
@@ -288,7 +288,7 @@ namespace Kingdom.Protobuf
 
         [Theory, ClassData(typeof(MessageBodyWithMapFieldWithWhiteSpaceTestCases))]
         public void VerifyMessageBodyWithMapFieldWithWhiteSpace(KeyType keyType, IVariant valueType
-            , string mapName, long fieldNumber, OptionIdentifierPath[] optionNames, IConstant[] optionValues
+            , string mapName, long fieldNumber, OptionIdentifierPath[] optionNames, IVariant[] optionValues
             , WhiteSpaceAndCommentOption whiteSpaceOption)
         {
             RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
@@ -297,13 +297,13 @@ namespace Kingdom.Protobuf
 
         /// <summary>
         /// As with other Test Cases, this is not supposed to be an exhaustive verification of
-        /// either <see cref="IConstant"/> or <see cref="OptionStatement"/>, but rather to verify
+        /// either <see cref="IVariant"/> or <see cref="OptionStatement"/>, but rather to verify
         /// that it can land in the context of <see cref="MessageStatement.Items"/> correctly.
         /// </summary>
         /// <param name="optionNames"></param>
         /// <param name="optionValues"></param>
         [Theory, ClassData(typeof(MessageBodyWithOptionTestCases))]
-        public void VerifyMessageBodyWithOption(OptionIdentifierPath[] optionNames, IConstant[] optionValues)
+        public void VerifyMessageBodyWithOption(OptionIdentifierPath[] optionNames, IVariant[] optionValues)
         {
             ExpectedBody.AddRange(
                 ElaborateOptions<OptionStatement>(optionNames, optionValues).ToArray<IMessageBodyItem>()
@@ -312,7 +312,7 @@ namespace Kingdom.Protobuf
 
         [Theory, ClassData(typeof(MessageBodyWithOptionWithWhiteSpaceTestCases))]
         public void VerifyMessageBodyWithOptionWithWhiteSpace(OptionIdentifierPath[] optionNames
-            , IConstant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
+            , IVariant[] optionValues, WhiteSpaceAndCommentOption whiteSpaceOption)
         {
             RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
             VerifyMessageBodyWithOption(optionNames, optionValues);

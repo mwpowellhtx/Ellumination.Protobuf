@@ -5,6 +5,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
+    using Kingdom.Collections.Variants;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -40,7 +41,7 @@ namespace Kingdom.Protobuf
         /// <see cref="optionConsts"/> since we are not here to verify that. This should already
         /// be working via the <see cref="OptionStatement"/> tests. Therefore, we should keep that
         /// cross section to an absolute minimum. For instance, we may focus only on
-        /// <see cref="IConstant{Boolean}"/> and keep things brief as possible.
+        /// <see cref="IVariant{Boolean}"/> and keep things brief as possible.
         /// </summary>
         /// <param name="enumName"></param>
         /// <param name="optionNames"></param>
@@ -48,7 +49,7 @@ namespace Kingdom.Protobuf
         [Theory, ClassData(typeof(EnumWithOptionStatementTestCases))]
         public void VerifyWithOptionStatement(string enumName, OptionIdentifierPath[] optionNames
             // ReSharper disable once IdentifierTypo
-            , IConstant[] optionConsts)
+            , IVariant[] optionConsts)
         {
             IEnumerable<IEnumBodyItem> GetEnumBodyItems()
             {
@@ -63,7 +64,7 @@ namespace Kingdom.Protobuf
                 {
                     var current = inputs.CurrentCombination.ToArray();
                     var optionName = (OptionIdentifierPath) current[0];
-                    var optionConst = (IConstant) current[1];
+                    var optionConst = (IVariant) current[1];
                     yield return new OptionStatement {Name = optionName, Value = optionConst};
                 }
             }
@@ -74,7 +75,7 @@ namespace Kingdom.Protobuf
         [Theory, ClassData(typeof(EnumWithOptionStatementWithWhiteSpaceTestCases))]
         public void VerifyWithOptionStatementWithWhiteSpace(string enumName, OptionIdentifierPath[] optionNames
             // ReSharper disable once IdentifierTypo
-            , IConstant[] optionConsts, WhiteSpaceAndCommentOption whiteSpaceOption)
+            , IVariant[] optionConsts, WhiteSpaceAndCommentOption whiteSpaceOption)
         {
             RenderingOptions = new StringRenderingOptions {WhiteSpaceAndCommentRendering = whiteSpaceOption};
             VerifyWithOptionStatement(enumName, optionNames, optionConsts);

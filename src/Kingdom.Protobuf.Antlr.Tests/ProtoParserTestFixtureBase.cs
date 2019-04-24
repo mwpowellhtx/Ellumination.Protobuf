@@ -6,6 +6,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Antlr4.Runtime;
+    using Kingdom.Collections.Variants;
     using Xunit;
     using Xunit.Abstractions;
     using static CollectionHelpers;
@@ -153,7 +154,7 @@ namespace Kingdom.Protobuf
             Assert.Equal(expectedPath.IsGlobalScope, actualPath.IsGlobalScope);
         }
 
-        protected virtual void VerifyConstant(IConstant<double> expectedConstant, IConstant<double> actualConstant)
+        protected virtual void VerifyConstant(IVariant<double> expectedConstant, IVariant<double> actualConstant)
         {
             Assert.NotNull(expectedConstant);
             Assert.NotSame(expectedConstant, actualConstant);
@@ -178,33 +179,33 @@ namespace Kingdom.Protobuf
                 return;
             }
 
-            OutputHelper.WriteLine($"{nameof(expectedConstant)}.{nameof(IConstant.Value)} = {expectedConstant.Value:f99}");
-            OutputHelper.WriteLine($"{nameof(actualConstant)}.{nameof(IConstant.Value)} = {actualConstant.Value:f99}");
+            OutputHelper.WriteLine($"{nameof(expectedConstant)}.{nameof(IVariant.Value)} = {expectedConstant.Value:f99}");
+            OutputHelper.WriteLine($"{nameof(actualConstant)}.{nameof(IVariant.Value)} = {actualConstant.Value:f99}");
 
             var result = actualConstant.Equals(expectedConstant);
 
             /* Otherwise, I think we can do a "normal" comparison.
              * No need to invoke xUnit Assert.Equal, I think. */
             Assert.True(result
-                , $"Failed verifying '{typeof(IEquatable<IConstant>).FullName}"
-                  + $".{nameof(IEquatable<IConstant>.Equals)}' invocation."
+                , $"Failed verifying '{typeof(IEquatable<IVariant>).FullName}"
+                  + $".{nameof(IEquatable<IVariant>.Equals)}' invocation."
             );
         }
 
-        protected virtual void VerifyConstant(IConstant expectedConstant, IConstant actualConstant)
+        protected virtual void VerifyConstant(IVariant expectedConstant, IVariant actualConstant)
         {
             // We need to treat Double Verification a little bit differently on account of NaN, Infinity, etc.
-            if (expectedConstant is IConstant<double> expectedConstantDouble)
+            if (expectedConstant is IVariant<double> expectedConstantDouble)
             {
-                if (actualConstant is IConstant<double> actualConstantDouble)
+                if (actualConstant is IVariant<double> actualConstantDouble)
                 {
                     VerifyConstant(expectedConstantDouble, actualConstantDouble);
                 }
                 else
                 {
-                    Assert.True(actualConstant is IConstant<double>
+                    Assert.True(actualConstant is IVariant<double>
                         , $"Expected {nameof(actualConstant)}"
-                          + $"to be '{typeof(IConstant<double>).FullName}'");   
+                          + $"to be '{typeof(IVariant<double>).FullName}'");   
                 }
 
                 return;
@@ -215,8 +216,8 @@ namespace Kingdom.Protobuf
 
             // Otherwise, I think we can do a "normal" comparison.
             Assert.True(actualConstant.Equals(expectedConstant)
-                , $"Failed verifying {typeof(IEquatable<IConstant>).FullName}"
-                  + $".{nameof(IEquatable<IConstant>.Equals)} invocation."
+                , $"Failed verifying {typeof(IEquatable<IVariant>).FullName}"
+                  + $".{nameof(IEquatable<IVariant>.Equals)} invocation."
             );
 
             // TODO: TBD: or this way ?

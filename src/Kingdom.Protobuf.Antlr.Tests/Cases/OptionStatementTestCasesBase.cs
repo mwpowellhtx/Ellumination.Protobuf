@@ -5,6 +5,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
+    using Kingdom.Collections.Variants;
     using static CollectionHelpers;
     using static Domain;
 
@@ -12,14 +13,14 @@ namespace Kingdom.Protobuf
     {
         // ReSharper disable once InconsistentNaming
         /// <summary>
-        /// Returns the set of <see cref="IConstant"/> Values.
+        /// Returns the set of <see cref="IVariant"/> Values.
         /// </summary>
         /// <returns></returns>
-        protected abstract IEnumerable<IConstant> GetConstants();
+        protected abstract IEnumerable<IVariant> GetConstants();
 
-        private IEnumerable<IConstant> _constants;
+        private IEnumerable<IVariant> _constants;
 
-        protected IEnumerable<IConstant> Constants => _constants ?? (_constants = GetConstants().ToArray());
+        protected IEnumerable<IVariant> Constants => _constants ?? (_constants = GetConstants().ToArray());
 
         private static IEnumerable<OptionIdentifierPath> _optionNames;
 

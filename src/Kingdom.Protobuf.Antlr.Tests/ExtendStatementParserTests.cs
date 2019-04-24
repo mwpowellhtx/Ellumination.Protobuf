@@ -49,7 +49,7 @@ namespace Kingdom.Protobuf
         {
             const LabelKind label = LabelKind.Required;
             IVariant fieldType = Variant.Create(ProtoType.Double);
-            IConstant optionConst = Constant.Create(true);
+            IVariant optionConst = Constant.Create(true);
 
             IEnumerable<FieldOption> GetFieldOptions() => GetRange(
                 new FieldOption {Name = optionName, Value = optionConst}
@@ -106,7 +106,7 @@ namespace Kingdom.Protobuf
         {
             const LabelKind label = LabelKind.Required;
             IVariant fieldType = Variant.Create(ProtoType.Double);
-            IConstant optionConst = Constant.Create(true);
+            IVariant optionConst = Constant.Create(true);
 
             IEnumerable<FieldOption> GetFieldOptions() => optionNames.Select(
                 x => new FieldOption {Name = x, Value = optionConst}

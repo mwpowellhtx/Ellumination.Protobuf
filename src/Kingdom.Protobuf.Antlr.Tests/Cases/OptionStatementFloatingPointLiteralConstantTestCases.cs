@@ -5,6 +5,7 @@ using System.Linq;
 namespace Kingdom.Protobuf
 {
     using Combinatorics.Combinatorials;
+    using Kingdom.Collections.Variants;
     using static CollectionHelpers;
     using static Domain;
     using static Randomizer;
@@ -45,8 +46,8 @@ namespace Kingdom.Protobuf
             }
         }
 
-        protected override IEnumerable<IConstant> GetConstants()
-            => PrivateValues.Select<double, IConstant>(Constant.Create);
+        protected override IEnumerable<IVariant> GetConstants()
+            => PrivateValues.Select<double, IVariant>(Constant.Create);
 
         private static IEnumerable<IStringRenderingOptions> _renderingOptions;
 

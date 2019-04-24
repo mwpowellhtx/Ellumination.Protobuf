@@ -4,6 +4,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Kingdom.Collections.Variants;
     using static CollectionHelpers;
     using static Domain;
     using static Identification;
@@ -21,7 +22,7 @@ namespace Kingdom.Protobuf
                 , FieldNumber // FieldNumber
                 , GetOptionIdentifierPaths(GetRange(3), GetRange(3)
                     , GetRange(3), GetRange(3)).ToArray() // OptionNames
-                , GetRange<IConstant>(Constant.Create(true)).ToArray() // OptionValues
+                , GetRange<IVariant>(Constant.Create(true)).ToArray() // OptionValues
             ).ToArray();
         }
 
