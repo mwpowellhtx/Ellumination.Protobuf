@@ -59,7 +59,7 @@ namespace Kingdom.Protobuf
             }
 
             // ReSharper disable once ImplicitlyCapturedClosure
-            void HydrateIdentifierPath(IIdentifierPath x, Identifier y)
+            void HydrateIdentifierPath(IdentifierPath x, Identifier y)
             {
                 y.Name = context.GetText();
                 x.Add(y);
@@ -124,7 +124,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void ExitFullIdent(ProtoParser.FullIdentContext context)
         {
-            void TransferIdentifierPath(IIdentifierPath x, IdentifierPath y)
+            void TransferIdentifierPath(IdentifierPath x, IdentifierPath y)
             {
                 foreach (var z in y)
                 {
@@ -147,7 +147,7 @@ namespace Kingdom.Protobuf
                         (ref OptionIdentifierPath x, IdentifierPath y) => TransferIdentifierPath(x, y)
                     )
                     , () => TryOnExitResolveSynthesizedAttribute(
-                        (ref Constant<IIdentifierPath> x, IdentifierPath y) => x.Value = y
+                        (ref Variant<IdentifierPath> x, IdentifierPath y) => x.Value = y
                     )
                 )
             )
@@ -169,10 +169,7 @@ namespace Kingdom.Protobuf
                         // ReSharper disable once RedundantAssignment
                         (ref OptionIdentifierPath x, OptionIdentifierPath y) =>
                         {
-                            // ReSharper disable once InconsistentNaming
-                            var y_Count = y.Count;
-
-                            y.SuffixStartIndex = y_Count;
+                            y.SuffixStartIndex = y.Count;
                             x = y;
                         })
                 )
@@ -335,7 +332,7 @@ namespace Kingdom.Protobuf
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
-                        (ref IConstant x, bool y) => x = Constant.Create(y)
+                        (ref IVariant x, bool y) => x = Constant.Create(y)
                     )
                 )
             )
@@ -426,7 +423,7 @@ namespace Kingdom.Protobuf
         public override void ExitIntLit(ProtoParser.IntLitContext context)
         {
             using (CreateContext(context, Stack
-                    , () => TryOnExitResolveSynthesizedAttribute((ref Constant<long> x, long y) => x.Value = y)
+                    , () => TryOnExitResolveSynthesizedAttribute((ref Variant<long> x, long y) => x.Value = y)
                     // ReSharper disable once RedundantAssignment
                     , () => TryOnExitResolveSynthesizedAttribute((ref long x, long y) => x = y)
                 )
@@ -479,7 +476,7 @@ namespace Kingdom.Protobuf
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
-                        (ref IConstant x, Constant<long> y) =>
+                        (ref IVariant x, Variant<long> y) =>
                         {
                             bool IsNegativelySigned(string s) => s.Any() && s[0] == '-';
                             y.Value = IsNegativelySigned(context.GetText()) ? -y.Value : y.Value;
@@ -561,7 +558,7 @@ namespace Kingdom.Protobuf
         public override void ExitFloatLit(ProtoParser.FloatLitContext context)
         {
             using (CreateContext(context, Stack
-                    , () => TryOnExitResolveSynthesizedAttribute((ref Constant<double> x, double y) => x.Value = y)
+                    , () => TryOnExitResolveSynthesizedAttribute((ref Variant<double> x, double y) => x.Value = y)
                 )
             )
             {
@@ -573,7 +570,7 @@ namespace Kingdom.Protobuf
         {
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
             // Here we can know that the Floating Point Literal is destined as a Constant.
-            OnEnterSynthesizeAttribute(context, ctx => new Constant<double> { });
+            OnEnterSynthesizeAttribute(context, ctx => Constant.Create<double>());
         }
 
         /// <inheritdoc />
@@ -582,7 +579,7 @@ namespace Kingdom.Protobuf
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
-                        (ref IConstant x, Constant<double> y) =>
+                        (ref IVariant x, Variant<double> y) =>
                         {
                             bool IsNaN(double z) => double.IsNaN(z);
 
@@ -650,7 +647,7 @@ namespace Kingdom.Protobuf
                     // ReSharper disable once RedundantAssignment
                     , () => TryOnExitResolveSynthesizedAttribute((ref string x, string y) => x = GetContextTextSans())
                     // ReSharper disable once RedundantAssignment
-                    , () => TryOnExitResolveSynthesizedAttribute((ref IConstant x, string y) => x = Constant.Create(GetContextTextSans()))
+                    , () => TryOnExitResolveSynthesizedAttribute((ref IVariant x, string y) => x = Constant.Create(GetContextTextSans()))
                     , () => TryOnExitResolveSynthesizedAttribute((ref ImportStatement x, string y) => x.ImportPath = GetContextTextSans())
                     , () => TryOnExitResolveSynthesizedAttribute((ref SyntaxStatement x, string y) => x.Syntax = GetContextTextSans().ToSyntaxKind())
                 )
@@ -663,7 +660,8 @@ namespace Kingdom.Protobuf
         public override void EnterFullIdentLit(ProtoParser.FullIdentLitContext context)
         {
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
-            OnEnterSynthesizeAttribute(context, ctx => new Constant<IIdentifierPath> { });
+            // Must do this one with the concrete type, not the interface.
+            OnEnterSynthesizeAttribute(context, ctx => Constant.Create(new IdentifierPath { }));
         }
 
         /// <inheritdoc />
@@ -672,7 +670,7 @@ namespace Kingdom.Protobuf
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
                         // ReSharper disable once RedundantAssignment
-                        (ref IConstant x, Constant<IIdentifierPath> y) => x = y
+                        (ref IVariant x, Variant<IdentifierPath> y) => x = y
                     )
                 )
             )
@@ -683,7 +681,7 @@ namespace Kingdom.Protobuf
         /// <inheritdoc />
         public override void EnterConstant(ProtoParser.ConstantContext context)
         {
-            OnEnterSynthesizeAttribute(context, ctx => GetDefault<IConstant>());
+            OnEnterSynthesizeAttribute(context, ctx => GetDefault<IVariant>());
         }
 
         /// <inheritdoc />
@@ -692,13 +690,13 @@ namespace Kingdom.Protobuf
             // Should support any of the model Having a Constant.
             using (CreateContext(context, Stack
                     , () => TryOnExitResolveSynthesizedAttribute(
-                        (ref EnumValueOption x, IConstant y) => x.Value = y
+                        (ref EnumValueOption x, IVariant y) => x.Value = y
                     )
                     , () => TryOnExitResolveSynthesizedAttribute(
-                        (ref OptionStatement x, IConstant y) => x.Value = y
+                        (ref OptionStatement x, IVariant y) => x.Value = y
                     )
                     , () => TryOnExitResolveSynthesizedAttribute(
-                        (ref FieldOption x, IConstant y) => x.Value = y
+                        (ref FieldOption x, IVariant y) => x.Value = y
                     )
                 )
             )
