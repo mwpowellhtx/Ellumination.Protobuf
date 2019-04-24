@@ -1,6 +1,7 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Collections.Variants;
     using static Characters;
     using static WhiteSpaceAndCommentOption;
 
@@ -21,7 +22,7 @@ namespace Kingdom.Protobuf
         }
 
         /// <inheritdoc />
-        public IConstant Value { get; set; }
+        public IVariant Value { get; set; }
 
         /// <summary>
         /// Returns whether <paramref name="a"/> Equals <paramref name="b"/>.

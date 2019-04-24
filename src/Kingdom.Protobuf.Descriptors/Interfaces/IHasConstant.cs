@@ -1,6 +1,8 @@
 ﻿// ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Collections.Variants;
+
     /// <summary>
     /// 
     /// </summary>
@@ -9,6 +11,6 @@ namespace Kingdom.Protobuf
         /// <summary>
         /// Gets or sets the Value.
         /// </summary>
-        IConstant Value { get; set; }
+        IVariant Value { get; set; }
     }
 }

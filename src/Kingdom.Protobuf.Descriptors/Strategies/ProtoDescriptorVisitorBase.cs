@@ -496,7 +496,7 @@ namespace Kingdom.Protobuf
         /// Visits the <paramref name="constant"/>.
         /// </summary>
         /// <param name="constant"></param>
-        protected virtual void VisitOptionValue(IConstant constant)
+        protected virtual void VisitOptionValue(IVariant constant)
         {
         }
 
