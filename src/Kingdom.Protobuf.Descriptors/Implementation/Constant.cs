@@ -101,7 +101,7 @@ namespace Kingdom.Protobuf
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <see cref="Variant{T}"/>
-        /// <see cref="Create{T}(T)"/>
+        /// <see cref="Collections.Variants.Variant.Create{T}(IVariantConfigurationCollection)"/>
         public static Variant<T> Create<T>() => Collections.Variants.Variant.Create<T>(ConstantConfiguration);
 
         /// <summary>
