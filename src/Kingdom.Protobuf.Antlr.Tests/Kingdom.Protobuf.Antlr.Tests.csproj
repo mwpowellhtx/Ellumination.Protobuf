@@ -7,10 +7,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.0.2.25113</Version>
-    <AssemblyVersion>1.0.2.25113</AssemblyVersion>
-    <FileVersion>1.0.2.25113</FileVersion>
-    <PackageVersion>1.0.2.25113</PackageVersion>
+    <Version>1.0.2.25121</Version>
+    <AssemblyVersion>1.0.2.25121</AssemblyVersion>
+    <FileVersion>1.0.2.25121</FileVersion>
+    <PackageVersion>1.0.2.25121</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.0.0.9089" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
     <PackageReference Include="xunit.runner.console" Version="2.3.1">
