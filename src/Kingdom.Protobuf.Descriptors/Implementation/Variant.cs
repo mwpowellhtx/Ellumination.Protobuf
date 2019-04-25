@@ -11,9 +11,11 @@ namespace Kingdom.Protobuf
 
     // TODO: TBD: what to do with Constants/Constant-Configuration...
     /// <summary>
-    /// This class now serves as a proxy to the <see cref="Variant{T}"/> dependency.
+    /// Provides a Domain level facade interfacing with <see cref="Variant{T}"/> for
+    /// Variant purposes.
     /// </summary>
     /// <see cref="Collections.Variants.Variant"/>
+    /// <see cref="Collections.Variants.Variant{T}"/>
     /// <see cref="Collections.Variants.Variant.Create"/>
     public static class Variant
     {
@@ -61,7 +63,7 @@ namespace Kingdom.Protobuf
         /// <see cref="VariantExtensionMethods"/>. Additionally, we cannot support the
         /// <see cref="IElementTypeIdentifierPath"/> interface here. Rather, we must support
         /// the concrete <see cref="ElementTypeIdentifierPath"/> type instead.</remarks>
-        private static IVariantConfigurationCollection Configuration
+        private static IVariantConfigurationCollection VariantConfiguration
             => VariantConfigurationCollection.Create(
                 Configure<ProtoType>(
                     (x, y) => (ProtoType) x == (ProtoType) y
@@ -77,7 +79,7 @@ namespace Kingdom.Protobuf
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Variant<T> Create<T>() => Collections.Variants.Variant.Create(default(T), Configuration);
+        public static Variant<T> Create<T>() => Collections.Variants.Variant.Create<T>(VariantConfiguration);
 
         /// <summary>
         /// Returns a new <see cref="Variant{T}"/> instance.
@@ -85,6 +87,6 @@ namespace Kingdom.Protobuf
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Variant<T> Create<T>(T value) => Collections.Variants.Variant.Create(value, Configuration);
+        public static Variant<T> Create<T>(T value) => Collections.Variants.Variant.Create(value, VariantConfiguration);
     }
 }

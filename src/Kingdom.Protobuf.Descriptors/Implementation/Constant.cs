@@ -12,12 +12,12 @@ namespace Kingdom.Protobuf
 
     // TODO: TBD: see notes on IConstant for purposes of evaluating potential refactoring to Kingdom.Collections.Variants.Variant usage...
     /// <summary>
-    /// 
+    /// Provides a Domain level facade interfacing with <see cref="Variant{T}"/> for
+    /// Constant purposes.
     /// </summary>
     /// <see cref="Collections.Variants.Variant"/>
     /// <see cref="Collections.Variants.Variant{T}"/>
-    /// <see cref="IVariant"/>
-    /// <see cref="Collections.Variants.IVariant{T}"/>
+    /// <see cref="Collections.Variants.Variant.Create"/>
     public static class Constant
     {
         private static IVariantConfigurationCollection _constantConfiguration;
@@ -102,7 +102,7 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         /// <see cref="Variant{T}"/>
         /// <see cref="Create{T}(T)"/>
-        public static Variant<T> Create<T>() => Create(default(T));
+        public static Variant<T> Create<T>() => Collections.Variants.Variant.Create<T>(ConstantConfiguration);
 
         /// <summary>
         /// Returns a new <see cref="Variant{T}"/> instance.
