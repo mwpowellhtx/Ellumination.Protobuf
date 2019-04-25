@@ -661,7 +661,7 @@ namespace Kingdom.Protobuf
         {
             // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
             // Must do this one with the concrete type, not the interface.
-            OnEnterSynthesizeAttribute(context, ctx => Constant.Create(new IdentifierPath { }));
+            OnEnterSynthesizeAttribute(context, ctx => Constant.Create<IdentifierPath>());
         }
 
         /// <inheritdoc />
