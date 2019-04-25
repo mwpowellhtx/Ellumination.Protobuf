@@ -10,10 +10,10 @@
     <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.6.22523</Version>
-    <AssemblyVersion>1.0.6.22523</AssemblyVersion>
-    <FileVersion>1.0.6.22523</FileVersion>
-    <PackageVersion>1.0.6.22523</PackageVersion>
+    <Version>1.0.10.15046</Version>
+    <AssemblyVersion>1.0.10.15046</AssemblyVersion>
+    <FileVersion>1.0.10.15046</FileVersion>
+    <PackageVersion>1.0.10.15046</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -33,7 +33,7 @@
     <!-- ReSharper disable once UnknownProperty -->
     <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
     <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.0.0.9089" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
     <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="1.2.7.29189" />
   </ItemGroup>
 
