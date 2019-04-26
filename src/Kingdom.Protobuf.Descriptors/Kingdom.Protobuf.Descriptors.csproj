@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree (AST) Descriptors. Note that we only furnish a subset of the AST for purposes of what we are doing.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.9.16179</Version>
-    <AssemblyVersion>1.0.9.16179</AssemblyVersion>
-    <FileVersion>1.0.9.16179</FileVersion>
-    <PackageVersion>1.0.9.16179</PackageVersion>
+    <Version>1.0.9.16189</Version>
+    <AssemblyVersion>1.0.9.16189</AssemblyVersion>
+    <FileVersion>1.0.9.16189</FileVersion>
+    <PackageVersion>1.0.9.16189</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DefineConstants Condition="'$(Configuration)'=='Debug'">DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Protobuf.Descriptors.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -39,6 +40,9 @@
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Kingdom.Protobuf.Antlr.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Kingdom.Protobuf.Descriptors.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
