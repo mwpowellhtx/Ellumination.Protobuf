@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{00
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Protobuf.Descriptors.Tests", "Kingdom.Protobuf.Descriptors.Tests\Kingdom.Protobuf.Descriptors.Tests.csproj", "{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,9 @@ Global
 		{13F69B83-294E-4E17-878E-40D0DDBC9963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13F69B83-294E-4E17-878E-40D0DDBC9963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F69B83-294E-4E17-878E-40D0DDBC9963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +65,7 @@ Global
 		{CDD4A3E4-FF1F-4536-96B9-C9AE762EA955} = {E22658BA-DCEB-4608-B0DB-3403763C6D5D}
 		{725A4523-0390-4D0A-8EB3-99B13ED364F6} = {9F393E7B-CE40-4107-85CD-548FDA42D179}
 		{13F69B83-294E-4E17-878E-40D0DDBC9963} = {E22658BA-DCEB-4608-B0DB-3403763C6D5D}
+		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5} = {E22658BA-DCEB-4608-B0DB-3403763C6D5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0857B55-1952-45F6-B332-316927B2AA2B}
