@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree (AST) Descriptors. Note that we only furnish a subset of the AST for purposes of what we are doing.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.9.16189</Version>
-    <AssemblyVersion>1.0.9.16189</AssemblyVersion>
-    <FileVersion>1.0.9.16189</FileVersion>
-    <PackageVersion>1.0.9.16189</PackageVersion>
+    <Version>1.0.9.16191</Version>
+    <AssemblyVersion>1.0.9.16191</AssemblyVersion>
+    <FileVersion>1.0.9.16191</FileVersion>
+    <PackageVersion>1.0.9.16191</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
