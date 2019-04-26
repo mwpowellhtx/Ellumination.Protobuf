@@ -62,6 +62,11 @@ namespace Kingdom.Protobuf
             Assert.Equal(typeof(T), configuration.VariantType.AssertNotNull());
         }
 
+#pragma warning disable xUnit1003
+        [Theory]
+        public virtual void Verify_Type_Is_Expected(Type expectedType) => Assert.Equal(expectedType.VerifyNotNull(), FixtureType.VerifyNotNull());
+#pragma warning restore xUnit1003
+
         [Fact]
         public void Type_Is_Static() => Assert.True(FixtureType.AssertNotNull().IsStatic());
 

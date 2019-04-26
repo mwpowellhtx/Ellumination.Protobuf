@@ -30,6 +30,12 @@ namespace Kingdom.Protobuf
                 , VerifyConfiguration<ProtoType>
                 , VerifyConfiguration<ElementTypeIdentifierPath>
             );
+
+#pragma warning disable xUnit1008
+        [InlineData(typeof(Variant))]
+        public override void Verify_Type_Is_Expected(Type expectedType) => base.Verify_Type_Is_Expected(expectedType);
+#pragma warning restore xUnit1008
+
     }
 }
 

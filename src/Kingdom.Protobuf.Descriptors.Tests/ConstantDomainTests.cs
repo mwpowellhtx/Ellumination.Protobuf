@@ -38,6 +38,11 @@ namespace Kingdom.Protobuf
                 , VerifyConfiguration<IBytesEnumerable>
                 , VerifyConfiguration<IdentifierPath>
             );
+
+#pragma warning disable xUnit1008
+        [InlineData(typeof(Constant))]
+        public override void Verify_Type_Is_Expected(Type expectedType) => base.Verify_Type_Is_Expected(expectedType);
+#pragma warning restore xUnit1008
     }
 }
 
