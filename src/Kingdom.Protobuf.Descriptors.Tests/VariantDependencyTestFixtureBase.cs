@@ -13,6 +13,12 @@ namespace Kingdom.Protobuf
     using static Type;
     using static BindingFlags;
 
+    /// <summary>
+    /// Establishes the basis for verification of the
+    /// <see cref="IVariantConfigurationCollection"/> internal configuration. We are not here to
+    /// test that the collection itself is working, or even the <see cref="Variant{T}"/>, for that
+    /// matter, but, rather, whether our internal configuration is working as expected.
+    /// </summary>
     public abstract class VariantDependencyTestFixtureBase : TestFixtureBase
     {
         /// <summary>
@@ -45,6 +51,15 @@ namespace Kingdom.Protobuf
         protected VariantDependencyTestFixtureBase(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
+        }
+
+        protected static void VerifyConfiguration<T>(IVariantConfiguration configuration)
+        {
+            // TODO: TBD: evaluate the callbacks more substantively?
+            configuration.AssertNotNull();
+            configuration.EquatableCallback.AssertNotNull();
+            configuration.ComparableCallback.AssertNotNull();
+            Assert.Equal(typeof(T), configuration.VariantType.AssertNotNull());
         }
 
         [Fact]
