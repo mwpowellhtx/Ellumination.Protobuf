@@ -1,14 +1,23 @@
-﻿using System;
-using Kingdom.Collections.Variants;
+﻿#if DEBUG
+
+using System;
 
 // ReSharper disable once IdentifierTypo
 namespace Kingdom.Protobuf
 {
+    using Collections.Variants;
     using Xunit;
     using Xunit.Abstractions;
 
+    /// <summary>
+    /// Provides <see cref="Variant"/> specific unit test verification.
+    /// </summary>
+    /// <inheritdoc />
     public class VariantDomainTests : VariantDependencyTestFixtureBase
     {
+        /// <inheritdoc />
+        /// <remarks>We have to do it this way because <see cref="Variant"/> is static,
+        /// so it does not pass via Generic parameter list.</remarks>
         protected override Type FixtureType { get; } = typeof(Variant);
 
         public VariantDomainTests(ITestOutputHelper outputHelper)
@@ -17,22 +26,11 @@ namespace Kingdom.Protobuf
         }
 
         protected override void VerifyConfigurationCorrect(IVariantConfigurationCollection configuration)
-        {
-            Assert.Collection(InternalConfiguration
-                , x =>
-                {
-                    // TODO: TBD: evaluate the callbacks more substantively?
-                    Assert.NotNull(x.EquatableCallback);
-                    Assert.NotNull(x.ComparableCallback);
-                    Assert.Equal(typeof(ProtoType), x.VariantType);
-                }
-                , x =>
-                {
-                    Assert.NotNull(x.EquatableCallback);
-                    Assert.NotNull(x.ComparableCallback);
-                    Assert.Equal(typeof(ElementTypeIdentifierPath), x.VariantType);
-                }
+            => Assert.Collection(InternalConfiguration
+                , VerifyConfiguration<ProtoType>
+                , VerifyConfiguration<ElementTypeIdentifierPath>
             );
-        }
     }
 }
+
+#endif // DEBUG
