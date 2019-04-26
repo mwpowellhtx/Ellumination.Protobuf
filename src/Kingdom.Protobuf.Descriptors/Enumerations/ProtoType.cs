@@ -9,12 +9,12 @@ namespace Kingdom.Protobuf
         /// <summary>
         /// 
         /// </summary>
-        Double,
+        Float,
 
         /// <summary>
         /// 
         /// </summary>
-        Float,
+        Double,
 
         /// <summary>
         /// 
