@@ -10,10 +10,10 @@
     <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.11.16182</Version>
-    <AssemblyVersion>1.0.11.16182</AssemblyVersion>
-    <FileVersion>1.0.11.16182</FileVersion>
-    <PackageVersion>1.0.11.16182</PackageVersion>
+    <Version>1.0.12.22961</Version>
+    <AssemblyVersion>1.0.12.22961</AssemblyVersion>
+    <FileVersion>1.0.12.22961</FileVersion>
+    <PackageVersion>1.0.12.22961</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
