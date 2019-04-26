@@ -94,5 +94,13 @@ namespace Kingdom.Protobuf
         /// <returns></returns>
         public static string ToDescriptorString(this KeyType value, IStringRenderingOptions options)
             => ToDescriptorString((ProtoType) (int) value, options);
+
+        /// <summary>
+        /// Returns the Comparison of <paramref name="value"/> with <paramref name="other"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static int CompareProtoTypeTo(this ProtoType value, ProtoType other) => (int) value - (int) other;
     }
 }
