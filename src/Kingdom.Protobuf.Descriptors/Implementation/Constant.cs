@@ -20,8 +20,6 @@ namespace Kingdom.Protobuf
     /// <see cref="Collections.Variants.Variant.Create"/>
     public static class Constant
     {
-        private static IVariantConfigurationCollection _constantConfiguration;
-
         private static bool FloatEquals(float x, float y)
         {
             if (float.IsNaN(x)
@@ -72,28 +70,32 @@ namespace Kingdom.Protobuf
         }
 
         internal static IVariantConfigurationCollection ConstantConfiguration
-            => _constantConfiguration ?? (_constantConfiguration = VariantConfigurationCollection.Create(
-                       VariantConfiguration.Configure<bool>((x, y) => (bool) x == (bool) y
-                           , (x, y) => ((bool) x).CompareTo((bool) y))
-                       , VariantConfiguration.Configure<long>((x, y) => (long) x == (long) y
-                           , (x, y) => ((long) x).CompareTo((long) y))
-                       , VariantConfiguration.Configure<ulong>((x, y) => (ulong) x == (ulong) y
-                           , (x, y) => ((ulong) x).CompareTo((ulong) y))
-                       , VariantConfiguration.Configure<float>((x, y) => FloatEquals((float) x, (float) y)
-                           , (x, y) => FloatCompareTo((float) x, (float) y))
-                       , VariantConfiguration.Configure<double>((x, y) => DoubleEquals((double) x, (double) y)
-                           , (x, y) => DoubleCompareTo((double) x, (double) y))
-                       , VariantConfiguration.Configure<string>((x, y) => (string) x == (string) y
-                           , (x, y) => Compare((string) x, (string) y, InvariantCulture))
-                       , VariantConfiguration.Configure<IBytesEnumerable>(
-                           (x, y) => ReferenceEquals(x, y)
-                                     || ((IBytesEnumerable) x).SequenceEqual((IBytesEnumerable) y)
-                           , (x, y) => ElementCompareTo((IBytesEnumerable) x, (IBytesEnumerable) y, item => item))
-                       , VariantConfiguration.Configure<IdentifierPath>(
-                           (x, y) => IdentifierPath.Equals((IdentifierPath) x, (IdentifierPath) y)
-                           , (x, y) => ElementCompareTo((IdentifierPath) x, (IdentifierPath) y, item => item.Name))
-                   )
-               );
+            => VariantConfigurationCollection.Create(
+                VariantConfiguration.Configure<bool>((x, y) => (bool) x == (bool) y
+                    , (x, y) => ((bool) x).CompareTo((bool) y))
+                , VariantConfiguration.Configure<long>((x, y) => (long) x == (long) y
+                    , (x, y) => ((long) x).CompareTo((long) y))
+                , VariantConfiguration.Configure<ulong>((x, y) => (ulong) x == (ulong) y
+                    , (x, y) => ((ulong) x).CompareTo((ulong) y))
+                , VariantConfiguration.Configure<float>((x, y) => FloatEquals((float) x, (float) y)
+                    , (x, y) => FloatCompareTo((float) x, (float) y))
+                , VariantConfiguration.Configure<double>((x, y) => DoubleEquals((double) x, (double) y)
+                    , (x, y) => DoubleCompareTo((double) x, (double) y))
+                , VariantConfiguration.Configure<string>((x, y) => (string) x == (string) y
+                    , (x, y) => Compare((string) x, (string) y, InvariantCulture))
+                , VariantConfiguration.Configure<IBytesEnumerable>(
+                    (x, y) => ReferenceEquals(x, y)
+                              || ((IBytesEnumerable) x).SequenceEqual((IBytesEnumerable) y)
+                    , (x, y) => ElementCompareTo((IBytesEnumerable) x, (IBytesEnumerable) y, item => item))
+                , VariantConfiguration.Configure<IdentifierPath>(
+                    (x, y) => IdentifierPath.Equals((IdentifierPath) x, (IdentifierPath) y)
+                    , (x, y) => ElementCompareTo((IdentifierPath) x, (IdentifierPath) y, item => item.Name))
+            );
+
+#if DEBUG
+        // ReSharper disable once UnusedMember.Global
+        internal static IVariantConfigurationCollection InternalConfiguration => ConstantConfiguration;
+#endif // DEBUG
 
         /// <summary>
         /// Returns a new <see cref="Variant{T}"/> instance.
