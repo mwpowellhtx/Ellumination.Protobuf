@@ -67,12 +67,18 @@ namespace Kingdom.Protobuf
             => VariantConfigurationCollection.Create(
                 Configure<ProtoType>(
                     (x, y) => (ProtoType) x == (ProtoType) y
-                    , (x, y) => ((int) x).CompareTo((int) y))
+                    , (x, y) => ((ProtoType) x).CompareProtoTypeTo((ProtoType) y))
                 , Configure<ElementTypeIdentifierPath>(
                     (x, y) => ReferenceEquals(x, y)
                               || ((ElementTypeIdentifierPath) x).Equals((ElementTypeIdentifierPath) y)
                     , (x, y) => CompareTo((ElementTypeIdentifierPath) x, (ElementTypeIdentifierPath) y))
             );
+
+
+#if DEBUG
+        // ReSharper disable once UnusedMember.Global
+        internal static IVariantConfigurationCollection InternalConfiguration => VariantConfiguration;
+#endif // DEBUG
 
         /// <summary>
         /// Returns a new <see cref="Variant{T}"/> instance.
