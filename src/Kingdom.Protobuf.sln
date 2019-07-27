@@ -15,16 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Antlr.Regressions.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Protobuf.Descriptors", "Kingdom.Protobuf.Descriptors\Kingdom.Protobuf.Descriptors.csproj", "{725A4523-0390-4D0A-8EB3-99B13ED364F6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A42396C3-3AB5-432F-A666-5AFCFEDE1468}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet.Config = NuGet.Config
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Protobuf.Antlr.Tests", "Kingdom.Protobuf.Antlr.Tests\Kingdom.Protobuf.Antlr.Tests.csproj", "{13F69B83-294E-4E17-878E-40D0DDBC9963}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{00135CCA-E2D3-4189-92A8-F3A199712982}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		Licensing.props = Licensing.props
+		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Protobuf.Descriptors.Tests", "Kingdom.Protobuf.Descriptors.Tests\Kingdom.Protobuf.Descriptors.Tests.csproj", "{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}"
