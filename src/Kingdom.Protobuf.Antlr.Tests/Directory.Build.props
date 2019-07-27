@@ -1,6 +1,0 @@
-<Project>
-
-  <!-- ReSharper disable once UnknownProperty -->
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
- 
-</Project>
