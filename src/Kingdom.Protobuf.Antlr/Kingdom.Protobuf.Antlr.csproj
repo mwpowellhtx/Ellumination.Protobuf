@@ -10,10 +10,10 @@
     <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.12.22961</Version>
-    <AssemblyVersion>1.0.12.22961</AssemblyVersion>
-    <FileVersion>1.0.12.22961</FileVersion>
-    <PackageVersion>1.0.12.22961</PackageVersion>
+    <Version>1.0.13.16834</Version>
+    <AssemblyVersion>1.0.13.16834</AssemblyVersion>
+    <FileVersion>1.0.13.16834</FileVersion>
+    <PackageVersion>1.0.13.16834</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -24,26 +24,22 @@
     <None Remove="Kingdom.Protobuf.Antlr.csproj.DotSettings" />
   </ItemGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <!-- ReSharper disable once UnknownProperty -->
-    <PackageReference Include="Antlr4" Version="$(AntlrVersion)">
+    <PackageReference Include="Antlr4" Version="$(AntlrVersions)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <!-- ReSharper disable once UnknownProperty -->
-    <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
-    <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
-    <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="1.2.7.29189" />
+    <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersions)" />
+    <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="$(KingdomCollectionsBidirectionalsVersions)" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="$(KingdomCollectionsVariantsVersions)" />
+    <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="$(KingdomCombinatoricsCombinatorialsVersions)" />
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Protobuf.Descriptors\Kingdom.Protobuf.Descriptors.csproj" />
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
@@ -63,5 +59,7 @@
       <DefaultCustomToolNamespace>$([MSBuild]::ValueOrDefault('$(RootNamespace).%(DefaultCustomToolNamespace)', '').TrimEnd('.'))</DefaultCustomToolNamespace>
     </None>
   </ItemGroup>
+
+  <Import Project="..\Licensing.props" />
 
 </Project>

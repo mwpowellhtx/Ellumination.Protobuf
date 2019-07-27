@@ -1,25 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Kingdom.Antlr.Regressions.Case</RootNamespace>
+    <Version>1.0.0.22970</Version>
+    <AssemblyVersion>1.0.0.22970</AssemblyVersion>
+    <FileVersion>1.0.0.22970</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Kingdom.Antlr.Regressions.Case.csproj.DotSettings" />
   </ItemGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <PackageReference Include="Antlr4" Version="4.6.6">
+    <PackageReference Include="Antlr4" Version="$(AntlrVersions)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6">
+    <PackageReference Include="Antlr4.CodeGenerator" Version="$(AntlrVersions)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+    <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersions)" />
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <PropertyGroup>
     <Antlr4UseCSharpGenerator>true</Antlr4UseCSharpGenerator>

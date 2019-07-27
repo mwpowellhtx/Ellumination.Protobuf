@@ -1,26 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>Kingdom.Antlr.Regression</RootNamespace>
+    <Version>1.0.0.22970</Version>
+    <AssemblyVersion>1.0.0.22970</AssemblyVersion>
+    <FileVersion>1.0.0.22970</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Kingdom.Antlr.Regressions.Tests.csproj.DotSettings" />
   </ItemGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+    <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersions)" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.console" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <ProjectReference Include="..\Antlr.Regressions.Case\Kingdom.Antlr.Regressions.Case.csproj" />

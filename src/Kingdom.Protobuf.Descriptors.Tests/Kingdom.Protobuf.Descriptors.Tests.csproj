@@ -2,23 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Version>1.0.0.16199</Version>
-    <AssemblyVersion>1.0.0.16199</AssemblyVersion>
-    <FileVersion>1.0.0.16199</FileVersion>
+    <Version>1.0.1.16202</Version>
+    <AssemblyVersion>1.0.1.16202</AssemblyVersion>
+    <FileVersion>1.0.1.16202</FileVersion>
   </PropertyGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+    <PackageReference Include="Kingdom.Collections.Variants" Version="$(KingdomCollectionsVariantsVersions)" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.console" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Protobuf.Descriptors\Kingdom.Protobuf.Descriptors.csproj" />

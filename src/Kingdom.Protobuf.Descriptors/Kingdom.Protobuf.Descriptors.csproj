@@ -10,10 +10,10 @@
     <Description>Provides the Protocol Buffer Abstract Syntax Tree (AST) Descriptors. Note that we only furnish a subset of the AST for purposes of what we are doing.</Description>
     <PackageTags>Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.10.22960</Version>
-    <AssemblyVersion>1.0.10.22960</AssemblyVersion>
-    <FileVersion>1.0.10.22960</FileVersion>
-    <PackageVersion>1.0.10.22960</PackageVersion>
+    <Version>1.0.11.16834</Version>
+    <AssemblyVersion>1.0.11.16834</AssemblyVersion>
+    <FileVersion>1.0.11.16834</FileVersion>
+    <PackageVersion>1.0.11.16834</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,14 +25,12 @@
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Protobuf.Descriptors.xml</DocumentationFile>
   </PropertyGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="1.0.0.827" />
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
+    <PackageReference Include="Kingdom.Collections.Bidirectionals" Version="$(KingdomCollectionsBidirectionalsVersions)" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="$(KingdomCollectionsVariantsVersions)" />
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
@@ -45,5 +43,7 @@
       <_Parameter1>Kingdom.Protobuf.Descriptors.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+
+  <Import Project="..\Licensing.props" />
 
 </Project>

@@ -7,11 +7,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <Version>1.0.2.25121</Version>
-    <AssemblyVersion>1.0.2.25121</AssemblyVersion>
-    <FileVersion>1.0.2.25121</FileVersion>
-    <PackageVersion>1.0.2.25121</PackageVersion>
+    <Version>1.0.3.25123</Version>
+    <AssemblyVersion>1.0.3.25123</AssemblyVersion>
+    <FileVersion>1.0.3.25123</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Kingdom.Protobuf.Antlr.Tests.csproj.DotSettings" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Update="xunit.runner.json">
@@ -19,20 +22,22 @@
     </Content>
   </ItemGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
-    <PackageReference Include="Kingdom.Collections.Variants" Version="1.1.0.26740" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
-    <PackageReference Include="xunit.runner.console" Version="2.3.1">
+    <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersions)" />
+    <PackageReference Include="Kingdom.Collections.Variants" Version="$(KingdomCollectionsVariantsVersions)" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.console" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Xunit.Combinatorial" Version="$(XunitCombinatorialVersion)" />
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Protobuf.Descriptors\Kingdom.Protobuf.Descriptors.csproj" />
@@ -43,6 +48,8 @@
     <Folder Include="Resources\" />
   </ItemGroup>
 
+  <!-- TODO: TBD: instead of extracting anything, depending on the bits delivered with the Google.OrTools (today), or potentially the runtime package (`tomorrow´, in the future) ... -->
+  <!-- TODO: TBD: not crossing this bridge just yet for purposes of Kingdom.Protobuf.Antlr issues, but we SHOULD consider it downstream just to be tracking correctly ... -->
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="&quot;$(ProjectDir)extract_google_ortools_proto.bat&quot;" />
   </Target>
