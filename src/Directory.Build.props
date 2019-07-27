@@ -5,19 +5,24 @@
     <Company>Kingdom Software</Company>
     <Product>Kingdom.Protobuf</Product>
     <Copyright>Copyright (c) 2019</Copyright>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Protobuf</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Protobuf/blob/master/LICENSE</PackageLicenseUrl>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <RootNamespace>Kingdom.Protobuf</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
-    <NuGetGlobalPackagesDirectory>G:\Dev\NuGet\global\packages\</NuGetGlobalPackagesDirectory>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Protobuf</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>NU1603</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AntlrVersions>[4.6.6,5)</AntlrVersions>
+    <KingdomCollectionsBidirectionalsVersions>[1.1.4,2)</KingdomCollectionsBidirectionalsVersions>
+    <KingdomCollectionsVariantsVersions>[1.1,2)</KingdomCollectionsVariantsVersions>
+    <KingdomCombinatoricsCombinatorialsVersions>[1.2.7,2)</KingdomCombinatoricsCombinatorialsVersions>
+    <XunitVersion>2.4.1</XunitVersion>
+    <XunitCombinatorialVersion>1.2.7</XunitCombinatorialVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,5 +43,9 @@
     <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
     <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+  </Target>
 
 </Project>
