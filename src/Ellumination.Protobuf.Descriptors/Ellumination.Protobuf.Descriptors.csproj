@@ -1,19 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <PropertyGroup>
         <Description>Provides the Protocol Buffer Abstract Syntax Tree (AST) Descriptors. Note that we only furnish a subset of the AST for purposes of what we are doing.</Description>
         <PackageTags>Ellumination; Technologies; Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor</PackageTags>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.10.23004</Version>
-        <AssemblyVersion>1.0.10.23004</AssemblyVersion>
-        <FileVersion>1.0.10.23004</FileVersion>
-        <PackageVersion>1.0.10.23004</PackageVersion>
+        <Version>1.0.11.1121</Version>
+        <AssemblyVersion>1.0.11.1121</AssemblyVersion>
+        <FileVersion>1.0.11.1121</FileVersion>
+        <PackageVersion>1.0.11.1121</PackageVersion>
+        <BumpWhichVersion>Build</BumpWhichVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,7 +22,7 @@
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
         <DefineConstants Condition="'$(Configuration)' == 'Debug'">DEBUG;TRACE</DefineConstants>
-        <DocumentationFile>bin\$(Configuration)\netstandard2.0\Ellumination.Protobuf.Descriptors.xml</DocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\netstandard2.0\$(MSBuildProjectName).xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -42,6 +42,7 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <Import Project="..\..\Licensing.props" />
     <Import Project="..\NuGet.Packaging.props" />
 
 </Project>

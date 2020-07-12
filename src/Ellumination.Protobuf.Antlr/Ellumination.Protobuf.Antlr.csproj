@@ -1,23 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <PropertyGroup>
         <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
         <PackageTags>Ellumination; Technologies; Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.12.22993</Version>
-        <AssemblyVersion>1.0.12.22993</AssemblyVersion>
-        <FileVersion>1.0.12.22993</FileVersion>
-        <PackageVersion>1.0.12.22993</PackageVersion>
+        <Version>1.0.13.1121</Version>
+        <AssemblyVersion>1.0.13.1121</AssemblyVersion>
+        <FileVersion>1.0.13.1121</FileVersion>
+        <PackageVersion>1.0.13.1121</PackageVersion>
+        <BumpWhichVersion>Build</BumpWhichVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
-        <DocumentationFile>bin\$(Configuration)\netstandard2.0\Ellumination.Protobuf.Antlr.xml</DocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\netstandard2.0\$(MSBuildProjectName).xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -60,6 +60,7 @@
         </None>
     </ItemGroup>
 
+    <Import Project="..\..\Licensing.props" />
     <Import Project="..\NuGet.Packaging.props" />
 
 </Project>
