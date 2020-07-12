@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A42396C3-3AB5-432F-A666-5AFCFEDE1468}"
 	ProjectSection(SolutionItems) = preProject
 		NuGet.Config = NuGet.Config
+		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Ellumination.Protobuf.Antlr", "Test.Ellumination.Protobuf.Antlr\Test.Ellumination.Protobuf.Antlr.csproj", "{13F69B83-294E-4E17-878E-40D0DDBC9963}"
@@ -35,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".parent", ".parent", "{F1F7
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\LICENSE = ..\LICENSE
+		..\Licensing.props = ..\Licensing.props
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
