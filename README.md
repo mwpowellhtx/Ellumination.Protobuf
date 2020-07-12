@@ -2,6 +2,9 @@
 
 This repository furnishes some helpful features focused on [Google Protocol Buffers](https://github.com/protocolbuffers/protobuf).
 
+_[![Ellumination.Protobuf.Descriptors NuGet version](https://img.shields.io/nuget/v/Ellumination.Protobuf.Descriptors.svg?style=flat&label=nuget%3A%20Ellumination.Protobuf.Descriptors)](https://www.nuget.org/packages/Ellumination.Protobuf.Descriptors)_
+_[![Ellumination.Protobuf.Antlr NuGet version](https://img.shields.io/nuget/v/Ellumination.Protobuf.Antlr.svg?style=flat&label=nuget%3A%20Ellumination.Protobuf.Antlr)](https://www.nuget.org/packages/Ellumination.Protobuf.Antlr)_
+
 ## Objectives
 
 The primary motivation for this workspace is simply to extrapolate descriptor level details concerning a Protocol Buffer specification.
