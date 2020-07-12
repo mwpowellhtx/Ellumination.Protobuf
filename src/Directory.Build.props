@@ -1,42 +1,58 @@
 <Project>
 
-  <PropertyGroup>
-    <Authors>Michael W. Powell</Authors>
-    <Company>Kingdom Software</Company>
-    <Product>Kingdom.Protobuf</Product>
-    <Copyright>Copyright (c) 2019</Copyright>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Authors>Michael W. Powell</Authors>
+        <Company>Ellumination Technologies</Company>
+        <Product>Ellumination.Protobuf</Product>
+        <Copyright>Copyright (c) 2019-2020</Copyright>
+        <NoWarn>$(NoWarn);NU1603</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Protobuf</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Protobuf/blob/master/LICENSE</PackageLicenseUrl>
-  </PropertyGroup>
+    <PropertyGroup>
+        <PackageProjectUrl>https://github.com/mwpowellhtx/Ellumination.Protobuf</PackageProjectUrl>
+        <!-- TODO: TBD: need to revise the licensing approach... -->
+        <PackageLicenseUrl>https://github.com/mwpowellhtx/Ellumination.Protobuf/blob/master/LICENSE</PackageLicenseUrl>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <RootNamespace>Kingdom.Protobuf</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>Ellumination.Protobuf</RootNamespace>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <NuGetGlobalPackagesDirectory>G:\Dev\NuGet\global\packages\</NuGetGlobalPackagesDirectory>
-  </PropertyGroup>
+    <ItemGroup>
+        <None Remove="*.DotSettings" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <PropertyGroup>
+        <AntlrVersion>4.6.6</AntlrVersion>
+    </PropertyGroup>
 
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
+    <!-- TODO: TBD: what was the point of this one? -->
+    <!--<PropertyGroup>
+        <NuGetGlobalPackagesDirectory>G:\Dev\NuGet\global\packages\</NuGetGlobalPackagesDirectory>
+    </PropertyGroup>-->
 
-    <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-    <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release'" />
-  </ItemGroup>
+    <PropertyGroup>
+        <BumpAssemblyVersionsVersion>1.6.0</BumpAssemblyVersionsVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)" PrivateAssets="all">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
 
 </Project>

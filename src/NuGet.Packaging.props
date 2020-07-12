@@ -1,0 +1,11 @@
+<Project>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <PropertyGroup>
+            <NuGetPackageExtension>.nupkg</NuGetPackageExtension>
+            <_ActualPackageOutputPath>$(PackageOutputPath)*$(NuGetPackageExtension)</_ActualPackageOutputPath>
+        </PropertyGroup>
+        <Exec Command="if exist &quot;$(_ActualPackageOutputPath)&quot; del /f &quot;$(_ActualPackageOutputPath)&quot;" />
+    </Target>
+
+</Project>
