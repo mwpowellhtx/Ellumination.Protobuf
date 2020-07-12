@@ -5,7 +5,7 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Ellumination.Protobuf
 {
-    using Kingdom.Combinatorics.Combinatorials;
+    using Combinatorics.Combinatorials;
     using static String;
 
     // ReSharper disable once IdentifierTypo

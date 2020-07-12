@@ -10,10 +10,10 @@
         <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
         <PackageTags>Ellumination; Technologies; Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.12.22988</Version>
-        <AssemblyVersion>1.0.12.22988</AssemblyVersion>
-        <FileVersion>1.0.12.22988</FileVersion>
-        <PackageVersion>1.0.12.22988</PackageVersion>
+        <Version>1.0.12.22993</Version>
+        <AssemblyVersion>1.0.12.22993</AssemblyVersion>
+        <FileVersion>1.0.12.22993</FileVersion>
+        <PackageVersion>1.0.12.22993</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
@@ -31,10 +31,10 @@
         </PackageReference>
         <!-- ReSharper disable once UnknownProperty -->
         <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
-        <PackageReference Include="Ellumination.Collections.Bidirectionals" Version="1.2.1.827" />
+        <PackageReference Include="Ellumination.Collections.Bidirectionals" Version="1.2.1" />
         <PackageReference Include="Ellumination.Collections.Variants" Version="1.1.2" />
         <!-- TODO: TBD: still need to migrate these ... -->
-        <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="1.2.7" />
+        <PackageReference Include="Ellumination.Combinatorics.Combinatorials" Version="1.2.8" />
     </ItemGroup>
 
     <ItemGroup>
