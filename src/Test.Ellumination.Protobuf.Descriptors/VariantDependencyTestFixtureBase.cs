@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Collections.Variants;
     using Xunit;

@@ -2,18 +2,13 @@
 using System.Linq;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Xunit;
 
     internal static class AssertExtensionMethods
     {
-        public static T AssertNotNull<T>(this T obj)
-        {
-            Assert.NotNull(obj);
-            return obj;
-        }
-
+        // TODO: TBD: this looks like an interesting one to consider for use with xunit.fluently.assert...
         public static IEnumerable<T> AssertAllDifferent<T>(this IEnumerable<T> values)
             where T : class
         {
@@ -30,7 +25,8 @@ namespace Kingdom.Protobuf
                         continue;
                     }
 
-                    Assert.NotSame(values.ElementAt(i), values.ElementAt(j));
+                    // TODO: TBD: and could extend to include comparers, comparable, equatable, etc...
+                    values.ElementAt(i).AssertNotSame(values.ElementAt(j));
                 }
             }
 

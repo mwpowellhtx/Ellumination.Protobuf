@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Xunit.Abstractions;
 
