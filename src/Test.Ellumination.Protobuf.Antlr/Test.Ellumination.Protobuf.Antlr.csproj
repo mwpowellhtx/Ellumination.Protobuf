@@ -7,10 +7,10 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
         <PlatformTarget>x64</PlatformTarget>
-        <Version>1.0.2.25145</Version>
-        <AssemblyVersion>1.0.2.25145</AssemblyVersion>
-        <FileVersion>1.0.2.25145</FileVersion>
-        <PackageVersion>1.0.2.25145</PackageVersion>
+        <Version>1.0.2.25148</Version>
+        <AssemblyVersion>1.0.2.25148</AssemblyVersion>
+        <FileVersion>1.0.2.25148</FileVersion>
+        <PackageVersion>1.0.2.25148</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>

@@ -4,8 +4,8 @@ using System.Linq;
 // ReSharper disable once IdentifierTypo
 namespace Ellumination.Protobuf
 {
+    using Combinatorics.Combinatorials;
     using Ellumination.Collections.Variants;
-    using Kingdom.Combinatorics.Combinatorials;
     using Xunit;
     using Xunit.Abstractions;
 
