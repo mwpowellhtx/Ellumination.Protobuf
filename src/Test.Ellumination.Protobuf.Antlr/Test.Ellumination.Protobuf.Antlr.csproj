@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <PlatformTarget>x64</PlatformTarget>
+        <Version>1.0.2.25145</Version>
+        <AssemblyVersion>1.0.2.25145</AssemblyVersion>
+        <FileVersion>1.0.2.25145</FileVersion>
+        <PackageVersion>1.0.2.25145</PackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Update="xunit.runner.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <Import Project="..\Unit.Testing.props" />
+
+    <ItemGroup>
+        <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
+        <PackageReference Include="Ellumination.Collections.Bidirectionals" Version="1.2.1" />
+        <PackageReference Include="Ellumination.Collections.Variants" Version="1.1.2" />
+        <!-- TODO: TBD: reconsider the whole "combinatorial" approach, in favor of theories with class or member data... -->
+        <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Ellumination.Protobuf.Descriptors\Ellumination.Protobuf.Descriptors.csproj" />
+        <ProjectReference Include="..\Ellumination.Protobuf.Antlr\Ellumination.Protobuf.Antlr.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Resources\" />
+    </ItemGroup>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="&quot;$(ProjectDir)extract_google_ortools_proto.bat&quot;" />
+    </Target>
+
+    <ItemGroup>
+        <EmbeddedResource Include="..\tools\Google\or-tools\bop\#bop_parameters.proto" Link="Resources\#bop_parameters.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\tools\Google\or-tools\glop\parameters.proto" Link="Resources\parameters.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\tools\Google\or-tools\graph\flow_problem.proto" Link="Resources\flow_problem.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\tools\Google\or-tools\linear_solver\linear_solver.proto" Link="Resources\linear_solver.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\tools\Google\or-tools\sat\boolean_problem.proto" Link="Resources\boolean_problem.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\tools\Google\or-tools\sat\sat_parameters.proto" Link="Resources\sat_parameters.proto">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
+    </ItemGroup>
+
+</Project>
