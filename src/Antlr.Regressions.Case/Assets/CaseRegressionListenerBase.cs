@@ -1,4 +1,4 @@
-﻿namespace Kingdom.Antlr.Regressions.Case
+﻿namespace Ellumination.Antlr.Regressions.Case
 {
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;

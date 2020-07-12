@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Antlr.Regressions.Case
+namespace Ellumination.Antlr.Regressions.Case
 {
     internal static class CollectionExtensionMethods
     {

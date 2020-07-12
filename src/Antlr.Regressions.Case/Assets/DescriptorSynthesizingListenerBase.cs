@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Antlr.Regressions.Case
+namespace Ellumination.Antlr.Regressions.Case
 {
     using Antlr4.Runtime;
-    using DescriptorTuple = Tuple<Type, object>;
+    //using DescriptorTuple = Tuple<Type, object>;
 
     public abstract class DescriptorSynthesizingListenerBase
     {
@@ -20,18 +20,21 @@ namespace Kingdom.Antlr.Regressions.Case
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected static T GetDefault<T>() => default(T);
+        protected static T GetDefault<T>() => default;
 
-        private IList<DescriptorTuple> _descriptors;
+        private IList<(Type DescriptorType, object Descriptor)> _descriptors;
 
         /// <summary>
         /// Gets the Descriptors.
         /// </summary>
-        protected internal IList<DescriptorTuple> Descriptors
+        protected internal IList<(Type DescriptorType, object Descriptor)> Descriptors
+
+#pragma warning disable IDE0074 // Use compound assignment
             => _descriptors ?? (_descriptors
                    // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
-                   = new List<DescriptorTuple> { }
+                   = new List<(Type DescriptorType, object Descriptor)> { }
                );
+#pragma warning restore IDE0074 // Use compound assignment
 
         /// <summary>
         /// Callback provided in order to Synthesize the <typeparamref name="TCurrent"/> value.
@@ -43,7 +46,8 @@ namespace Kingdom.Antlr.Regressions.Case
         protected delegate TCurrent SynthesizeCallback<in TContext, out TCurrent>(TContext context)
             where TContext : RuleContext;
 
-        private static DescriptorTuple CreateDescriptor(Type type, object value) => new DescriptorTuple(type, value);
+        //// TODO: TBD: this is super redundant now...
+        //private static (Type DescriptorType, object Descriptor) CreateDescriptor(Type type, object value) => (type, value);
 
         /// <summary>
         /// Callers must specify the Synthesized Type as strongly as possible.
@@ -56,7 +60,7 @@ namespace Kingdom.Antlr.Regressions.Case
         protected void OnEnterSynthesizeAttribute<TContext, TCurrent>(TContext context,
             SynthesizeCallback<TContext, TCurrent> synthesize)
             where TContext : RuleContext
-            => Descriptors.Add(CreateDescriptor(typeof(TCurrent), synthesize(context)));
+            => Descriptors.Add((typeof(TCurrent), synthesize(context)));
 
         /// <summary>
         /// Callback provided in order to Collapse the <see cref="Descriptors"/> to the Previous
@@ -92,20 +96,21 @@ namespace Kingdom.Antlr.Regressions.Case
             var count = d.Count;
 
             // The Match needs to be a little stronger, including the actual originating Type.
-            bool DoesMatch<T>(Func<IEnumerable<DescriptorTuple>, DescriptorTuple> getter)
+            bool DoesMatch<T>(Func<IEnumerable<(Type DescriptorType, object Descriptor)>, (Type DescriptorType, object Descriptor)> getter)
             {
-                var tuple = getter(Descriptors);
+                // TODO: TBD: make sure this part is going to work...
+                var (descriptorType, _) = getter(Descriptors);
 
-                // We identify the Tuple first because we may already have visited the Descriptors.
-                if (tuple == null)
-                {
-                    return false;
-                }
+                //// We identify the Tuple first because we may already have visited the Descriptors.
+                //if (tuple == null)
+                //{
+                //    return false;
+                //}
 
-                // We do not care about the Value at this level.
-                var (candidateType, _) = tuple;
+                //// We do not care about the Value at this level.
+                //var (candidateType, _) = tuple;
                 // The match must be Strong. We cannot fall back on the loose definition.
-                return candidateType == typeof(T) /*|| value is T || value == null*/;
+                return descriptorType != null && descriptorType == typeof(T) /*|| value is T || value == null*/;
             }
 
             // ReSharper disable once InvertIf
@@ -126,7 +131,7 @@ namespace Kingdom.Antlr.Regressions.Case
                  * true when working with integral types. Remember to reintroduce the Previous
                  * including the now-collapsed Instance. */
 
-                d[d.Count - 1] = CreateDescriptor(previousType, previousInstance);
+                d[d.Count - 1] = (previousType, previousInstance);
             }
 
             // TODO: TBD: may want a more specific Count verification here...

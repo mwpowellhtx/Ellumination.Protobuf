@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Antlr.Regressions.Case
+namespace Ellumination.Antlr.Regressions.Case
 {
     using Antlr4.Runtime;
-    using DescriptorTuple = Tuple<Type, object>;
+    //using DescriptorTuple = Tuple<Type, object>;
 
     /// <summary>
     /// <see cref="DescriptorSynthesizingListenerBase.Descriptors"/> Stack Context.
@@ -25,7 +25,7 @@ namespace Kingdom.Antlr.Regressions.Case
         /// </summary>
         protected IEnumerable<TryReduceDescriptorStackCallback> TryCallbacks { get; set; }
 
-        private IList<Tuple<Type, object>> PrivateDescriptors { get; }
+        private IList<(Type DescriptorType, object Descriptor)> PrivateDescriptors { get; }
 
         private int StartCount { get; }
 
@@ -33,7 +33,7 @@ namespace Kingdom.Antlr.Regressions.Case
         /// Protected Constructor.
         /// </summary>
         /// <param name="descriptors"></param>
-        protected DescriptorStackContext(IList<Tuple<Type, object>> descriptors)
+        protected DescriptorStackContext(IList<(Type DescriptorType, object Descriptor)> descriptors)
         {
             PrivateDescriptors = descriptors;
             StartCount = descriptors.Count;
@@ -48,7 +48,7 @@ namespace Kingdom.Antlr.Regressions.Case
         /// <param name="callbacks"></param>
         /// <returns></returns>
         public static DescriptorStackContext<TContext> CreateContext<TContext>(TContext context
-            , IList<Tuple<Type, object>> descriptors, params TryReduceDescriptorStackCallback[] callbacks)
+            , IList<(Type DescriptorType, object Descriptor)> descriptors, params TryReduceDescriptorStackCallback[] callbacks)
             where TContext : RuleContext
             => new DescriptorStackContext<TContext>(context, descriptors, callbacks);
 
@@ -93,7 +93,7 @@ namespace Kingdom.Antlr.Regressions.Case
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         private TContext Context { get; }
 
-        internal DescriptorStackContext(TContext context, IList<DescriptorTuple> descriptors
+        internal DescriptorStackContext(TContext context, IList<(Type DescriptorType, object Descriptor)> descriptors
             , params TryReduceDescriptorStackCallback[] tryCallbacks)
             : base(descriptors)
         {

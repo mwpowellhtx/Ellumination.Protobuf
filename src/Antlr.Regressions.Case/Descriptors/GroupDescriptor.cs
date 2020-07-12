@@ -1,4 +1,4 @@
-﻿namespace Kingdom.Antlr.Regressions.Case
+﻿namespace Ellumination.Antlr.Regressions.Case
 {
     public class GroupDescriptor
     {

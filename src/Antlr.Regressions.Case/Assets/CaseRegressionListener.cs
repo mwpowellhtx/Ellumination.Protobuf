@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Kingdom.Antlr.Regressions.Case
+namespace Ellumination.Antlr.Regressions.Case
 {
     using static DescriptorStackContext;
     using static String;

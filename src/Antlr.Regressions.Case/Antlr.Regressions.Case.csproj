@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>Ellumination.Antlr.Regressions.Case</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="$(MSBuildProjectName).csproj.DotSettings" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Antlr4" Version="$(AntlrVersion)" PrivateAssets="all">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Antlr4.CodeGenerator" Version="$(AntlrVersion)" PrivateAssets="all">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <Antlr4UseCSharpGenerator>true</Antlr4UseCSharpGenerator>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Antlr4 Update="CaseRegression.g4">
+            <DefaultCustomToolNamespace>$([MSBuild]::ValueOrDefault('$(RootNamespace).%(DefaultCustomToolNamespace)', '').TrimEnd('.'))</DefaultCustomToolNamespace>
+            <CustomToolNamespace>$([MSBuild]::ValueOrDefault(%(CustomToolNamespace), %(DefaultCustomToolNamespace)))</CustomToolNamespace>
+        </Antlr4>
+    </ItemGroup>
+
+</Project>

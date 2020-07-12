@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingdom.Antlr.Regressions.Case
+namespace Ellumination.Antlr.Regressions.Case
 {
     using Antlr4.Runtime;
 
