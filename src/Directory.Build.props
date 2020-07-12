@@ -10,8 +10,7 @@
 
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/mwpowellhtx/Ellumination.Protobuf</PackageProjectUrl>
-        <!-- TODO: TBD: need to revise the licensing approach... -->
-        <PackageLicenseUrl>https://github.com/mwpowellhtx/Ellumination.Protobuf/blob/master/LICENSE</PackageLicenseUrl>
+        <!--<PackageLicenseUrl>https://github.com/mwpowellhtx/Ellumination.Protobuf/blob/master/LICENSE</PackageLicenseUrl>-->
     </PropertyGroup>
 
     <PropertyGroup>
@@ -57,6 +56,13 @@
         <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(BumpWhichVersion)' == 'Build' Or '$(BumpWhichVersion)' == '') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="MinutesSinceMidnight" />
     </ItemGroup>
 
 </Project>
