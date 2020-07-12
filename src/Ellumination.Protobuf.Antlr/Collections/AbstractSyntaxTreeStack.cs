@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf.Collections
+namespace Ellumination.Protobuf.Collections
 {
-    using StackTuple = Tuple<Type, object>;
+    // TODO: TBD: convert to named tie...
+    // TODO: TBD: verify whether this will work or not...
+    //using StackTuple = Tuple<Type, object>;
+    //using StackTuple = typeof(Type NodeType, object Node);
 
     /// <summary>
     /// 
@@ -30,14 +33,14 @@ namespace Kingdom.Protobuf.Collections
         /// <summary>
         /// Exposes the Stack collection property for use in derived assets.
         /// </summary>
-        protected IList<StackTuple> ProtectedStack { get; } = new List<StackTuple> { };
+        protected IList<(Type NodeType, object Node)> ProtectedStack { get; } = new List<(Type, object)> { };
 
         /// <inheritdoc />
-        public T RootInstance => (T)ProtectedStack?.FirstOrDefault()?.Item2;
+        public T RootInstance => (T)ProtectedStack?.FirstOrDefault().Node;
 
         /// <inheritdoc />
         public virtual void PushBack<TCurrent>(TCurrent current)
-            => ProtectedStack.Add(Tuple.Create(typeof(TCurrent), (object) current));
+            => ProtectedStack.Add((typeof(TCurrent), current));
 
         /// <inheritdoc />
         public virtual void PushBack<TCurrent>(StackItemFactory<TCurrent> currentFactory) => PushBack(currentFactory());
@@ -49,20 +52,20 @@ namespace Kingdom.Protobuf.Collections
             var count = ProtectedStack.Count;
 
             // The Match needs to be a little stronger, including the actual originating Type.
-            bool DoesMatch<TSubject>(Func<IEnumerable<StackTuple>, StackTuple> getter)
+            bool DoesMatch<TSubject>(Func<IEnumerable<(Type NodeType, object Node)>, (Type NodeType, object Node)> getter)
             {
-                var tuple = getter(ProtectedStack);
+                var (nodeType, _) = getter(ProtectedStack);
 
-                // We identify the Tuple first because we may already have visited the Descriptors.
-                if (tuple == null)
-                {
-                    return false;
-                }
+                ////// TODO: TBD: not sure the tie here is quite what we want...
+                ////// TODO: TBD: because we were dealing with a Tuple class before, whereas I think this ends up being a struct...
+                //// We identify the Tuple first because we may already have visited the Descriptors.
+                //if (tuple == null)
+                //{
+                //    return false;
+                //}
 
-                // We do not care about the Value at this level.
-                var (candidateType, _) = tuple;
                 // The match must be Strong. We cannot fall back on the loose definition.
-                return candidateType == typeof(TSubject) /*|| value is T || value == null*/;
+                return nodeType != null && nodeType == typeof(TSubject) /*|| value is T || value == null*/;
             }
 
             // ReSharper disable once InvertIf
@@ -83,7 +86,7 @@ namespace Kingdom.Protobuf.Collections
                  * true when working with integral types. Remember to reintroduce the Previous
                  * including the now-collapsed Instance. */
 
-                ProtectedStack[ProtectedStack.Count - 1] = Tuple.Create(previousType, (object) previousInstance);
+                ProtectedStack[ProtectedStack.Count - 1] = (previousType, previousInstance);
             }
 
             // TODO: TBD: may want a more specific Count verification here...
@@ -91,7 +94,7 @@ namespace Kingdom.Protobuf.Collections
             return ProtectedStack.Count != count;
         }
 
-       private void Validate<TCurrent>(Func<IEnumerable<Tuple<Type, object>>, Tuple<Type, object>> filter
+       private void Validate<TCurrent>(Func<IEnumerable<(Type NodeType, object Node)>, (Type NodeType, object Node)> filter
             , Func<TCurrent, bool> validate, Func<TCurrent, string> render = null
             , Action<InvalidOperationException> visit = null)
         {

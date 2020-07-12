@@ -1,11 +1,11 @@
 ﻿using System;
-using Kingdom.Protobuf.Collections;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;
+    using Collections;
 
     /// <inheritdoc cref="BaseErrorListener"/>
     public abstract class ProtoDescriptorListenerBase : BaseErrorListener, IProtoListener

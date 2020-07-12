@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Antlr4.Runtime.Tree;
 

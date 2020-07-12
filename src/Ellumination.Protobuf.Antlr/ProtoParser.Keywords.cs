@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
-    using Combinatorics.Combinatorials;
+    using Kingdom.Combinatorics.Combinatorials;
     using static String;
 
     // ReSharper disable once IdentifierTypo

@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf.Collections
+namespace Ellumination.Protobuf.Collections
 {
     /// <summary>
     /// 

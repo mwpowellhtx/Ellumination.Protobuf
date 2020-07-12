@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
+        <PackageTags>Ellumination; Technologies; Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Version>1.0.12.22988</Version>
+        <AssemblyVersion>1.0.12.22988</AssemblyVersion>
+        <FileVersion>1.0.12.22988</FileVersion>
+        <PackageVersion>1.0.12.22988</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
+        <DocumentationFile>bin\$(Configuration)\netstandard2.0\Ellumination.Protobuf.Antlr.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="$(MSBuildProjectName).csproj.DotSettings" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- ReSharper disable once UnknownProperty -->
+        <PackageReference Include="Antlr4" Version="$(AntlrVersion)" PrivateAssets="all">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <!-- ReSharper disable once UnknownProperty -->
+        <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
+        <PackageReference Include="Ellumination.Collections.Bidirectionals" Version="1.2.1.827" />
+        <PackageReference Include="Ellumination.Collections.Variants" Version="1.1.2" />
+        <!-- TODO: TBD: still need to migrate these ... -->
+        <PackageReference Include="Kingdom.Combinatorics.Combinatorials" Version="1.2.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Ellumination.Protobuf.Descriptors\Ellumination.Protobuf.Descriptors.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Kingdom.Protobuf.Antlr</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Kingdom.Protobuf.Antlr.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Antlr4 Update="Proto.g4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="ProtoLexer.__">
+            <DefaultCustomToolNamespace>$([MSBuild]::ValueOrDefault('$(RootNamespace).%(DefaultCustomToolNamespace)', '').TrimEnd('.'))</DefaultCustomToolNamespace>
+        </None>
+    </ItemGroup>
+
+    <Import Project="..\NuGet.Packaging.props" />
+
+</Project>

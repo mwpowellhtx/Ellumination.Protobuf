@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
-    using Kingdom.Collections.Variants;
+    using Ellumination.Collections.Variants;
     using static DescriptorStackContext;
     using static FieldNumbers;
     using static RangeDescriptor;

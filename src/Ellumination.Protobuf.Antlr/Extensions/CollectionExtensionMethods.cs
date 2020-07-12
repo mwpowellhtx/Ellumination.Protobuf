@@ -2,7 +2,7 @@
 using System.Linq;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     internal static class CollectionExtensionMethods
     {

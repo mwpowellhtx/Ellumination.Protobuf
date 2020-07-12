@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kingdom.Protobuf.Collections;
 
 // ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     using Antlr4.Runtime;
-    using DescriptorTuple = Tuple<Type, object>;
+    using Collections;
 
     /// <summary>
     /// <see cref="ProtoDescriptorListenerBase.Stack"/> Stack Context.
