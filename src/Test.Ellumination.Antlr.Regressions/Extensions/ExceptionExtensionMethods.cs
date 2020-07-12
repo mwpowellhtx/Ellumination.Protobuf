@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingdom.Antlr.Regression
+namespace Ellumination.Antlr.Regressions.Case
 {
     using Xunit;
 

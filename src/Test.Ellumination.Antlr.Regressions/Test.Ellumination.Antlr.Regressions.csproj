@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <RootNamespace>Ellumination.Antlr.Regression.Case</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="$(MSBuildProjectName).csproj.DotSettings" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Antlr4.Runtime" Version="$(AntlrVersion)" />
+    </ItemGroup>
+
+    <Import Project="..\Unit.Testing.props" />
+
+    <ItemGroup>
+        <ProjectReference Include="..\Antlr.Regressions.Case\Antlr.Regressions.Case.csproj" />
+    </ItemGroup>
+
+</Project>

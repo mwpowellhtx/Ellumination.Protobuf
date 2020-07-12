@@ -1,4 +1,4 @@
-﻿namespace Kingdom.Antlr.Regressions.Case.Tests
+﻿namespace Ellumination.Antlr.Regressions.Case
 {
     using Xunit;
     using Xunit.Abstractions;

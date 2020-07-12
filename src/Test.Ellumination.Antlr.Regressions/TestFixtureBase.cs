@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using Kingdom.Antlr.Regression;
 
-namespace Kingdom.Antlr.Regressions.Case.Tests
+namespace Ellumination.Antlr.Regressions.Case
 {
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;
