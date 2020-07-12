@@ -24,13 +24,12 @@ rem Go ahead and pre-seed the Projects up front.
 :set_projects
 set projects=
 rem Setup All Projects
-set all_projects=Kingdom.Protobuf.Antlr
-set all_projects=%all_projects%%delim%Kingdom.Protobuf.Descriptors
+set all_projects=Ellumination.Protobuf.Antlr
+set all_projects=%all_projects%%delim%Ellumination.Protobuf.Descriptors
 rem Setup Antlr Projects
-set antlr_projects=Kingdom.Protobuf.Antlr
+set antlr_projects=Ellumination.Protobuf.Antlr
 rem Setup Descriptor Projects
-set descriptor_projects=Kingdom.Protobuf.Descriptors
-
+set descriptor_projects=Ellumination.Protobuf.Descriptors
 
 :parse_args
 
@@ -46,6 +45,18 @@ if "%1" == "--local" (
 )
 if "%1" == "--nuget" (
     set dest=nuget
+    goto :next_arg
+)
+
+:set_drive_letter
+if "%1" == "--drive" (
+    set drive_letter=%2
+    shift
+    goto :next_arg
+)
+if "%1" == "--drive-letter" (
+    set drive_letter=%2
+    shift
     goto :next_arg
 )
 
@@ -69,11 +80,11 @@ if "%1" == "--no-dry-run" (
 
 :set_should_pause
 if "%1" == "--pause" (
-    set should_pause=true
+    set should_pause=1
     goto :next_arg
 )
 if "%1" == "--no-pause" (
-    set should_pause=false
+    set should_pause=0
     goto :next_arg
 )
 
@@ -148,14 +159,13 @@ if "%config%" == "" (
 )
 
 :verify_destination
-if "%dest%" == "" (
-    set dest=local
-)
+if "%dest%" == "" set dest=local
 
 :verify_should_pause
-if "%should_pause%" == "" (
-    set should_pause=true
-)
+if "%should_pause%" == "" set should_pause=0
+
+:verify_driver_letter
+if "%driver_letter%" == "" set driver_letter=F:
 
 :publish_projects
 
@@ -164,7 +174,7 @@ set xcopy_exe=xcopy.exe
 rem Have to re-set the options for whatever reason.
 set xcopy_opts=
 set xcopy_opts=%xcopy_opts% /Y /F
-set xcopy_destination_dir=G:\Dev\NuGet\local\packages
+set xcopy_destination_dir=%driver_letter%\Dev\NuGet\local\packages
 
 rem Expecting NuGet to be found in the System Path.
 set nuget_exe=NuGet.exe
@@ -228,6 +238,4 @@ exit /b
 
 endlocal
 
-if "%should_pause%" == "true" (
-    pause
-)
+if "%should_pause%" == "1" pause
