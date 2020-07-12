@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once IdentifierTypo
-namespace Kingdom.Protobuf
+namespace Ellumination.Protobuf
 {
     /// <summary>
     /// General purpose String Rendering Callback delegate.
@@ -8,6 +8,6 @@ namespace Kingdom.Protobuf
     /// <param name="options"></param>
     /// <returns></returns>
     /// <remarks>Introduced this at same the moment in which we refactored
-    /// <see cref="Collections.Variants.IVariant{T}"/> dependencies.</remarks>
+    /// <see cref="Ellumination.Collections.Variants.IVariant{T}"/> dependencies.</remarks>
     public delegate string ObjectStringRenderingCallback(object value, IStringRenderingOptions options);
 }
