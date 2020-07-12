@@ -22,16 +22,13 @@
         <None Remove="*.DotSettings" />
     </ItemGroup>
 
-    <PropertyGroup>
-        <AntlrVersion>4.6.6</AntlrVersion>
-    </PropertyGroup>
-
     <!-- TODO: TBD: what was the point of this one? -->
     <!--<PropertyGroup>
         <NuGetGlobalPackagesDirectory>G:\Dev\NuGet\global\packages\</NuGetGlobalPackagesDirectory>
     </PropertyGroup>-->
 
     <PropertyGroup>
+        <AntlrVersion>4.6.6</AntlrVersion>
         <BumpAssemblyVersionsVersion>1.6.0</BumpAssemblyVersionsVersion>
     </PropertyGroup>
 
@@ -48,7 +45,14 @@
         <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Release' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(BumpWhichVersion)' == 'Minor' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(BumpWhichVersion)' == 'Patch' Or '$(BumpWhichVersion)' == '') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
         <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
