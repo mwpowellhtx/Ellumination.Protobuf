@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".parent", ".parent", "{F1F7
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ellumination.Protobuf", "Ellumination.Protobuf\Ellumination.Protobuf.csproj", "{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{13F69B83-294E-4E17-878E-40D0DDBC9963} = {E22658BA-DCEB-4608-B0DB-3403763C6D5D}
 		{5AEBD449-F4CA-43D9-AF43-9BF38D17D4A5} = {E22658BA-DCEB-4608-B0DB-3403763C6D5D}
 		{F1F72970-E3EC-4D08-BC34-A14E77C9401D} = {00135CCA-E2D3-4189-92A8-F3A199712982}
+		{FF0C9A91-98E4-44D8-83C1-C8E6C7BF4E65} = {9F393E7B-CE40-4107-85CD-548FDA42D179}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0857B55-1952-45F6-B332-316927B2AA2B}
