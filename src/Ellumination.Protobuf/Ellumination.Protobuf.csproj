@@ -6,13 +6,13 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Description>Provides Protocol Buffer Parser and Listener assets which build a subset of the Abstract Syntax Tree (AST) Descriptors.</Description>
-        <PackageTags>Ellumination; Technologies; Google; Operations; Research; Tools; Protocol; Buffer; Abstract; Syntax; Tree; AST; Descriptor; Parser; Listener</PackageTags>
+        <Description>Provides a set of helpful extension methods and other bits allowing for more convenient usage approaching the Google.Protobuf package.</Description>
+        <PackageTags>Ellumination; Technologies; Google; Protobuf; Protocol; Buffer; Well; Known; Types; WellKnownTypes; extension; methods; Duration; second; seconds; nano; nanos; as</PackageTags>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.1.985</Version>
-        <AssemblyVersion>1.0.1.985</AssemblyVersion>
-        <FileVersion>1.0.1.985</FileVersion>
-        <PackageVersion>1.0.1.985</PackageVersion>
+        <Version>1.0.2.1001</Version>
+        <AssemblyVersion>1.0.2.1001</AssemblyVersion>
+        <FileVersion>1.0.2.1001</FileVersion>
+        <PackageVersion>1.0.2.1001</PackageVersion>
         <BumpWhichVersion>Build</BumpWhichVersion>
     </PropertyGroup>
 
