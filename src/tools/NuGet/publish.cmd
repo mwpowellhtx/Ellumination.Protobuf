@@ -5,7 +5,7 @@ setlocal
 rem We do not publish the API key as part of the script itself.
 if "%my_nuget_api_key%"=="" (
     echo You are prohibited from making these sorts of changes.
-    goto :end
+    goto :fini
 )
 
 rem Default list delimiter is Comma (,).
@@ -24,8 +24,11 @@ rem Go ahead and pre-seed the Projects up front.
 :set_projects
 set projects=
 rem Setup All Projects
-set all_projects=Ellumination.Protobuf.Antlr
+set all_projects=Ellumination.Protobuf
+set all_projects=%all_projects%%delim%Ellumination.Protobuf.Antlr
 set all_projects=%all_projects%%delim%Ellumination.Protobuf.Descriptors
+rem Setup Protobuf Projects
+set proto_projects=Ellumination.Protobuf
 rem Setup Antlr Projects
 set antlr_projects=Ellumination.Protobuf.Antlr
 rem Setup Descriptor Projects
@@ -35,7 +38,7 @@ set descriptor_projects=Ellumination.Protobuf.Descriptors
 
 rem Done parsing the args.
 if "%1" == "" (
-    goto :end_args
+    goto :fini_args
 )
 
 :set_destination
@@ -96,6 +99,24 @@ if "%1" == "--config" (
 )
 
 :add_antlr_projects
+if "%1" == "--proto" (
+    if "%projects%" == "" (
+        set projects=%proto_projects%
+    ) else (
+        set projects=%projects%%delim%%proto_projects%
+    )
+	goto :next_arg
+)
+if "%1" == "--protobuf" (
+    if "%projects%" == "" (
+        set projects=%proto_projects%
+    ) else (
+        set projects=%projects%%delim%%proto_projects%
+    )
+	goto :next_arg
+)
+
+:add_antlr_projects
 if "%1" == "--antlr" (
     if "%projects%" == "" (
         set projects=%antlr_projects%
@@ -140,7 +161,7 @@ shift
 
 goto :parse_args
 
-:end_args
+:fini_args
 
 :verify_args
 
@@ -149,7 +170,7 @@ goto :parse_args
 if "%projects%" == "" (
     rem In which case, there is nothing else to do.
     echo Nothing to process.
-    goto :end
+    goto :fini
 )
 
 :verify_config
@@ -165,7 +186,7 @@ if "%dest%" == "" set dest=local
 if "%should_pause%" == "" set should_pause=0
 
 :verify_driver_letter
-if "%driver_letter%" == "" set driver_letter=F:
+if "%driver_letter%" == "" set driver_letter=E:
 
 :publish_projects
 
@@ -197,10 +218,10 @@ if not "%projects%" == "" (
 :next_project
 if not "%projects%" == "" (
     for /f "tokens=1* delims=%delim%" %%p in ("%projects%") do (
-        if "%dest%"=="local" (
+        if "%dest%" equ "local" (
             call :copy_local %%p
         )
-        if "%dest%"=="nuget" (
+        if "%dest%" equ "nuget" (
             call :publish_nuget %%p
         )
         set projects=%%q
@@ -210,11 +231,11 @@ if not "%projects%" == "" (
 
 popd
 
-goto :end
+goto :fini
 
 :copy_local
 for %%f in ("%1\bin\%config%\%1.*.nupkg") do (
-    if "%dry%" == "true" (
+    if "%dry%" equ "true" (
         echo Dry run: %xcopy_exe% "%%f" "%xcopy_destination_dir%" %xcopy_opts%
     ) else (
         echo Running: %xcopy_exe% "%%f" "%xcopy_destination_dir%" %xcopy_opts%
@@ -225,7 +246,7 @@ exit /b
 
 :publish_nuget
 for %%f in ("%1\bin\%config%\%1.*.nupkg") do (
-    if "%dry%" == "true" (
+    if "%dry%" equ "true" (
         echo Dry run: %nuget_exe% push "%%f" %nuget_push_opts%
     ) else (
         echo Running: %nuget_exe% push "%%f" %nuget_push_opts%
@@ -234,8 +255,8 @@ for %%f in ("%1\bin\%config%\%1.*.nupkg") do (
 )
 exit /b
 
-:end
+:fini
+
+if "%should_pause%" equ "1" pause
 
 endlocal
-
-if "%should_pause%" == "1" pause
