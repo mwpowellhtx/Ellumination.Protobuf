@@ -1,5 +1,7 @@
 ﻿using System;
 
+// TODO: TBD: we very intentionally identify the namespace so that...
+// TODO: TBD: if when our development pipeline "sees" the package update with contributions, then we can respond accordingly...
 namespace Google.Protobuf.WellKnownTypes
 {
     using static Duration;
@@ -76,6 +78,7 @@ namespace Google.Protobuf.WellKnownTypes
             , NanosecondsPerSecond
         );
 
+        // TODO: TBD: re: Google.Protobuf contributions...
         /// <summary>
         /// Returns the <see cref="Duration"/> corresponding with the <paramref name="seconds"/>
         /// and optional <paramref name="nanos"/>.
@@ -84,6 +87,9 @@ namespace Google.Protobuf.WellKnownTypes
         /// <param name="nanos"></param>
         /// <returns>The <see cref="Duration"/> corresponding to the <paramref name="seconds"/>
         /// and optional <paramref name="nanos"/>.</returns>
+        /// <remarks>We should consider another <em>Google.Protobuf</em> contribution that adds
+        /// <c>implicit</c> conversion from <see cref="long"/> and or <see cref="int"/>, and
+        /// possibly even <see cref="ValueTuple{Int64, Int32}"/>.</remarks>
         public static Duration AsDuration(this int seconds, int? nanos = default) =>
             ((long)seconds).AsDuration(nanos);
 
@@ -110,7 +116,7 @@ namespace Google.Protobuf.WellKnownTypes
                 return new Duration { Seconds = args.seconds, Nanos = args.nanos };
             }
 
-            // We leave Nanos out when there is no specified value.
+            // Unspecified at this level means Zero, or its Default, to Duration.
             return new Duration { Seconds = seconds };
         }
 
@@ -124,5 +130,25 @@ namespace Google.Protobuf.WellKnownTypes
         {
             Nanos = value.BoundedBy(IntegerNanosBounds.min, IntegerNanosBounds.max)
         };
+
+
+        // TODO: TBD: note that this one is on the way...
+        // TODO: TBD: drafting feature/duration-deconstruction branch vis-a-vis:
+        // TODO: TBD: https://github.com/mwpowellhtx/protobuf/tree/feature/duration-deconstruction
+        // TODO: TBD: PR pending draft changes, https://github.com/protocolbuffers/protobuf/pull/8173
+        // TODO: TBD: we have established that Int32 is more appropriate than Nullable<Int32>.
+        // TODO: TBD: pending clarification re: LABEL checks... re: CHANGES.txt (?)
+        // TODO: TBD: which we may or may not also "squash" commits, but not considering that nearly as critical
+        /// <summary>
+        /// Deconstructs the <paramref name="value"/> in terms of <paramref name="seconds"/>
+        /// and, optionally, <paramref name="nanoseconds"/>.
+        /// </summary>
+        /// <param name="value">The Value being deconstructed.</param>
+        /// <param name="seconds">Receives the <see cref="Duration.Seconds"/> component.</param>
+        /// <param name="nanoseconds">Receives the <see cref="Duration.Nanos"/> component.</param>
+        /// <remarks>There is no value in deconstructing in only <paramref name="seconds"/>
+        /// terms, from a language, or even simple POCO, perspective.</remarks>
+        public static void Deconstruct(this Duration value, out long seconds, out int nanoseconds) =>
+            (seconds, nanoseconds) = (value.Seconds, value.Nanos);
     }
 }
