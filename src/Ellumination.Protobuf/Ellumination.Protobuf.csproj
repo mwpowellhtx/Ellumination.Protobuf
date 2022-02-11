@@ -23,7 +23,7 @@
     <ItemGroup>
         <!-- TODO: TBD: yes, we are aware there are several more versions since this one... -->
         <!-- We are intentionally aligning this project packaging with that of our Ellumination.OrTOols suite... -->
-        <PackageReference Include="Google.Protobuf" Version="3.10.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.15.0" />
     </ItemGroup>
 
     <ImportGroup>
